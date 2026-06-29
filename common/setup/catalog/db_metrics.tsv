@@ -1,0 +1,2 @@
+# metric_key	description	unit	operator	warning	critical
+connection	Database connectivity check	-	>=	-	1

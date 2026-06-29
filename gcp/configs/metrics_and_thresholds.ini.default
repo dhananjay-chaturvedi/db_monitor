@@ -1,0 +1,357 @@
+
+# =============================================================================
+# CATEGORY 0A - HOST OS METRICS
+# Local /proc (collect_localhost_os) and SSH hosts (collect_ssh_hosts_os).
+# Gated by collect_os_metrics in config.ini [monitoring].
+# Regenerate catalog: bash setup/assemble_thresholds_ini.sh
+# =============================================================================
+
+# =============================================================================
+# HOST OS METRICS (auto-generated catalog)
+#
+# Keys:
+#   enabled   = true | false   evaluate thresholds / fire alerts
+#   operator  = > | >= | < | <= | == | !=
+#   unit      = display unit for alert messages
+#   window    = consecutive breaches before firing
+#   warning / critical / info = optional severity thresholds
+# Regenerate: bash setup/assemble_thresholds_ini.sh
+# =============================================================================
+
+[metric.os.cpu_utilization]
+enabled     = false
+description = Host CPU utilization
+operator    = >
+unit        = %
+window      = 3
+warning     = 80
+critical    = 90
+
+[metric.os.memory_utilization]
+enabled     = false
+description = Host memory utilization
+operator    = >
+unit        = %
+window      = 3
+warning     = 85
+critical    = 95
+
+[metric.os.free_memory_mb]
+enabled     = false
+description = Host free memory
+operator    = <
+unit        = MB
+window      = 3
+warning     = 512
+critical    = 256
+
+[metric.os.free_disk_gb]
+enabled     = false
+description = Host free disk space
+operator    = <
+unit        = GB
+window      = 3
+warning     = 10
+critical    = 5
+
+[metric.os.disk_utilization]
+enabled     = false
+description = Host disk utilization
+operator    = >
+unit        = %
+window      = 3
+warning     = 85
+critical    = 95
+
+[metric.os.load_avg_1m]
+enabled     = false
+description = Host load average (1 minute)
+operator    = >
+unit        = load
+window      = 3
+warning     = 4
+critical    = 8
+
+[metric.os.load_avg_5m]
+enabled     = false
+description = Host load average (5 minutes)
+operator    = >
+unit        = load
+window      = 3
+warning     = 4
+critical    = 8
+
+[metric.os.load_avg_15m]
+enabled     = false
+description = Host load average (15 minutes)
+operator    = >
+unit        = load
+window      = 3
+warning     = 4
+critical    = 8
+
+[metric.os.swap_used_mb]
+enabled     = false
+description = Host swap used
+operator    = >
+unit        = MB
+window      = 3
+warning     = 512
+critical    = 1024
+
+[metric.os.net_rx_bytes]
+enabled     = false
+description = Host network bytes received (cumulative)
+operator    = >
+unit        = bytes
+window      = 3
+
+[metric.os.net_tx_bytes]
+enabled     = false
+description = Host network bytes sent (cumulative)
+operator    = >
+unit        = bytes
+window      = 3
+
+[metric.os.net_rx_errors]
+enabled     = false
+description = Host network receive errors
+operator    = >
+unit        = count
+window      = 3
+warning     = 1
+critical    = 10
+
+[metric.os.net_tx_errors]
+enabled     = false
+description = Host network transmit errors
+operator    = >
+unit        = count
+window      = 3
+warning     = 1
+critical    = 10
+
+
+# =============================================================================
+# CATEGORY 0B - DB CONNECTIVITY METRICS
+# Targets from connections.tsv; gated by collect_db_metrics in config.ini.
+# Regenerate catalog: bash setup/assemble_thresholds_ini.sh
+# =============================================================================
+
+# =============================================================================
+# DB CONNECTIVITY METRICS (auto-generated catalog)
+#
+# Keys:
+#   enabled   = true | false   evaluate thresholds / fire alerts
+#   operator  = > | >= | < | <= | == | !=
+#   unit      = display unit for alert messages
+#   window    = consecutive breaches before firing
+#   warning / critical / info = optional severity thresholds
+# Regenerate: bash setup/assemble_thresholds_ini.sh
+# =============================================================================
+
+[metric.db.connection]
+enabled     = false
+description = Database connectivity check
+operator    = >=
+unit        = 
+window      = 3
+critical    = 1
+
+
+# =============================================================================
+# CATEGORY 2 - GCP CLOUD SQL METRICS (Cloud Monitoring)
+# Gated by collect_cloud_metrics in config.ini [monitoring].
+# metric_name = full GCP metric type (cloudsql.googleapis.com/database/...)
+# Regenerate catalog: bash setup/assemble_thresholds_ini.sh
+# =============================================================================
+
+# =============================================================================
+# GCP CLOUD SQL METRICS (Cloud Monitoring) — auto-generated catalog
+# metric_name must be the full GCP metric type (cloudsql.googleapis.com/database/...).
+#
+# Keys:
+#   collect     = true | false   fetch from Cloud Monitoring (default: false)
+#   enabled     = true | false   evaluate thresholds / fire alerts
+#   engines     = all | mysql | postgresql | sqlserver  (comma-separated)
+#   metric_name = full GCP Cloud Monitoring metric type
+# Regenerate: bash setup/assemble_thresholds_ini.sh
+# =============================================================================
+
+[metric.gcp.monitoring.CloudSQL.cpu_utilization]
+collect     = false
+enabled     = false
+description = Cloud SQL CPU utilization
+metric_name = cloudsql.googleapis.com/database/cpu/utilization
+operator    = >
+unit        = %
+window      = 3
+warning     = 80
+critical    = 90
+engines     = all
+
+[metric.gcp.monitoring.CloudSQL.memory_utilization]
+collect     = false
+enabled     = false
+description = Cloud SQL memory utilization
+metric_name = cloudsql.googleapis.com/database/memory/utilization
+operator    = >
+unit        = %
+window      = 3
+warning     = 85
+critical    = 95
+engines     = all
+
+[metric.gcp.monitoring.CloudSQL.disk_utilization]
+collect     = false
+enabled     = false
+description = Cloud SQL disk utilization
+metric_name = cloudsql.googleapis.com/database/disk/utilization
+operator    = >
+unit        = %
+window      = 3
+warning     = 85
+critical    = 95
+engines     = all
+
+[metric.gcp.monitoring.CloudSQL.disk_bytes_used]
+collect     = false
+enabled     = false
+description = Cloud SQL disk bytes used
+metric_name = disk_bytes_used
+operator    = >
+unit        = bytes
+window      = 3
+warning     = cloudsql.googleapis.com/database/disk/bytes_used
+engines     = all
+
+[metric.gcp.monitoring.CloudSQL.network_connections]
+collect     = false
+enabled     = false
+description = Cloud SQL active connections
+metric_name = cloudsql.googleapis.com/database/network/connections
+operator    = >
+unit        = connections
+window      = 3
+warning     = 500
+critical    = 900
+engines     = all
+
+[metric.gcp.monitoring.CloudSQL.disk_read_ops_count]
+collect     = false
+enabled     = false
+description = Cloud SQL disk read ops/s
+metric_name = disk_read_ops_count
+operator    = >
+unit        = ops/s
+window      = 3
+warning     = cloudsql.googleapis.com/database/disk/read_ops_count
+engines     = all
+
+[metric.gcp.monitoring.CloudSQL.disk_write_ops_count]
+collect     = false
+enabled     = false
+description = Cloud SQL disk write ops/s
+metric_name = disk_write_ops_count
+operator    = >
+unit        = ops/s
+window      = 3
+warning     = cloudsql.googleapis.com/database/disk/write_ops_count
+engines     = all
+
+[metric.gcp.monitoring.CloudSQL.replication_replica_lag]
+collect     = false
+enabled     = false
+description = Cloud SQL replication replica lag
+metric_name = cloudsql.googleapis.com/database/replication/replica_lag
+operator    = >
+unit        = s
+window      = 3
+warning     = 30
+critical    = 120
+engines     = mysql,postgresql
+
+[metric.gcp.monitoring.CloudSQL.mysql_questions]
+collect     = false
+enabled     = false
+description = MySQL queries per second
+metric_name = mysql_questions
+operator    = >
+unit        = queries/s
+window      = 3
+warning     = cloudsql.googleapis.com/database/mysql/questions
+engines     = mysql
+
+[metric.gcp.monitoring.CloudSQL.mysql_innodb_data_fsyncs]
+collect     = false
+enabled     = false
+description = MySQL InnoDB fsync calls/s
+metric_name = mysql_innodb_data_fsyncs
+operator    = >
+unit        = fsyncs/s
+window      = 3
+warning     = cloudsql.googleapis.com/database/mysql/innodb_data_fsyncs
+engines     = mysql
+
+[metric.gcp.monitoring.CloudSQL.postgresql_num_backends]
+collect     = false
+enabled     = false
+description = PostgreSQL active backends
+metric_name = cloudsql.googleapis.com/database/postgresql/num_backends
+operator    = >
+unit        = backends
+window      = 3
+warning     = 80
+critical    = 95
+engines     = postgresql
+
+[metric.gcp.monitoring.CloudSQL.postgresql_transaction_count]
+collect     = false
+enabled     = false
+description = PostgreSQL transactions per second
+metric_name = postgresql_transaction_count
+operator    = >
+unit        = txns/s
+window      = 3
+warning     = cloudsql.googleapis.com/database/postgresql/transaction_count
+engines     = postgresql
+
+[metric.gcp.monitoring.CloudSQL.sqlserver_connections_total]
+collect     = false
+enabled     = false
+description = SQL Server total connections
+metric_name = cloudsql.googleapis.com/database/sqlserver/connections/total_count
+operator    = >
+unit        = connections
+window      = 3
+warning     = 500
+critical    = 900
+engines     = sqlserver
+
+# =============================================================================
+# GCP CLOUD SQL QUERY INSIGHTS — requires Query Insights enabled on the instance
+# =============================================================================
+
+[metric.gcp.qi.CloudSQL.query_count]
+collect     = false
+enabled     = false
+description = Cloud SQL Query Insights total queries
+metric_name = query_count
+operator    = >
+unit        = queries/s
+window      = 3
+warning     = cloudsql.googleapis.com/database/insights/aggregate/execution_count
+engines     = mysql,postgresql
+
+[metric.gcp.qi.CloudSQL.latency_99th]
+collect     = false
+enabled     = false
+description = Cloud SQL Query Insights p99 latency
+metric_name = cloudsql.googleapis.com/database/insights/aggregate/latencies
+operator    = >
+unit        = ms
+window      = 3
+warning     = 500
+critical    = 2000
+engines     = mysql,postgresql
+

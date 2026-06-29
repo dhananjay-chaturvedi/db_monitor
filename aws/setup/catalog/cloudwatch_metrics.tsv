@@ -1,0 +1,168 @@
+RDS	CPUUtilization	RDS CPU utilisation	all	instance	%	>	75	90	CPUUtilization
+RDS	FreeableMemory	RDS freeable memory	all	instance	bytes	<	268435456	134217728	FreeableMemory
+RDS	SwapUsage	RDS swap usage	all	instance	bytes	>	268435456	536870912	SwapUsage
+RDS	FreeStorageSpace	RDS free storage space	mysql,mariadb,postgresql,oracle,sqlserver	instance	bytes	<	5368709120	2147483648	FreeStorageSpace
+RDS	DatabaseConnections	RDS database connections	all	instance		>	80	100	DatabaseConnections
+RDS	ActiveConnections	RDS active connections executing queries	mysql,mariadb,postgresql,sqlserver,aurora-mysql,aurora-postgresql	instance		>	50	80	ActiveConnections
+RDS	AbortedConnections	RDS failed database connection attempts	mysql,mariadb,postgresql,aurora-mysql,aurora-postgresql	instance		>	10	50	AbortedConnections
+RDS	DiskQueueDepth	RDS disk queue depth	all	instance		>	5	10	DiskQueueDepth
+RDS	ReadIOPS	RDS read IOPS	all	instance	iops	>	1000	3000	ReadIOPS
+RDS	WriteIOPS	RDS write IOPS	all	instance	iops	>	1000	3000	WriteIOPS
+RDS	ReadLatency	RDS read latency	all	instance	s	>	0.02	0.1	ReadLatency
+RDS	WriteLatency	RDS write latency	all	instance	s	>	0.02	0.1	WriteLatency
+RDS	ReadThroughput	RDS read throughput	all	instance	bytes/s	>	52428800	104857600	ReadThroughput
+RDS	WriteThroughput	RDS write throughput	all	instance	bytes/s	>	52428800	104857600	WriteThroughput
+RDS	ReplicaLag	RDS read replica lag	mysql,mariadb,postgresql,oracle,sqlserver	instance	s	>	30	120	ReplicaLag
+RDS	BackupRetentionPeriod	RDS configured automated backup retention period	mysql,mariadb,postgresql,oracle,sqlserver	instance	days	<	7	1	BackupRetentionPeriod
+RDS	BackupStorageBilled	RDS backup storage billed for instance	mysql,mariadb,postgresql,oracle,sqlserver	instance	bytes	>	107374182400	536870912000	BackupStorageBilled
+RDS	NetworkReceiveThroughput	RDS network receive throughput	all	instance	bytes/s	>	52428800	104857600	NetworkReceiveThroughput
+RDS	NetworkTransmitThroughput	RDS network transmit throughput	all	instance	bytes/s	>	52428800	104857600	NetworkTransmitThroughput
+RDS	BurstBalance	GP2 burst bucket balance	all	instance	%	<	20	10	BurstBalance
+RDS	CPUCreditBalance	T-instance CPU credit balance	all	instance	credits	<	100	50	CPUCreditBalance
+RDS	CPUCreditUsage	T-instance CPU credit usage	all	instance	credits	>	50	100	CPUCreditUsage
+RDS	CPUSurplusCreditBalance	T-instance surplus CPU credits	all	instance	credits	>	10	50	CPUSurplusCreditBalance
+RDS	CPUSurplusCreditsCharged	T-instance charged surplus credits	all	instance	credits	>	10	50	CPUSurplusCreditsCharged
+RDS	EBSByteBalancePct	EBS throughput burst balance	all	instance	%	<	20	10	EBSByteBalance%
+RDS	EBSIOBalancePct	EBS I/O burst balance	all	instance	%	<	20	10	EBSIOBalance%
+RDS	IamDbAuthConnectionRequests	IAM DB auth connection requests	all	instance		>	100	500	IamDbAuthConnectionRequests
+RDS	DiskQueueDepthLogVolume	Log volume disk queue depth	all	instance		>	5	10	DiskQueueDepthLogVolume
+RDS	FreeStorageSpaceLogVolume	Log volume free storage	all	instance	bytes	<	5368709120	2147483648	FreeStorageSpaceLogVolume
+RDS	FreeLocalStorage	NVMe local storage free	all	instance	bytes	<	10737418240	5368709120	FreeLocalStorage
+RDS	FreeLocalStoragePercent	NVMe local storage free percent	all	instance	%	<	20	10	FreeLocalStoragePercent
+RDS	ReadIOPSLogVolume	Log volume read IOPS	all	instance	iops	>	1000	3000	ReadIOPSLogVolume
+RDS	WriteIOPSLogVolume	Log volume write IOPS	all	instance	iops	>	1000	3000	WriteIOPSLogVolume
+RDS	ReadLatencyLogVolume	Log volume read latency	all	instance	s	>	0.02	0.1	ReadLatencyLogVolume
+RDS	WriteLatencyLogVolume	Log volume write latency	all	instance	s	>	0.02	0.1	WriteLatencyLogVolume
+RDS	ReadThroughputLogVolume	Log volume read throughput	all	instance	bytes/s	>	52428800	104857600	ReadThroughputLogVolume
+RDS	WriteThroughputLogVolume	Log volume write throughput	all	instance	bytes/s	>	52428800	104857600	WriteThroughputLogVolume
+RDS	ReadIOPSLocalStorage	Local storage read IOPS	all	instance	iops	>	1000	3000	ReadIOPSLocalStorage
+RDS	WriteIOPSLocalStorage	Local storage write IOPS	all	instance	iops	>	1000	3000	WriteIOPSLocalStorage
+RDS	ReadLatencyLocalStorage	Local storage read latency	all	instance	s	>	0.02	0.1	ReadLatencyLocalStorage
+RDS	WriteLatencyLocalStorage	Local storage write latency	all	instance	s	>	0.02	0.1	WriteLatencyLocalStorage
+RDS	ReadThroughputLocalStorage	Local storage read throughput	all	instance	bytes/s	>	52428800	104857600	ReadThroughputLocalStorage
+RDS	WriteThroughputLocalStorage	Local storage write throughput	all	instance	bytes/s	>	52428800	104857600	WriteThroughputLocalStorage
+RDS	BinLogDiskUsage	MySQL binary log disk usage	mysql,mariadb,aurora-mysql	instance	bytes	>	5368709120	10737418240	BinLogDiskUsage
+RDS	ConnectionAttempts	MySQL connection attempts	mysql,mariadb,aurora-mysql	instance		>	100	500	ConnectionAttempts
+RDS	LoginFailures	MySQL login failures	mysql,mariadb,aurora-mysql	instance		>	10	50	LoginFailures
+RDS	ReplicationChannelLag	MySQL multi-source replication lag	mysql,mariadb	instance	s	>	30	120	ReplicationChannelLag
+RDS	NumBinaryLogFiles	MySQL binary log file count	mysql,mariadb,aurora-mysql	instance		>	100	200	NumBinaryLogFiles
+RDS	SumBinaryLogSize	MySQL binary log total size	mysql,mariadb,aurora-mysql	instance	bytes	>	10737418240	21474836480	SumBinaryLogSize
+RDS	CheckpointLag	PostgreSQL checkpoint lag	postgresql,aurora-postgresql	instance	s	>	300	600	CheckpointLag
+RDS	MaximumUsedTransactionIDs	PostgreSQL max used transaction IDs	postgresql,aurora-postgresql	instance		>	1000000000	1500000000	MaximumUsedTransactionIDs
+RDS	OldestLogicalReplicationSlotLag	PostgreSQL logical replication slot lag	postgresql,aurora-postgresql	instance	bytes	>	1073741824	5368709120	OldestLogicalReplicationSlotLag
+RDS	OldestReplicationSlotLag	PostgreSQL replication slot lag	postgresql,aurora-postgresql	instance	bytes	>	1073741824	5368709120	OldestReplicationSlotLag
+RDS	ReplicationSlotDiskUsage	PostgreSQL replication slot disk usage	postgresql,aurora-postgresql	instance	bytes	>	5368709120	10737418240	ReplicationSlotDiskUsage
+RDS	TransactionLogsDiskUsage	PostgreSQL transaction log disk usage	postgresql,aurora-postgresql	instance	bytes	>	5368709120	10737418240	TransactionLogsDiskUsage
+RDS	TransactionLogsGeneration	PostgreSQL transaction log generation rate	postgresql,aurora-postgresql	instance	bytes/s	>	10485760	52428800	TransactionLogsGeneration
+RDS	FailedSQLServerAgentJobsCount	SQL Server failed agent jobs	sqlserver	instance	/min	>	1	5	FailedSQLServerAgentJobsCount
+RDS	TempDbAvailableDataSpace	SQL Server tempdb data space	sqlserver	instance	bytes	<	1073741824	536870912	TempDbAvailableDataSpace
+RDS	TempDbAvailableLogSpace	SQL Server tempdb log space	sqlserver	instance	bytes	<	1073741824	536870912	TempDbAvailableLogSpace
+RDS	TempDbDataFileUsage	SQL Server tempdb data file usage	sqlserver	instance	%	>	80	95	TempDbDataFileUsage
+RDS	TempDbLogFileUsage	SQL Server tempdb log file usage	sqlserver	instance	%	>	80	95	TempDbLogFileUsage
+RDS	Aurora_pq_request_attempted	Aurora parallel query: Aurora_pq_request_attempted	aurora-mysql	instance		>			Aurora_pq_request_attempted
+RDS	Aurora_pq_request_chosen_pk_range_scan	Aurora parallel query: Aurora_pq_request_chosen_pk_range_scan	aurora-mysql	instance		>			Aurora_pq_request_chosen_pk_range_scan
+RDS	Aurora_pq_request_executed	Aurora parallel query: Aurora_pq_request_executed	aurora-mysql	instance		>			Aurora_pq_request_executed
+RDS	Aurora_pq_request_failed	Aurora parallel query: Aurora_pq_request_failed	aurora-mysql	instance		>			Aurora_pq_request_failed
+RDS	Aurora_pq_request_in_progress	Aurora parallel query: Aurora_pq_request_in_progress	aurora-mysql	instance		>			Aurora_pq_request_in_progress
+RDS	Aurora_pq_request_not_chosen	Aurora parallel query: Aurora_pq_request_not_chosen	aurora-mysql	instance		>			Aurora_pq_request_not_chosen
+RDS	Aurora_pq_request_not_chosen_below_min_rows	Aurora parallel query: Aurora_pq_request_not_chosen_below_min_rows	aurora-mysql	instance		>			Aurora_pq_request_not_chosen_below_min_rows
+RDS	Aurora_pq_request_not_chosen_column_bit	Aurora parallel query: Aurora_pq_request_not_chosen_column_bit	aurora-mysql	instance		>			Aurora_pq_request_not_chosen_column_bit
+RDS	Aurora_pq_request_not_chosen_column_geometry	Aurora parallel query: Aurora_pq_request_not_chosen_column_geometry	aurora-mysql	instance		>			Aurora_pq_request_not_chosen_column_geometry
+RDS	Aurora_pq_request_not_chosen_column_lob	Aurora parallel query: Aurora_pq_request_not_chosen_column_lob	aurora-mysql	instance		>			Aurora_pq_request_not_chosen_column_lob
+RDS	Aurora_pq_request_not_chosen_column_virtual	Aurora parallel query: Aurora_pq_request_not_chosen_column_virtual	aurora-mysql	instance		>			Aurora_pq_request_not_chosen_column_virtual
+RDS	Aurora_pq_request_not_chosen_custom_charset	Aurora parallel query: Aurora_pq_request_not_chosen_custom_charset	aurora-mysql	instance		>			Aurora_pq_request_not_chosen_custom_charset
+RDS	Aurora_pq_request_not_chosen_few_pages_outside_buffer_pool	Aurora parallel query: Aurora_pq_request_not_chosen_few_pages_outside_buffer_pool	aurora-mysql	instance		>			Aurora_pq_request_not_chosen_few_pages_outside_buffer_pool
+RDS	Aurora_pq_request_not_chosen_full_text_index	Aurora parallel query: Aurora_pq_request_not_chosen_full_text_index	aurora-mysql	instance		>			Aurora_pq_request_not_chosen_full_text_index
+RDS	Aurora_pq_request_not_chosen_high_buffer_pool_pct	Aurora parallel query: Aurora_pq_request_not_chosen_high_buffer_pool_pct	aurora-mysql	instance		>			Aurora_pq_request_not_chosen_high_buffer_pool_pct
+RDS	Aurora_pq_request_not_chosen_index_hint	Aurora parallel query: Aurora_pq_request_not_chosen_index_hint	aurora-mysql	instance		>			Aurora_pq_request_not_chosen_index_hint
+RDS	Aurora_pq_request_not_chosen_innodb_table_format	Aurora parallel query: Aurora_pq_request_not_chosen_innodb_table_format	aurora-mysql	instance		>			Aurora_pq_request_not_chosen_innodb_table_format
+RDS	Aurora_pq_request_not_chosen_instant_ddl	Aurora parallel query: Aurora_pq_request_not_chosen_instant_ddl	aurora-mysql	instance		>			Aurora_pq_request_not_chosen_instant_ddl
+RDS	Aurora_pq_request_not_chosen_long_trx	Aurora parallel query: Aurora_pq_request_not_chosen_long_trx	aurora-mysql	instance		>			Aurora_pq_request_not_chosen_long_trx
+RDS	Aurora_pq_request_not_chosen_no_where_clause	Aurora parallel query: Aurora_pq_request_not_chosen_no_where_clause	aurora-mysql	instance		>			Aurora_pq_request_not_chosen_no_where_clause
+RDS	Aurora_pq_request_not_chosen_range_scan	Aurora parallel query: Aurora_pq_request_not_chosen_range_scan	aurora-mysql	instance		>			Aurora_pq_request_not_chosen_range_scan
+RDS	Aurora_pq_request_not_chosen_row_length_too_long	Aurora parallel query: Aurora_pq_request_not_chosen_row_length_too_long	aurora-mysql	instance		>			Aurora_pq_request_not_chosen_row_length_too_long
+RDS	Aurora_pq_request_not_chosen_small_table	Aurora parallel query: Aurora_pq_request_not_chosen_small_table	aurora-mysql	instance		>			Aurora_pq_request_not_chosen_small_table
+RDS	Aurora_pq_request_not_chosen_temporary_table	Aurora parallel query: Aurora_pq_request_not_chosen_temporary_table	aurora-mysql	instance		>			Aurora_pq_request_not_chosen_temporary_table
+RDS	Aurora_pq_request_not_chosen_tx_isolation	Aurora parallel query: Aurora_pq_request_not_chosen_tx_isolation	aurora-mysql	instance		>			Aurora_pq_request_not_chosen_tx_isolation
+RDS	Aurora_pq_request_not_chosen_unsupported_access	Aurora parallel query: Aurora_pq_request_not_chosen_unsupported_access	aurora-mysql	instance		>			Aurora_pq_request_not_chosen_unsupported_access
+RDS	Aurora_pq_request_not_chosen_unsupported_storage_type	Aurora parallel query: Aurora_pq_request_not_chosen_unsupported_storage_type	aurora-mysql	instance		>			Aurora_pq_request_not_chosen_unsupported_storage_type
+RDS	Aurora_pq_request_not_chosen_update_delete_stmts	Aurora parallel query: Aurora_pq_request_not_chosen_update_delete_stmts	aurora-mysql	instance		>			Aurora_pq_request_not_chosen_update_delete_stmts
+RDS	Aurora_pq_request_throttled	Aurora parallel query: Aurora_pq_request_throttled	aurora-mysql	instance		>			Aurora_pq_request_throttled
+Aurora	AuroraReplicaLag	Aurora replica lag	aurora	instance	ms	>	1000	5000	AuroraReplicaLag
+Aurora	AuroraReplicaLagMaximum	Aurora max replica lag	aurora	instance	ms	>	1000	5000	AuroraReplicaLagMaximum
+Aurora	AuroraReplicaLagMinimum	Aurora min replica lag	aurora	instance	ms	>	500	2000	AuroraReplicaLagMinimum
+Aurora	BufferCacheHitRatio	Aurora buffer cache hit ratio	aurora	instance	%	<	95	90	BufferCacheHitRatio
+Aurora	Deadlocks	Aurora deadlocks per second	aurora	instance	/s	>	1	5	Deadlocks
+Aurora	DMLLatency	Aurora DML latency	aurora	instance	ms	>	20	100	DMLLatency
+Aurora	SelectLatency	Aurora select latency	aurora	instance	ms	>	20	100	SelectLatency
+Aurora	CommitLatency	Aurora commit latency	aurora	instance	ms	>	20	100	CommitLatency
+Aurora	InsertLatency	Aurora insert latency	aurora	instance	ms	>	20	100	InsertLatency
+Aurora	UpdateLatency	Aurora update latency	aurora	instance	ms	>	20	100	UpdateLatency
+Aurora	DeleteLatency	Aurora delete latency	aurora	instance	ms	>	20	100	DeleteLatency
+Aurora	DDLLatency	Aurora DDL latency	aurora	instance	ms	>	50	200	DDLLatency
+Aurora	DMLThroughput	Aurora DML throughput	aurora	instance	/s	<	10	1	DMLThroughput
+Aurora	SelectThroughput	Aurora select throughput	aurora	instance	/s	<	10	1	SelectThroughput
+Aurora	InsertThroughput	Aurora insert throughput	aurora	instance	/s	<	10	1	InsertThroughput
+Aurora	UpdateThroughput	Aurora update throughput	aurora	instance	/s	<	10	1	UpdateThroughput
+Aurora	DeleteThroughput	Aurora delete throughput	aurora	instance	/s	<	10	1	DeleteThroughput
+Aurora	CommitThroughput	Aurora commit throughput	aurora	instance	/s	<	10	1	CommitThroughput
+Aurora	DDLThroughput	Aurora DDL throughput	aurora	instance	/s	<	1	0.1	DDLThroughput
+Aurora	ActiveTransactions	Aurora active transactions	aurora	instance	/s	>	50	100	ActiveTransactions
+Aurora	NumActiveTransactions	Aurora num active transactions	aurora	instance		>	50	100	NumActiveTransactions
+Aurora	BlockedTransactions	Aurora blocked transactions	aurora	instance	/s	>	1	5	BlockedTransactions
+Aurora	ACUUtilization	Aurora Serverless ACU utilisation	aurora	instance	%	>	80	95	ACUUtilization
+Aurora	AuroraBinlogReplicaLag	Aurora binlog replica lag	aurora	instance	s	>	30	120	AuroraBinlogReplicaLag
+Aurora	AuroraMemoryHealthState	Aurora memory health state	aurora	instance		>=	5	10	AuroraMemoryHealthState
+Aurora	AuroraMemoryNumDeclinedSqlTotal	Aurora OOM declined SQL count	aurora	instance		>	1	10	AuroraMemoryNumDeclinedSqlTotal
+Aurora	AuroraMemoryNumKillConnTotal	Aurora OOM killed connections	aurora	instance		>	1	10	AuroraMemoryNumKillConnTotal
+Aurora	AuroraMemoryNumKillQueryTotal	Aurora OOM killed queries	aurora	instance		>	1	10	AuroraMemoryNumKillQueryTotal
+Aurora	AuroraMillisecondsSpentInOomRecovery	Aurora OOM recovery time	aurora	instance	ms	>	1000	5000	AuroraMillisecondsSpentInOomRecovery
+Aurora	AuroraNumOomRecoverySuccessful	Aurora OOM recovery successes	aurora	instance		>	0	5	AuroraNumOomRecoverySuccessful
+Aurora	AuroraNumOomRecoveryTriggered	Aurora OOM recovery triggers	aurora	instance		>	1	5	AuroraNumOomRecoveryTriggered
+Aurora	AuroraDMLRejectedWriterFull	Aurora DML rejected writer full	aurora	instance		>	1	10	AuroraDMLRejectedWriterFull
+Aurora	AuroraSlowConnectionHandleCount	Aurora slow connection handles	aurora	instance		>	10	50	AuroraSlowConnectionHandleCount
+Aurora	AuroraSlowHandshakeCount	Aurora slow handshakes	aurora	instance		>	10	50	AuroraSlowHandshakeCount
+Aurora	AbortedClients	Aurora aborted clients	aurora	instance		>	10	50	AbortedClients
+Aurora	EngineUptime	Aurora engine uptime	aurora	instance	s	<	60	1	EngineUptime
+Aurora	Queries	Aurora queries per second	aurora	instance	/s	<	1	0.1	Queries
+Aurora	RowLockTime	Aurora row lock time	aurora	instance	ms	>	100	500	RowLockTime
+Aurora	RollbackSegmentHistoryListLength	Aurora rollback segment history	aurora	instance		>	1000	5000	RollbackSegmentHistoryListLength
+Aurora	NumUndoRowOperations	Aurora undo row operations	aurora	instance		>	1000	5000	NumUndoRowOperations
+Aurora	TransactionAgeMaximum	Aurora max transaction age	aurora	instance	s	>	300	600	TransactionAgeMaximum
+Aurora	NetworkThroughput	Aurora network throughput	aurora	instance	bytes/s	>	52428800	104857600	NetworkThroughput
+Aurora	StorageNetworkThroughput	Aurora storage network throughput	aurora	instance	bytes/s	>	52428800	104857600	StorageNetworkThroughput
+Aurora	StorageNetworkReceiveThroughput	Aurora storage network receive	aurora	instance	bytes/s	>	52428800	104857600	StorageNetworkReceiveThroughput
+Aurora	StorageNetworkTransmitThroughput	Aurora storage network transmit	aurora	instance	bytes/s	>	52428800	104857600	StorageNetworkTransmitThroughput
+Aurora	TempStorageIOPS	Aurora temp storage IOPS	aurora	instance	iops	>	1000	3000	TempStorageIOPS
+Aurora	TempStorageThroughput	Aurora temp storage throughput	aurora	instance	bytes/s	>	52428800	104857600	TempStorageThroughput
+Aurora	DBLoad	Aurora DB load	aurora	instance	sessions	>	2	4	DBLoad
+Aurora	DBLoadCPU	Aurora DB load CPU	aurora	instance	sessions	>	2	4	DBLoadCPU
+Aurora	DBLoadNonCPU	Aurora DB load non-CPU	aurora	instance	sessions	>	2	4	DBLoadNonCPU
+Aurora	DBLoadRelativeToNumVCPUs	Aurora DB load per vCPU	aurora	instance		>	1	2	DBLoadRelativeToNumVCPUs
+Aurora	ForwardingReplicaDMLLatency	Aurora forwarding replica DML latency	aurora	instance	ms	>	20	100	ForwardingReplicaDMLLatency
+Aurora	ForwardingReplicaDMLThroughput	Aurora forwarding replica DML throughput	aurora	instance	/s	<	10	1	ForwardingReplicaDMLThroughput
+Aurora	ForwardingReplicaOpenSessions	Aurora forwarding replica open sessions	aurora	instance		>	50	100	ForwardingReplicaOpenSessions
+Aurora	ForwardingReplicaReadWaitLatency	Aurora forwarding replica read wait latency	aurora	instance	ms	>	20	100	ForwardingReplicaReadWaitLatency
+Aurora	ForwardingReplicaReadWaitThroughput	Aurora forwarding replica read wait throughput	aurora	instance	/s	<	10	1	ForwardingReplicaReadWaitThroughput
+Aurora	ForwardingReplicaSelectLatency	Aurora forwarding replica select latency	aurora	instance	ms	>	20	100	ForwardingReplicaSelectLatency
+Aurora	ForwardingReplicaSelectThroughput	Aurora forwarding replica select throughput	aurora	instance	/s	<	10	1	ForwardingReplicaSelectThroughput
+Aurora	ForwardingWriterDMLLatency	Aurora forwarding writer DML latency	aurora	instance	ms	>	20	100	ForwardingWriterDMLLatency
+Aurora	ForwardingWriterDMLThroughput	Aurora forwarding writer DML throughput	aurora	instance	/s	<	10	1	ForwardingWriterDMLThroughput
+Aurora	ForwardingWriterOpenSessions	Aurora forwarding writer open sessions	aurora	instance		>	50	100	ForwardingWriterOpenSessions
+Aurora	VolumeBytesUsed	Aurora cluster storage used	aurora	cluster	bytes	>	1099511627776	1207959552000	VolumeBytesUsed
+Aurora	VolumeReadIOPs	Aurora cluster billed read IOPS	aurora	cluster	iops	>	10000	30000	VolumeReadIOPs
+Aurora	VolumeWriteIOPs	Aurora cluster write IOPS	aurora	cluster	iops	>	10000	30000	VolumeWriteIOPs
+Aurora	AuroraVolumeBytesLeftTotal	Aurora cluster storage remaining	aurora	cluster	bytes	<	107374182400	53687091200	AuroraVolumeBytesLeftTotal
+Aurora	ServerlessDatabaseCapacity	Aurora Serverless capacity ACU	aurora	cluster	ACU	>	16	32	ServerlessDatabaseCapacity
+Aurora	BackupRetentionPeriodStorageUsed	Aurora backup retention storage	aurora	cluster	bytes	>	107374182400	536870912000	BackupRetentionPeriodStorageUsed
+Aurora	SnapshotStorageUsed	Aurora snapshot storage used	aurora	cluster	bytes	>	107374182400	536870912000	SnapshotStorageUsed
+Aurora	TotalBackupStorageBilled	Aurora total backup storage billed	aurora	cluster	bytes	>	107374182400	536870912000	TotalBackupStorageBilled
+Aurora	AuroraGlobalDBDataTransferBytes	Aurora Global DB data transfer	aurora	cluster	bytes	>	1073741824	5368709120	AuroraGlobalDBDataTransferBytes
+Aurora	AuroraGlobalDBProgressLag	Aurora Global DB progress lag	aurora	cluster	ms	>	1000	5000	AuroraGlobalDBProgressLag
+Aurora	AuroraGlobalDBReplicatedWriteIO	Aurora Global DB replicated write IO	aurora	cluster		>	10000	30000	AuroraGlobalDBReplicatedWriteIO
+Aurora	AuroraGlobalDBReplicationLag	Aurora Global DB replication lag	aurora	cluster	ms	>	1000	5000	AuroraGlobalDBReplicationLag
+Aurora	AuroraGlobalDBRPOLag	Aurora Global DB RPO lag	aurora	cluster	ms	>	1000	5000	AuroraGlobalDBRPOLag
+Aurora	BacktrackChangeRecordsCreationRate	Aurora backtrack creation rate	aurora	cluster	/5min	>	1000	5000	BacktrackChangeRecordsCreationRate
+Aurora	BacktrackChangeRecordsStored	Aurora backtrack records stored	aurora	cluster		>	100000	500000	BacktrackChangeRecordsStored
+Aurora	BacktrackWindowActual	Aurora backtrack window actual	aurora	cluster	min	<	5	1	BacktrackWindowActual
+Aurora	BacktrackWindowAlert	Aurora backtrack window alert	aurora	cluster		>	1	5	BacktrackWindowAlert

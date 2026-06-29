@@ -1,0 +1,34 @@
+# Runtime data and encrypted credentials (created on install)
+.dbmonitor/
+alerts.log
+
+# Live config overrides (defaults in *.ini.default are committed)
+common/configs/config.ini
+common/configs/properties.ini
+aws/configs/metrics_and_thresholds.ini
+gcp/configs/metrics_and_thresholds.ini
+
+# Per-instance threshold overlays (environment-specific)
+aws/configs/instances/*.ini
+gcp/configs/instances/*.ini
+!aws/configs/instances/example.instance.ini.example
+!gcp/configs/instances/example.instance.ini.example
+
+# Compiled helper (built by installer when perl Digest::SHA is unavailable)
+common/lib/secrets_pbkdf2
+
+# OS / editor noise
+.DS_Store
+._*
+__MACOSX
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+
+# Local developer deploy utility (may contain host credentials)
+push_to_remote.sh
+
+# Internal planning notes (optional — remove this line to track in git)
+one_more_plan.md

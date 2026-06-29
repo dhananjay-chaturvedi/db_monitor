@@ -1,0 +1,6 @@
+# =============================================================================
+# CATEGORY 2 - PERFORMANCE INSIGHTS (aws pi get-resource-metrics)
+# Requires Performance Insights enabled on the RDS instance.
+# Regenerate: bash setup/assemble_thresholds_ini.sh
+# =============================================================================
+

@@ -1,0 +1,23 @@
+# GCP Cloud SQL metrics catalog
+# Columns: namespace	rule_key	description	engines	unit	operator	warning	critical	metric_name
+#
+# namespace: CloudSQL or CloudSQL.QI (Query Insights)
+# engines: all | mysql | postgresql | sqlserver  (comma-separated)
+# operator: > | >= | < | <= | == | !=
+# warning/critical: threshold values (empty = no threshold)
+# metric_name: full GCP monitoring metric type
+CloudSQL	cpu_utilization	Cloud SQL CPU utilization	all	%	>	80	90	cloudsql.googleapis.com/database/cpu/utilization
+CloudSQL	memory_utilization	Cloud SQL memory utilization	all	%	>	85	95	cloudsql.googleapis.com/database/memory/utilization
+CloudSQL	disk_utilization	Cloud SQL disk utilization	all	%	>	85	95	cloudsql.googleapis.com/database/disk/utilization
+CloudSQL	disk_bytes_used	Cloud SQL disk bytes used	all	bytes	>			cloudsql.googleapis.com/database/disk/bytes_used
+CloudSQL	network_connections	Cloud SQL active connections	all	connections	>	500	900	cloudsql.googleapis.com/database/network/connections
+CloudSQL	disk_read_ops_count	Cloud SQL disk read ops/s	all	ops/s	>			cloudsql.googleapis.com/database/disk/read_ops_count
+CloudSQL	disk_write_ops_count	Cloud SQL disk write ops/s	all	ops/s	>			cloudsql.googleapis.com/database/disk/write_ops_count
+CloudSQL	replication_replica_lag	Cloud SQL replication replica lag	mysql,postgresql	s	>	30	120	cloudsql.googleapis.com/database/replication/replica_lag
+CloudSQL	mysql_questions	MySQL queries per second	mysql	queries/s	>			cloudsql.googleapis.com/database/mysql/questions
+CloudSQL	mysql_innodb_data_fsyncs	MySQL InnoDB fsync calls/s	mysql	fsyncs/s	>			cloudsql.googleapis.com/database/mysql/innodb_data_fsyncs
+CloudSQL	postgresql_num_backends	PostgreSQL active backends	postgresql	backends	>	80	95	cloudsql.googleapis.com/database/postgresql/num_backends
+CloudSQL	postgresql_transaction_count	PostgreSQL transactions per second	postgresql	txns/s	>			cloudsql.googleapis.com/database/postgresql/transaction_count
+CloudSQL	sqlserver_connections_total	SQL Server total connections	sqlserver	connections	>	500	900	cloudsql.googleapis.com/database/sqlserver/connections/total_count
+CloudSQL.QI	query_count	Cloud SQL Query Insights total queries	mysql,postgresql	queries/s	>			cloudsql.googleapis.com/database/insights/aggregate/execution_count
+CloudSQL.QI	latency_99th	Cloud SQL Query Insights p99 latency	mysql,postgresql	ms	>	500	2000	cloudsql.googleapis.com/database/insights/aggregate/latencies

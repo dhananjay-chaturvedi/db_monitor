@@ -1,0 +1,75 @@
+# =============================================================================
+# properties.ini.default — Low-level runtime paths and connection defaults
+# Copied to properties.ini on install when the live file is missing.
+#
+# Monitoring behaviour (poll interval, cloud lookback, notifications) lives in
+# config.ini.  Metric thresholds live in metrics_and_thresholds.ini.
+# =============================================================================
+
+# =============================================================================
+# PATH OVERRIDES  (leave blank to use <project>/.dbmonitor/…)
+# =============================================================================
+[paths]
+runtime_dir =
+secrets_dir =
+alerts_log_file =
+# Prepended to PATH for sqlplus when checking Oracle connectivity
+oracle_client_path =
+
+# =============================================================================
+# DATABASE CONNECTIVITY
+# =============================================================================
+[database.connection]
+# Seconds to wait for DB CLI connectivity checks (mysql, psql, sqlcmd, sqlplus, …)
+connection_timeout_seconds = 10
+
+[database.ports]
+# Default ports when not specified on `monitor.sh db add` or in connections.tsv
+mysql = 3306
+mariadb = 3306
+postgresql = 5432
+oracle = 1521
+sqlserver = 1433
+mongodb = 27017
+
+# =============================================================================
+# SSH (remote OS metrics)
+# =============================================================================
+[ssh]
+connect_timeout_seconds = 8
+server_alive_interval_seconds = 30
+server_alive_count_max = 3
+
+# =============================================================================
+# CLOUD INSTANCE METADATA (region / project discovery fallback)
+# Used by AWS (IMDS) and GCP (GCE metadata server) to auto-detect region.
+# =============================================================================
+[cloud.metadata]
+metadata_connect_timeout_seconds = 1
+metadata_token_ttl_seconds = 60
+
+# =============================================================================
+# PROCESS LIFECYCLE (daemon / run_monitor shutdown)
+# =============================================================================
+[lifecycle]
+process_stop_timeout_seconds = 30
+poll_cycle_kill_timeout_seconds = 120
+
+# Seconds to wait after SIGTERM before escalating to SIGKILL (poll cycle + run_monitor).
+signal_escalation_delay_seconds = 2
+
+# Seconds to wait after the daemon background fork before verifying the process started.
+daemon_start_verify_delay_seconds = 1
+
+# Seconds to wait between daemon stop and daemon start during a restart.
+daemon_restart_delay_seconds = 2
+
+# Maximum seconds to wait for the in-flight poll process to exit on SIGTERM in _on_signal.
+# After this, SIGKILL is sent.
+signal_stop_max_wait_seconds = 15
+
+# =============================================================================
+# ALERTS CLI
+# =============================================================================
+[alerts]
+default_list_limit = 50

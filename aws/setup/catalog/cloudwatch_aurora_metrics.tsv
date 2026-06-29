@@ -1,0 +1,78 @@
+Aurora	AuroraReplicaLag	Aurora replica lag	aurora	instance	ms	>	1000	5000	AuroraReplicaLag
+Aurora	AuroraReplicaLagMaximum	Aurora max replica lag	aurora	instance	ms	>	1000	5000	AuroraReplicaLagMaximum
+Aurora	AuroraReplicaLagMinimum	Aurora min replica lag	aurora	instance	ms	>	500	2000	AuroraReplicaLagMinimum
+Aurora	BufferCacheHitRatio	Aurora buffer cache hit ratio	aurora	instance	%	<	95	90	BufferCacheHitRatio
+Aurora	Deadlocks	Aurora deadlocks per second	aurora	instance	/s	>	1	5	Deadlocks
+Aurora	DMLLatency	Aurora DML latency	aurora	instance	ms	>	20	100	DMLLatency
+Aurora	SelectLatency	Aurora select latency	aurora	instance	ms	>	20	100	SelectLatency
+Aurora	CommitLatency	Aurora commit latency	aurora	instance	ms	>	20	100	CommitLatency
+Aurora	InsertLatency	Aurora insert latency	aurora	instance	ms	>	20	100	InsertLatency
+Aurora	UpdateLatency	Aurora update latency	aurora	instance	ms	>	20	100	UpdateLatency
+Aurora	DeleteLatency	Aurora delete latency	aurora	instance	ms	>	20	100	DeleteLatency
+Aurora	DDLLatency	Aurora DDL latency	aurora	instance	ms	>	50	200	DDLLatency
+Aurora	DMLThroughput	Aurora DML throughput	aurora	instance	/s	<	10	1	DMLThroughput
+Aurora	SelectThroughput	Aurora select throughput	aurora	instance	/s	<	10	1	SelectThroughput
+Aurora	InsertThroughput	Aurora insert throughput	aurora	instance	/s	<	10	1	InsertThroughput
+Aurora	UpdateThroughput	Aurora update throughput	aurora	instance	/s	<	10	1	UpdateThroughput
+Aurora	DeleteThroughput	Aurora delete throughput	aurora	instance	/s	<	10	1	DeleteThroughput
+Aurora	CommitThroughput	Aurora commit throughput	aurora	instance	/s	<	10	1	CommitThroughput
+Aurora	DDLThroughput	Aurora DDL throughput	aurora	instance	/s	<	1	0.1	DDLThroughput
+Aurora	ActiveTransactions	Aurora active transactions	aurora	instance	/s	>	50	100	ActiveTransactions
+Aurora	NumActiveTransactions	Aurora num active transactions	aurora	instance		>	50	100	NumActiveTransactions
+Aurora	BlockedTransactions	Aurora blocked transactions	aurora	instance	/s	>	1	5	BlockedTransactions
+Aurora	ACUUtilization	Aurora Serverless ACU utilisation	aurora	instance	%	>	80	95	ACUUtilization
+Aurora	AuroraBinlogReplicaLag	Aurora binlog replica lag	aurora	instance	s	>	30	120	AuroraBinlogReplicaLag
+Aurora	AuroraMemoryHealthState	Aurora memory health state	aurora	instance		>=	5	10	AuroraMemoryHealthState
+Aurora	AuroraMemoryNumDeclinedSqlTotal	Aurora OOM declined SQL count	aurora	instance		>	1	10	AuroraMemoryNumDeclinedSqlTotal
+Aurora	AuroraMemoryNumKillConnTotal	Aurora OOM killed connections	aurora	instance		>	1	10	AuroraMemoryNumKillConnTotal
+Aurora	AuroraMemoryNumKillQueryTotal	Aurora OOM killed queries	aurora	instance		>	1	10	AuroraMemoryNumKillQueryTotal
+Aurora	AuroraMillisecondsSpentInOomRecovery	Aurora OOM recovery time	aurora	instance	ms	>	1000	5000	AuroraMillisecondsSpentInOomRecovery
+Aurora	AuroraNumOomRecoverySuccessful	Aurora OOM recovery successes	aurora	instance		>	0	5	AuroraNumOomRecoverySuccessful
+Aurora	AuroraNumOomRecoveryTriggered	Aurora OOM recovery triggers	aurora	instance		>	1	5	AuroraNumOomRecoveryTriggered
+Aurora	AuroraDMLRejectedWriterFull	Aurora DML rejected writer full	aurora	instance		>	1	10	AuroraDMLRejectedWriterFull
+Aurora	AuroraSlowConnectionHandleCount	Aurora slow connection handles	aurora	instance		>	10	50	AuroraSlowConnectionHandleCount
+Aurora	AuroraSlowHandshakeCount	Aurora slow handshakes	aurora	instance		>	10	50	AuroraSlowHandshakeCount
+Aurora	AbortedClients	Aurora aborted clients	aurora	instance		>	10	50	AbortedClients
+Aurora	EngineUptime	Aurora engine uptime	aurora	instance	s	<	60	1	EngineUptime
+Aurora	Queries	Aurora queries per second	aurora	instance	/s	<	1	0.1	Queries
+Aurora	RowLockTime	Aurora row lock time	aurora	instance	ms	>	100	500	RowLockTime
+Aurora	RollbackSegmentHistoryListLength	Aurora rollback segment history	aurora	instance		>	1000	5000	RollbackSegmentHistoryListLength
+Aurora	NumUndoRowOperations	Aurora undo row operations	aurora	instance		>	1000	5000	NumUndoRowOperations
+Aurora	TransactionAgeMaximum	Aurora max transaction age	aurora	instance	s	>	300	600	TransactionAgeMaximum
+Aurora	NetworkThroughput	Aurora network throughput	aurora	instance	bytes/s	>	52428800	104857600	NetworkThroughput
+Aurora	StorageNetworkThroughput	Aurora storage network throughput	aurora	instance	bytes/s	>	52428800	104857600	StorageNetworkThroughput
+Aurora	StorageNetworkReceiveThroughput	Aurora storage network receive	aurora	instance	bytes/s	>	52428800	104857600	StorageNetworkReceiveThroughput
+Aurora	StorageNetworkTransmitThroughput	Aurora storage network transmit	aurora	instance	bytes/s	>	52428800	104857600	StorageNetworkTransmitThroughput
+Aurora	TempStorageIOPS	Aurora temp storage IOPS	aurora	instance	iops	>	1000	3000	TempStorageIOPS
+Aurora	TempStorageThroughput	Aurora temp storage throughput	aurora	instance	bytes/s	>	52428800	104857600	TempStorageThroughput
+Aurora	DBLoad	Aurora DB load	aurora	instance	sessions	>	2	4	DBLoad
+Aurora	DBLoadCPU	Aurora DB load CPU	aurora	instance	sessions	>	2	4	DBLoadCPU
+Aurora	DBLoadNonCPU	Aurora DB load non-CPU	aurora	instance	sessions	>	2	4	DBLoadNonCPU
+Aurora	DBLoadRelativeToNumVCPUs	Aurora DB load per vCPU	aurora	instance		>	1	2	DBLoadRelativeToNumVCPUs
+Aurora	ForwardingReplicaDMLLatency	Aurora forwarding replica DML latency	aurora	instance	ms	>	20	100	ForwardingReplicaDMLLatency
+Aurora	ForwardingReplicaDMLThroughput	Aurora forwarding replica DML throughput	aurora	instance	/s	<	10	1	ForwardingReplicaDMLThroughput
+Aurora	ForwardingReplicaOpenSessions	Aurora forwarding replica open sessions	aurora	instance		>	50	100	ForwardingReplicaOpenSessions
+Aurora	ForwardingReplicaReadWaitLatency	Aurora forwarding replica read wait latency	aurora	instance	ms	>	20	100	ForwardingReplicaReadWaitLatency
+Aurora	ForwardingReplicaReadWaitThroughput	Aurora forwarding replica read wait throughput	aurora	instance	/s	<	10	1	ForwardingReplicaReadWaitThroughput
+Aurora	ForwardingReplicaSelectLatency	Aurora forwarding replica select latency	aurora	instance	ms	>	20	100	ForwardingReplicaSelectLatency
+Aurora	ForwardingReplicaSelectThroughput	Aurora forwarding replica select throughput	aurora	instance	/s	<	10	1	ForwardingReplicaSelectThroughput
+Aurora	ForwardingWriterDMLLatency	Aurora forwarding writer DML latency	aurora	instance	ms	>	20	100	ForwardingWriterDMLLatency
+Aurora	ForwardingWriterDMLThroughput	Aurora forwarding writer DML throughput	aurora	instance	/s	<	10	1	ForwardingWriterDMLThroughput
+Aurora	ForwardingWriterOpenSessions	Aurora forwarding writer open sessions	aurora	instance		>	50	100	ForwardingWriterOpenSessions
+Aurora	VolumeBytesUsed	Aurora cluster storage used	aurora	cluster	bytes	>	1099511627776	1207959552000	VolumeBytesUsed
+Aurora	VolumeReadIOPs	Aurora cluster billed read IOPS	aurora	cluster	iops	>	10000	30000	VolumeReadIOPs
+Aurora	VolumeWriteIOPs	Aurora cluster write IOPS	aurora	cluster	iops	>	10000	30000	VolumeWriteIOPs
+Aurora	AuroraVolumeBytesLeftTotal	Aurora cluster storage remaining	aurora	cluster	bytes	<	107374182400	53687091200	AuroraVolumeBytesLeftTotal
+Aurora	ServerlessDatabaseCapacity	Aurora Serverless capacity ACU	aurora	cluster	ACU	>	16	32	ServerlessDatabaseCapacity
+Aurora	BackupRetentionPeriodStorageUsed	Aurora backup retention storage	aurora	cluster	bytes	>	107374182400	536870912000	BackupRetentionPeriodStorageUsed
+Aurora	SnapshotStorageUsed	Aurora snapshot storage used	aurora	cluster	bytes	>	107374182400	536870912000	SnapshotStorageUsed
+Aurora	TotalBackupStorageBilled	Aurora total backup storage billed	aurora	cluster	bytes	>	107374182400	536870912000	TotalBackupStorageBilled
+Aurora	AuroraGlobalDBDataTransferBytes	Aurora Global DB data transfer	aurora	cluster	bytes	>	1073741824	5368709120	AuroraGlobalDBDataTransferBytes
+Aurora	AuroraGlobalDBProgressLag	Aurora Global DB progress lag	aurora	cluster	ms	>	1000	5000	AuroraGlobalDBProgressLag
+Aurora	AuroraGlobalDBReplicatedWriteIO	Aurora Global DB replicated write IO	aurora	cluster		>	10000	30000	AuroraGlobalDBReplicatedWriteIO
+Aurora	AuroraGlobalDBReplicationLag	Aurora Global DB replication lag	aurora	cluster	ms	>	1000	5000	AuroraGlobalDBReplicationLag
+Aurora	AuroraGlobalDBRPOLag	Aurora Global DB RPO lag	aurora	cluster	ms	>	1000	5000	AuroraGlobalDBRPOLag
+Aurora	BacktrackChangeRecordsCreationRate	Aurora backtrack creation rate	aurora	cluster	/5min	>	1000	5000	BacktrackChangeRecordsCreationRate
+Aurora	BacktrackChangeRecordsStored	Aurora backtrack records stored	aurora	cluster		>	100000	500000	BacktrackChangeRecordsStored
+Aurora	BacktrackWindowActual	Aurora backtrack window actual	aurora	cluster	min	<	5	1	BacktrackWindowActual
+Aurora	BacktrackWindowAlert	Aurora backtrack window alert	aurora	cluster		>	1	5	BacktrackWindowAlert

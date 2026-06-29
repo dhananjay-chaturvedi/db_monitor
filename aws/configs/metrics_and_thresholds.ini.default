@@ -1,0 +1,6483 @@
+
+# =============================================================================
+# CATEGORY 0A - HOST OS METRICS
+# Local /proc (collect_localhost_os) and SSH hosts (collect_ssh_hosts_os).
+# Gated by collect_os_metrics in config.ini [monitoring].
+# Regenerate catalog: bash setup/assemble_thresholds_ini.sh
+# =============================================================================
+
+# =============================================================================
+# HOST OS METRICS (auto-generated catalog)
+#
+# Keys:
+#   enabled   = true | false   evaluate thresholds / fire alerts
+#   operator  = > | >= | < | <= | == | !=
+#   unit      = display unit for alert messages
+#   window    = consecutive breaches before firing
+#   warning / critical / info = optional severity thresholds
+# Regenerate: bash setup/assemble_thresholds_ini.sh
+# =============================================================================
+
+[metric.os.cpu_utilization]
+enabled     = false
+description = Host CPU utilization
+operator    = >
+unit        = %
+window      = 3
+warning     = 80
+critical    = 90
+
+[metric.os.memory_utilization]
+enabled     = false
+description = Host memory utilization
+operator    = >
+unit        = %
+window      = 3
+warning     = 85
+critical    = 95
+
+[metric.os.free_memory_mb]
+enabled     = false
+description = Host free memory
+operator    = <
+unit        = MB
+window      = 3
+warning     = 512
+critical    = 256
+
+[metric.os.free_disk_gb]
+enabled     = false
+description = Host free disk space
+operator    = <
+unit        = GB
+window      = 3
+warning     = 10
+critical    = 5
+
+[metric.os.disk_utilization]
+enabled     = false
+description = Host disk utilization
+operator    = >
+unit        = %
+window      = 3
+warning     = 85
+critical    = 95
+
+[metric.os.load_avg_1m]
+enabled     = false
+description = Host load average (1 minute)
+operator    = >
+unit        = load
+window      = 3
+warning     = 4
+critical    = 8
+
+[metric.os.load_avg_5m]
+enabled     = false
+description = Host load average (5 minutes)
+operator    = >
+unit        = load
+window      = 3
+warning     = 4
+critical    = 8
+
+[metric.os.load_avg_15m]
+enabled     = false
+description = Host load average (15 minutes)
+operator    = >
+unit        = load
+window      = 3
+warning     = 4
+critical    = 8
+
+[metric.os.swap_used_mb]
+enabled     = false
+description = Host swap used
+operator    = >
+unit        = MB
+window      = 3
+warning     = 512
+critical    = 1024
+
+[metric.os.net_rx_bytes]
+enabled     = false
+description = Host network bytes received (cumulative)
+operator    = >
+unit        = bytes
+window      = 3
+
+[metric.os.net_tx_bytes]
+enabled     = false
+description = Host network bytes sent (cumulative)
+operator    = >
+unit        = bytes
+window      = 3
+
+[metric.os.net_rx_errors]
+enabled     = false
+description = Host network receive errors
+operator    = >
+unit        = count
+window      = 3
+warning     = 1
+critical    = 10
+
+[metric.os.net_tx_errors]
+enabled     = false
+description = Host network transmit errors
+operator    = >
+unit        = count
+window      = 3
+warning     = 1
+critical    = 10
+
+
+# =============================================================================
+# CATEGORY 0B - DB CONNECTIVITY METRICS
+# Targets from connections.tsv; gated by collect_db_metrics in config.ini.
+# Regenerate catalog: bash setup/assemble_thresholds_ini.sh
+# =============================================================================
+
+# =============================================================================
+# DB CONNECTIVITY METRICS (auto-generated catalog)
+#
+# Keys:
+#   enabled   = true | false   evaluate thresholds / fire alerts
+#   operator  = > | >= | < | <= | == | !=
+#   unit      = display unit for alert messages
+#   window    = consecutive breaches before firing
+#   warning / critical / info = optional severity thresholds
+# Regenerate: bash setup/assemble_thresholds_ini.sh
+# =============================================================================
+
+[metric.db.connection]
+enabled     = false
+description = Database connectivity check
+operator    = >=
+unit        = 
+window      = 3
+critical    = 1
+
+
+# =============================================================================
+# CATEGORY 1 - AWS CLOUDWATCH (RDS / Aurora)
+# Gated by collect_cloud_metrics in config.ini [monitoring].
+# Regenerate catalog: bash setup/assemble_thresholds_ini.sh
+# =============================================================================
+
+# =============================================================================
+# AWS RDS / AURORA - CLOUDWATCH METRICS (auto-generated catalog)
+# MetricName must match CloudWatch exactly (case-sensitive).
+#
+# Keys:
+#   collect   = true | false   fetch from CloudWatch (default: false)
+#   enabled   = true | false   evaluate thresholds / fire alerts
+#   engines   = comma-separated instance types this rule applies to
+#   dimension = instance | cluster
+#   metric_name = override when section name differs from CloudWatch name
+# Regenerate: bash setup/assemble_thresholds_ini.sh
+# =============================================================================
+
+[metric.aws.cloudwatch.RDS.CPUUtilization]
+collect     = false
+enabled     = false
+description = RDS CPU utilisation
+engines     = all
+dimension   = instance
+operator    = >
+unit        = %
+window      = 3
+warning     = 75
+critical    = 90
+
+[metric.aws.cloudwatch.RDS.FreeableMemory]
+collect     = false
+enabled     = false
+description = RDS freeable memory
+engines     = all
+dimension   = instance
+operator    = <
+unit        = bytes
+window      = 3
+warning     = 268435456
+critical    = 134217728
+
+[metric.aws.cloudwatch.RDS.SwapUsage]
+collect     = false
+enabled     = false
+description = RDS swap usage
+engines     = all
+dimension   = instance
+operator    = >
+unit        = bytes
+window      = 3
+warning     = 268435456
+critical    = 536870912
+
+[metric.aws.cloudwatch.RDS.FreeStorageSpace]
+collect     = false
+enabled     = false
+description = RDS free storage space
+engines     = mysql,mariadb,postgresql,oracle,sqlserver
+dimension   = instance
+operator    = <
+unit        = bytes
+window      = 3
+warning     = 5368709120
+critical    = 2147483648
+
+[metric.aws.cloudwatch.RDS.DatabaseConnections]
+collect     = false
+enabled     = false
+description = RDS database connections
+engines     = all
+dimension   = instance
+operator    = 80
+unit        = >
+window      = 3
+warning     = 100
+critical    = DatabaseConnections
+
+[metric.aws.cloudwatch.RDS.ActiveConnections]
+collect     = false
+enabled     = false
+description = RDS active connections executing queries
+engines     = mysql,mariadb,postgresql,sqlserver,aurora-mysql,aurora-postgresql
+dimension   = instance
+operator    = 50
+unit        = >
+window      = 3
+warning     = 80
+critical    = ActiveConnections
+
+[metric.aws.cloudwatch.RDS.AbortedConnections]
+collect     = false
+enabled     = false
+description = RDS failed database connection attempts
+engines     = mysql,mariadb,postgresql,aurora-mysql,aurora-postgresql
+dimension   = instance
+operator    = 10
+unit        = >
+window      = 3
+warning     = 50
+critical    = AbortedConnections
+
+[metric.aws.cloudwatch.RDS.DiskQueueDepth]
+collect     = false
+enabled     = false
+description = RDS disk queue depth
+engines     = all
+dimension   = instance
+operator    = 5
+unit        = >
+window      = 3
+warning     = 10
+critical    = DiskQueueDepth
+
+[metric.aws.cloudwatch.RDS.ReadIOPS]
+collect     = false
+enabled     = false
+description = RDS read IOPS
+engines     = all
+dimension   = instance
+operator    = >
+unit        = iops
+window      = 3
+warning     = 1000
+critical    = 3000
+
+[metric.aws.cloudwatch.RDS.WriteIOPS]
+collect     = false
+enabled     = false
+description = RDS write IOPS
+engines     = all
+dimension   = instance
+operator    = >
+unit        = iops
+window      = 3
+warning     = 1000
+critical    = 3000
+
+[metric.aws.cloudwatch.RDS.ReadLatency]
+collect     = false
+enabled     = false
+description = RDS read latency
+engines     = all
+dimension   = instance
+operator    = >
+unit        = s
+window      = 3
+warning     = 0.02
+critical    = 0.1
+
+[metric.aws.cloudwatch.RDS.WriteLatency]
+collect     = false
+enabled     = false
+description = RDS write latency
+engines     = all
+dimension   = instance
+operator    = >
+unit        = s
+window      = 3
+warning     = 0.02
+critical    = 0.1
+
+[metric.aws.cloudwatch.RDS.ReadThroughput]
+collect     = false
+enabled     = false
+description = RDS read throughput
+engines     = all
+dimension   = instance
+operator    = >
+unit        = bytes/s
+window      = 3
+warning     = 52428800
+critical    = 104857600
+
+[metric.aws.cloudwatch.RDS.WriteThroughput]
+collect     = false
+enabled     = false
+description = RDS write throughput
+engines     = all
+dimension   = instance
+operator    = >
+unit        = bytes/s
+window      = 3
+warning     = 52428800
+critical    = 104857600
+
+[metric.aws.cloudwatch.RDS.ReplicaLag]
+collect     = false
+enabled     = false
+description = RDS read replica lag
+engines     = mysql,mariadb,postgresql,oracle,sqlserver
+dimension   = instance
+operator    = >
+unit        = s
+window      = 3
+warning     = 30
+critical    = 120
+
+[metric.aws.cloudwatch.RDS.BackupRetentionPeriod]
+collect     = false
+enabled     = false
+description = RDS configured automated backup retention period
+engines     = mysql,mariadb,postgresql,oracle,sqlserver
+dimension   = instance
+operator    = <
+unit        = days
+window      = 3
+warning     = 7
+critical    = 1
+
+[metric.aws.cloudwatch.RDS.BackupStorageBilled]
+collect     = false
+enabled     = false
+description = RDS backup storage billed for instance
+engines     = mysql,mariadb,postgresql,oracle,sqlserver
+dimension   = instance
+operator    = >
+unit        = bytes
+window      = 3
+warning     = 107374182400
+critical    = 536870912000
+
+[metric.aws.cloudwatch.RDS.NetworkReceiveThroughput]
+collect     = false
+enabled     = false
+description = RDS network receive throughput
+engines     = all
+dimension   = instance
+operator    = >
+unit        = bytes/s
+window      = 3
+warning     = 52428800
+critical    = 104857600
+
+[metric.aws.cloudwatch.RDS.NetworkTransmitThroughput]
+collect     = false
+enabled     = false
+description = RDS network transmit throughput
+engines     = all
+dimension   = instance
+operator    = >
+unit        = bytes/s
+window      = 3
+warning     = 52428800
+critical    = 104857600
+
+[metric.aws.cloudwatch.RDS.BurstBalance]
+collect     = false
+enabled     = false
+description = GP2 burst bucket balance
+engines     = all
+dimension   = instance
+operator    = <
+unit        = %
+window      = 3
+warning     = 20
+critical    = 10
+
+[metric.aws.cloudwatch.RDS.CPUCreditBalance]
+collect     = false
+enabled     = false
+description = T-instance CPU credit balance
+engines     = all
+dimension   = instance
+operator    = <
+unit        = credits
+window      = 3
+warning     = 100
+critical    = 50
+
+[metric.aws.cloudwatch.RDS.CPUCreditUsage]
+collect     = false
+enabled     = false
+description = T-instance CPU credit usage
+engines     = all
+dimension   = instance
+operator    = >
+unit        = credits
+window      = 3
+warning     = 50
+critical    = 100
+
+[metric.aws.cloudwatch.RDS.CPUSurplusCreditBalance]
+collect     = false
+enabled     = false
+description = T-instance surplus CPU credits
+engines     = all
+dimension   = instance
+operator    = >
+unit        = credits
+window      = 3
+warning     = 10
+critical    = 50
+
+[metric.aws.cloudwatch.RDS.CPUSurplusCreditsCharged]
+collect     = false
+enabled     = false
+description = T-instance charged surplus credits
+engines     = all
+dimension   = instance
+operator    = >
+unit        = credits
+window      = 3
+warning     = 10
+critical    = 50
+
+[metric.aws.cloudwatch.RDS.EBSByteBalancePct]
+collect     = false
+enabled     = false
+description = EBS throughput burst balance
+engines     = all
+dimension   = instance
+operator    = <
+unit        = %
+window      = 3
+metric_name = EBSByteBalance%
+warning     = 20
+critical    = 10
+
+[metric.aws.cloudwatch.RDS.EBSIOBalancePct]
+collect     = false
+enabled     = false
+description = EBS I/O burst balance
+engines     = all
+dimension   = instance
+operator    = <
+unit        = %
+window      = 3
+metric_name = EBSIOBalance%
+warning     = 20
+critical    = 10
+
+[metric.aws.cloudwatch.RDS.IamDbAuthConnectionRequests]
+collect     = false
+enabled     = false
+description = IAM DB auth connection requests
+engines     = all
+dimension   = instance
+operator    = 100
+unit        = >
+window      = 3
+warning     = 500
+critical    = IamDbAuthConnectionRequests
+
+[metric.aws.cloudwatch.RDS.DiskQueueDepthLogVolume]
+collect     = false
+enabled     = false
+description = Log volume disk queue depth
+engines     = all
+dimension   = instance
+operator    = 5
+unit        = >
+window      = 3
+warning     = 10
+critical    = DiskQueueDepthLogVolume
+
+[metric.aws.cloudwatch.RDS.FreeStorageSpaceLogVolume]
+collect     = false
+enabled     = false
+description = Log volume free storage
+engines     = all
+dimension   = instance
+operator    = <
+unit        = bytes
+window      = 3
+warning     = 5368709120
+critical    = 2147483648
+
+[metric.aws.cloudwatch.RDS.FreeLocalStorage]
+collect     = false
+enabled     = false
+description = NVMe local storage free
+engines     = all
+dimension   = instance
+operator    = <
+unit        = bytes
+window      = 3
+warning     = 10737418240
+critical    = 5368709120
+
+[metric.aws.cloudwatch.RDS.FreeLocalStoragePercent]
+collect     = false
+enabled     = false
+description = NVMe local storage free percent
+engines     = all
+dimension   = instance
+operator    = <
+unit        = %
+window      = 3
+warning     = 20
+critical    = 10
+
+[metric.aws.cloudwatch.RDS.ReadIOPSLogVolume]
+collect     = false
+enabled     = false
+description = Log volume read IOPS
+engines     = all
+dimension   = instance
+operator    = >
+unit        = iops
+window      = 3
+warning     = 1000
+critical    = 3000
+
+[metric.aws.cloudwatch.RDS.WriteIOPSLogVolume]
+collect     = false
+enabled     = false
+description = Log volume write IOPS
+engines     = all
+dimension   = instance
+operator    = >
+unit        = iops
+window      = 3
+warning     = 1000
+critical    = 3000
+
+[metric.aws.cloudwatch.RDS.ReadLatencyLogVolume]
+collect     = false
+enabled     = false
+description = Log volume read latency
+engines     = all
+dimension   = instance
+operator    = >
+unit        = s
+window      = 3
+warning     = 0.02
+critical    = 0.1
+
+[metric.aws.cloudwatch.RDS.WriteLatencyLogVolume]
+collect     = false
+enabled     = false
+description = Log volume write latency
+engines     = all
+dimension   = instance
+operator    = >
+unit        = s
+window      = 3
+warning     = 0.02
+critical    = 0.1
+
+[metric.aws.cloudwatch.RDS.ReadThroughputLogVolume]
+collect     = false
+enabled     = false
+description = Log volume read throughput
+engines     = all
+dimension   = instance
+operator    = >
+unit        = bytes/s
+window      = 3
+warning     = 52428800
+critical    = 104857600
+
+[metric.aws.cloudwatch.RDS.WriteThroughputLogVolume]
+collect     = false
+enabled     = false
+description = Log volume write throughput
+engines     = all
+dimension   = instance
+operator    = >
+unit        = bytes/s
+window      = 3
+warning     = 52428800
+critical    = 104857600
+
+[metric.aws.cloudwatch.RDS.ReadIOPSLocalStorage]
+collect     = false
+enabled     = false
+description = Local storage read IOPS
+engines     = all
+dimension   = instance
+operator    = >
+unit        = iops
+window      = 3
+warning     = 1000
+critical    = 3000
+
+[metric.aws.cloudwatch.RDS.WriteIOPSLocalStorage]
+collect     = false
+enabled     = false
+description = Local storage write IOPS
+engines     = all
+dimension   = instance
+operator    = >
+unit        = iops
+window      = 3
+warning     = 1000
+critical    = 3000
+
+[metric.aws.cloudwatch.RDS.ReadLatencyLocalStorage]
+collect     = false
+enabled     = false
+description = Local storage read latency
+engines     = all
+dimension   = instance
+operator    = >
+unit        = s
+window      = 3
+warning     = 0.02
+critical    = 0.1
+
+[metric.aws.cloudwatch.RDS.WriteLatencyLocalStorage]
+collect     = false
+enabled     = false
+description = Local storage write latency
+engines     = all
+dimension   = instance
+operator    = >
+unit        = s
+window      = 3
+warning     = 0.02
+critical    = 0.1
+
+[metric.aws.cloudwatch.RDS.ReadThroughputLocalStorage]
+collect     = false
+enabled     = false
+description = Local storage read throughput
+engines     = all
+dimension   = instance
+operator    = >
+unit        = bytes/s
+window      = 3
+warning     = 52428800
+critical    = 104857600
+
+[metric.aws.cloudwatch.RDS.WriteThroughputLocalStorage]
+collect     = false
+enabled     = false
+description = Local storage write throughput
+engines     = all
+dimension   = instance
+operator    = >
+unit        = bytes/s
+window      = 3
+warning     = 52428800
+critical    = 104857600
+
+[metric.aws.cloudwatch.RDS.BinLogDiskUsage]
+collect     = false
+enabled     = false
+description = MySQL binary log disk usage
+engines     = mysql,mariadb,aurora-mysql
+dimension   = instance
+operator    = >
+unit        = bytes
+window      = 3
+warning     = 5368709120
+critical    = 10737418240
+
+[metric.aws.cloudwatch.RDS.ConnectionAttempts]
+collect     = false
+enabled     = false
+description = MySQL connection attempts
+engines     = mysql,mariadb,aurora-mysql
+dimension   = instance
+operator    = 100
+unit        = >
+window      = 3
+warning     = 500
+critical    = ConnectionAttempts
+
+[metric.aws.cloudwatch.RDS.LoginFailures]
+collect     = false
+enabled     = false
+description = MySQL login failures
+engines     = mysql,mariadb,aurora-mysql
+dimension   = instance
+operator    = 10
+unit        = >
+window      = 3
+warning     = 50
+critical    = LoginFailures
+
+[metric.aws.cloudwatch.RDS.ReplicationChannelLag]
+collect     = false
+enabled     = false
+description = MySQL multi-source replication lag
+engines     = mysql,mariadb
+dimension   = instance
+operator    = >
+unit        = s
+window      = 3
+warning     = 30
+critical    = 120
+
+[metric.aws.cloudwatch.RDS.NumBinaryLogFiles]
+collect     = false
+enabled     = false
+description = MySQL binary log file count
+engines     = mysql,mariadb,aurora-mysql
+dimension   = instance
+operator    = 100
+unit        = >
+window      = 3
+warning     = 200
+critical    = NumBinaryLogFiles
+
+[metric.aws.cloudwatch.RDS.SumBinaryLogSize]
+collect     = false
+enabled     = false
+description = MySQL binary log total size
+engines     = mysql,mariadb,aurora-mysql
+dimension   = instance
+operator    = >
+unit        = bytes
+window      = 3
+warning     = 10737418240
+critical    = 21474836480
+
+[metric.aws.cloudwatch.RDS.CheckpointLag]
+collect     = false
+enabled     = false
+description = PostgreSQL checkpoint lag
+engines     = postgresql,aurora-postgresql
+dimension   = instance
+operator    = >
+unit        = s
+window      = 3
+warning     = 300
+critical    = 600
+
+[metric.aws.cloudwatch.RDS.MaximumUsedTransactionIDs]
+collect     = false
+enabled     = false
+description = PostgreSQL max used transaction IDs
+engines     = postgresql,aurora-postgresql
+dimension   = instance
+operator    = 1000000000
+unit        = >
+window      = 3
+warning     = 1500000000
+critical    = MaximumUsedTransactionIDs
+
+[metric.aws.cloudwatch.RDS.OldestLogicalReplicationSlotLag]
+collect     = false
+enabled     = false
+description = PostgreSQL logical replication slot lag
+engines     = postgresql,aurora-postgresql
+dimension   = instance
+operator    = >
+unit        = bytes
+window      = 3
+warning     = 1073741824
+critical    = 5368709120
+
+[metric.aws.cloudwatch.RDS.OldestReplicationSlotLag]
+collect     = false
+enabled     = false
+description = PostgreSQL replication slot lag
+engines     = postgresql,aurora-postgresql
+dimension   = instance
+operator    = >
+unit        = bytes
+window      = 3
+warning     = 1073741824
+critical    = 5368709120
+
+[metric.aws.cloudwatch.RDS.ReplicationSlotDiskUsage]
+collect     = false
+enabled     = false
+description = PostgreSQL replication slot disk usage
+engines     = postgresql,aurora-postgresql
+dimension   = instance
+operator    = >
+unit        = bytes
+window      = 3
+warning     = 5368709120
+critical    = 10737418240
+
+[metric.aws.cloudwatch.RDS.TransactionLogsDiskUsage]
+collect     = false
+enabled     = false
+description = PostgreSQL transaction log disk usage
+engines     = postgresql,aurora-postgresql
+dimension   = instance
+operator    = >
+unit        = bytes
+window      = 3
+warning     = 5368709120
+critical    = 10737418240
+
+[metric.aws.cloudwatch.RDS.TransactionLogsGeneration]
+collect     = false
+enabled     = false
+description = PostgreSQL transaction log generation rate
+engines     = postgresql,aurora-postgresql
+dimension   = instance
+operator    = >
+unit        = bytes/s
+window      = 3
+warning     = 10485760
+critical    = 52428800
+
+[metric.aws.cloudwatch.RDS.FailedSQLServerAgentJobsCount]
+collect     = false
+enabled     = false
+description = SQL Server failed agent jobs
+engines     = sqlserver
+dimension   = instance
+operator    = >
+unit        = /min
+window      = 3
+warning     = 1
+critical    = 5
+
+[metric.aws.cloudwatch.RDS.TempDbAvailableDataSpace]
+collect     = false
+enabled     = false
+description = SQL Server tempdb data space
+engines     = sqlserver
+dimension   = instance
+operator    = <
+unit        = bytes
+window      = 3
+warning     = 1073741824
+critical    = 536870912
+
+[metric.aws.cloudwatch.RDS.TempDbAvailableLogSpace]
+collect     = false
+enabled     = false
+description = SQL Server tempdb log space
+engines     = sqlserver
+dimension   = instance
+operator    = <
+unit        = bytes
+window      = 3
+warning     = 1073741824
+critical    = 536870912
+
+[metric.aws.cloudwatch.RDS.TempDbDataFileUsage]
+collect     = false
+enabled     = false
+description = SQL Server tempdb data file usage
+engines     = sqlserver
+dimension   = instance
+operator    = >
+unit        = %
+window      = 3
+warning     = 80
+critical    = 95
+
+[metric.aws.cloudwatch.RDS.TempDbLogFileUsage]
+collect     = false
+enabled     = false
+description = SQL Server tempdb log file usage
+engines     = sqlserver
+dimension   = instance
+operator    = >
+unit        = %
+window      = 3
+warning     = 80
+critical    = 95
+
+[metric.aws.cloudwatch.RDS.Aurora_pq_request_attempted]
+collect     = false
+enabled     = false
+description = Aurora parallel query: Aurora_pq_request_attempted
+engines     = aurora-mysql
+dimension   = instance
+operator    = Aurora_pq_request_attempted
+unit        = >
+window      = 3
+
+[metric.aws.cloudwatch.RDS.Aurora_pq_request_chosen_pk_range_scan]
+collect     = false
+enabled     = false
+description = Aurora parallel query: Aurora_pq_request_chosen_pk_range_scan
+engines     = aurora-mysql
+dimension   = instance
+operator    = Aurora_pq_request_chosen_pk_range_scan
+unit        = >
+window      = 3
+
+[metric.aws.cloudwatch.RDS.Aurora_pq_request_executed]
+collect     = false
+enabled     = false
+description = Aurora parallel query: Aurora_pq_request_executed
+engines     = aurora-mysql
+dimension   = instance
+operator    = Aurora_pq_request_executed
+unit        = >
+window      = 3
+
+[metric.aws.cloudwatch.RDS.Aurora_pq_request_failed]
+collect     = false
+enabled     = false
+description = Aurora parallel query: Aurora_pq_request_failed
+engines     = aurora-mysql
+dimension   = instance
+operator    = Aurora_pq_request_failed
+unit        = >
+window      = 3
+
+[metric.aws.cloudwatch.RDS.Aurora_pq_request_in_progress]
+collect     = false
+enabled     = false
+description = Aurora parallel query: Aurora_pq_request_in_progress
+engines     = aurora-mysql
+dimension   = instance
+operator    = Aurora_pq_request_in_progress
+unit        = >
+window      = 3
+
+[metric.aws.cloudwatch.RDS.Aurora_pq_request_not_chosen]
+collect     = false
+enabled     = false
+description = Aurora parallel query: Aurora_pq_request_not_chosen
+engines     = aurora-mysql
+dimension   = instance
+operator    = Aurora_pq_request_not_chosen
+unit        = >
+window      = 3
+
+[metric.aws.cloudwatch.RDS.Aurora_pq_request_not_chosen_below_min_rows]
+collect     = false
+enabled     = false
+description = Aurora parallel query: Aurora_pq_request_not_chosen_below_min_rows
+engines     = aurora-mysql
+dimension   = instance
+operator    = Aurora_pq_request_not_chosen_below_min_rows
+unit        = >
+window      = 3
+
+[metric.aws.cloudwatch.RDS.Aurora_pq_request_not_chosen_column_bit]
+collect     = false
+enabled     = false
+description = Aurora parallel query: Aurora_pq_request_not_chosen_column_bit
+engines     = aurora-mysql
+dimension   = instance
+operator    = Aurora_pq_request_not_chosen_column_bit
+unit        = >
+window      = 3
+
+[metric.aws.cloudwatch.RDS.Aurora_pq_request_not_chosen_column_geometry]
+collect     = false
+enabled     = false
+description = Aurora parallel query: Aurora_pq_request_not_chosen_column_geometry
+engines     = aurora-mysql
+dimension   = instance
+operator    = Aurora_pq_request_not_chosen_column_geometry
+unit        = >
+window      = 3
+
+[metric.aws.cloudwatch.RDS.Aurora_pq_request_not_chosen_column_lob]
+collect     = false
+enabled     = false
+description = Aurora parallel query: Aurora_pq_request_not_chosen_column_lob
+engines     = aurora-mysql
+dimension   = instance
+operator    = Aurora_pq_request_not_chosen_column_lob
+unit        = >
+window      = 3
+
+[metric.aws.cloudwatch.RDS.Aurora_pq_request_not_chosen_column_virtual]
+collect     = false
+enabled     = false
+description = Aurora parallel query: Aurora_pq_request_not_chosen_column_virtual
+engines     = aurora-mysql
+dimension   = instance
+operator    = Aurora_pq_request_not_chosen_column_virtual
+unit        = >
+window      = 3
+
+[metric.aws.cloudwatch.RDS.Aurora_pq_request_not_chosen_custom_charset]
+collect     = false
+enabled     = false
+description = Aurora parallel query: Aurora_pq_request_not_chosen_custom_charset
+engines     = aurora-mysql
+dimension   = instance
+operator    = Aurora_pq_request_not_chosen_custom_charset
+unit        = >
+window      = 3
+
+[metric.aws.cloudwatch.RDS.Aurora_pq_request_not_chosen_few_pages_outside_buffer_pool]
+collect     = false
+enabled     = false
+description = Aurora parallel query: Aurora_pq_request_not_chosen_few_pages_outside_buffer_pool
+engines     = aurora-mysql
+dimension   = instance
+operator    = Aurora_pq_request_not_chosen_few_pages_outside_buffer_pool
+unit        = >
+window      = 3
+
+[metric.aws.cloudwatch.RDS.Aurora_pq_request_not_chosen_full_text_index]
+collect     = false
+enabled     = false
+description = Aurora parallel query: Aurora_pq_request_not_chosen_full_text_index
+engines     = aurora-mysql
+dimension   = instance
+operator    = Aurora_pq_request_not_chosen_full_text_index
+unit        = >
+window      = 3
+
+[metric.aws.cloudwatch.RDS.Aurora_pq_request_not_chosen_high_buffer_pool_pct]
+collect     = false
+enabled     = false
+description = Aurora parallel query: Aurora_pq_request_not_chosen_high_buffer_pool_pct
+engines     = aurora-mysql
+dimension   = instance
+operator    = Aurora_pq_request_not_chosen_high_buffer_pool_pct
+unit        = >
+window      = 3
+
+[metric.aws.cloudwatch.RDS.Aurora_pq_request_not_chosen_index_hint]
+collect     = false
+enabled     = false
+description = Aurora parallel query: Aurora_pq_request_not_chosen_index_hint
+engines     = aurora-mysql
+dimension   = instance
+operator    = Aurora_pq_request_not_chosen_index_hint
+unit        = >
+window      = 3
+
+[metric.aws.cloudwatch.RDS.Aurora_pq_request_not_chosen_innodb_table_format]
+collect     = false
+enabled     = false
+description = Aurora parallel query: Aurora_pq_request_not_chosen_innodb_table_format
+engines     = aurora-mysql
+dimension   = instance
+operator    = Aurora_pq_request_not_chosen_innodb_table_format
+unit        = >
+window      = 3
+
+[metric.aws.cloudwatch.RDS.Aurora_pq_request_not_chosen_instant_ddl]
+collect     = false
+enabled     = false
+description = Aurora parallel query: Aurora_pq_request_not_chosen_instant_ddl
+engines     = aurora-mysql
+dimension   = instance
+operator    = Aurora_pq_request_not_chosen_instant_ddl
+unit        = >
+window      = 3
+
+[metric.aws.cloudwatch.RDS.Aurora_pq_request_not_chosen_long_trx]
+collect     = false
+enabled     = false
+description = Aurora parallel query: Aurora_pq_request_not_chosen_long_trx
+engines     = aurora-mysql
+dimension   = instance
+operator    = Aurora_pq_request_not_chosen_long_trx
+unit        = >
+window      = 3
+
+[metric.aws.cloudwatch.RDS.Aurora_pq_request_not_chosen_no_where_clause]
+collect     = false
+enabled     = false
+description = Aurora parallel query: Aurora_pq_request_not_chosen_no_where_clause
+engines     = aurora-mysql
+dimension   = instance
+operator    = Aurora_pq_request_not_chosen_no_where_clause
+unit        = >
+window      = 3
+
+[metric.aws.cloudwatch.RDS.Aurora_pq_request_not_chosen_range_scan]
+collect     = false
+enabled     = false
+description = Aurora parallel query: Aurora_pq_request_not_chosen_range_scan
+engines     = aurora-mysql
+dimension   = instance
+operator    = Aurora_pq_request_not_chosen_range_scan
+unit        = >
+window      = 3
+
+[metric.aws.cloudwatch.RDS.Aurora_pq_request_not_chosen_row_length_too_long]
+collect     = false
+enabled     = false
+description = Aurora parallel query: Aurora_pq_request_not_chosen_row_length_too_long
+engines     = aurora-mysql
+dimension   = instance
+operator    = Aurora_pq_request_not_chosen_row_length_too_long
+unit        = >
+window      = 3
+
+[metric.aws.cloudwatch.RDS.Aurora_pq_request_not_chosen_small_table]
+collect     = false
+enabled     = false
+description = Aurora parallel query: Aurora_pq_request_not_chosen_small_table
+engines     = aurora-mysql
+dimension   = instance
+operator    = Aurora_pq_request_not_chosen_small_table
+unit        = >
+window      = 3
+
+[metric.aws.cloudwatch.RDS.Aurora_pq_request_not_chosen_temporary_table]
+collect     = false
+enabled     = false
+description = Aurora parallel query: Aurora_pq_request_not_chosen_temporary_table
+engines     = aurora-mysql
+dimension   = instance
+operator    = Aurora_pq_request_not_chosen_temporary_table
+unit        = >
+window      = 3
+
+[metric.aws.cloudwatch.RDS.Aurora_pq_request_not_chosen_tx_isolation]
+collect     = false
+enabled     = false
+description = Aurora parallel query: Aurora_pq_request_not_chosen_tx_isolation
+engines     = aurora-mysql
+dimension   = instance
+operator    = Aurora_pq_request_not_chosen_tx_isolation
+unit        = >
+window      = 3
+
+[metric.aws.cloudwatch.RDS.Aurora_pq_request_not_chosen_unsupported_access]
+collect     = false
+enabled     = false
+description = Aurora parallel query: Aurora_pq_request_not_chosen_unsupported_access
+engines     = aurora-mysql
+dimension   = instance
+operator    = Aurora_pq_request_not_chosen_unsupported_access
+unit        = >
+window      = 3
+
+[metric.aws.cloudwatch.RDS.Aurora_pq_request_not_chosen_unsupported_storage_type]
+collect     = false
+enabled     = false
+description = Aurora parallel query: Aurora_pq_request_not_chosen_unsupported_storage_type
+engines     = aurora-mysql
+dimension   = instance
+operator    = Aurora_pq_request_not_chosen_unsupported_storage_type
+unit        = >
+window      = 3
+
+[metric.aws.cloudwatch.RDS.Aurora_pq_request_not_chosen_update_delete_stmts]
+collect     = false
+enabled     = false
+description = Aurora parallel query: Aurora_pq_request_not_chosen_update_delete_stmts
+engines     = aurora-mysql
+dimension   = instance
+operator    = Aurora_pq_request_not_chosen_update_delete_stmts
+unit        = >
+window      = 3
+
+[metric.aws.cloudwatch.RDS.Aurora_pq_request_throttled]
+collect     = false
+enabled     = false
+description = Aurora parallel query: Aurora_pq_request_throttled
+engines     = aurora-mysql
+dimension   = instance
+operator    = Aurora_pq_request_throttled
+unit        = >
+window      = 3
+
+[metric.aws.cloudwatch.Aurora.AuroraReplicaLag]
+collect     = false
+enabled     = false
+description = Aurora replica lag
+engines     = aurora
+dimension   = instance
+operator    = >
+unit        = ms
+window      = 3
+warning     = 1000
+critical    = 5000
+
+[metric.aws.cloudwatch.Aurora.AuroraReplicaLagMaximum]
+collect     = false
+enabled     = false
+description = Aurora max replica lag
+engines     = aurora
+dimension   = instance
+operator    = >
+unit        = ms
+window      = 3
+warning     = 1000
+critical    = 5000
+
+[metric.aws.cloudwatch.Aurora.AuroraReplicaLagMinimum]
+collect     = false
+enabled     = false
+description = Aurora min replica lag
+engines     = aurora
+dimension   = instance
+operator    = >
+unit        = ms
+window      = 3
+warning     = 500
+critical    = 2000
+
+[metric.aws.cloudwatch.Aurora.BufferCacheHitRatio]
+collect     = false
+enabled     = false
+description = Aurora buffer cache hit ratio
+engines     = aurora
+dimension   = instance
+operator    = <
+unit        = %
+window      = 3
+warning     = 95
+critical    = 90
+
+[metric.aws.cloudwatch.Aurora.Deadlocks]
+collect     = false
+enabled     = false
+description = Aurora deadlocks per second
+engines     = aurora
+dimension   = instance
+operator    = >
+unit        = /s
+window      = 3
+warning     = 1
+critical    = 5
+
+[metric.aws.cloudwatch.Aurora.DMLLatency]
+collect     = false
+enabled     = false
+description = Aurora DML latency
+engines     = aurora
+dimension   = instance
+operator    = >
+unit        = ms
+window      = 3
+warning     = 20
+critical    = 100
+
+[metric.aws.cloudwatch.Aurora.SelectLatency]
+collect     = false
+enabled     = false
+description = Aurora select latency
+engines     = aurora
+dimension   = instance
+operator    = >
+unit        = ms
+window      = 3
+warning     = 20
+critical    = 100
+
+[metric.aws.cloudwatch.Aurora.CommitLatency]
+collect     = false
+enabled     = false
+description = Aurora commit latency
+engines     = aurora
+dimension   = instance
+operator    = >
+unit        = ms
+window      = 3
+warning     = 20
+critical    = 100
+
+[metric.aws.cloudwatch.Aurora.InsertLatency]
+collect     = false
+enabled     = false
+description = Aurora insert latency
+engines     = aurora
+dimension   = instance
+operator    = >
+unit        = ms
+window      = 3
+warning     = 20
+critical    = 100
+
+[metric.aws.cloudwatch.Aurora.UpdateLatency]
+collect     = false
+enabled     = false
+description = Aurora update latency
+engines     = aurora
+dimension   = instance
+operator    = >
+unit        = ms
+window      = 3
+warning     = 20
+critical    = 100
+
+[metric.aws.cloudwatch.Aurora.DeleteLatency]
+collect     = false
+enabled     = false
+description = Aurora delete latency
+engines     = aurora
+dimension   = instance
+operator    = >
+unit        = ms
+window      = 3
+warning     = 20
+critical    = 100
+
+[metric.aws.cloudwatch.Aurora.DDLLatency]
+collect     = false
+enabled     = false
+description = Aurora DDL latency
+engines     = aurora
+dimension   = instance
+operator    = >
+unit        = ms
+window      = 3
+warning     = 50
+critical    = 200
+
+[metric.aws.cloudwatch.Aurora.DMLThroughput]
+collect     = false
+enabled     = false
+description = Aurora DML throughput
+engines     = aurora
+dimension   = instance
+operator    = <
+unit        = /s
+window      = 3
+warning     = 10
+critical    = 1
+
+[metric.aws.cloudwatch.Aurora.SelectThroughput]
+collect     = false
+enabled     = false
+description = Aurora select throughput
+engines     = aurora
+dimension   = instance
+operator    = <
+unit        = /s
+window      = 3
+warning     = 10
+critical    = 1
+
+[metric.aws.cloudwatch.Aurora.InsertThroughput]
+collect     = false
+enabled     = false
+description = Aurora insert throughput
+engines     = aurora
+dimension   = instance
+operator    = <
+unit        = /s
+window      = 3
+warning     = 10
+critical    = 1
+
+[metric.aws.cloudwatch.Aurora.UpdateThroughput]
+collect     = false
+enabled     = false
+description = Aurora update throughput
+engines     = aurora
+dimension   = instance
+operator    = <
+unit        = /s
+window      = 3
+warning     = 10
+critical    = 1
+
+[metric.aws.cloudwatch.Aurora.DeleteThroughput]
+collect     = false
+enabled     = false
+description = Aurora delete throughput
+engines     = aurora
+dimension   = instance
+operator    = <
+unit        = /s
+window      = 3
+warning     = 10
+critical    = 1
+
+[metric.aws.cloudwatch.Aurora.CommitThroughput]
+collect     = false
+enabled     = false
+description = Aurora commit throughput
+engines     = aurora
+dimension   = instance
+operator    = <
+unit        = /s
+window      = 3
+warning     = 10
+critical    = 1
+
+[metric.aws.cloudwatch.Aurora.DDLThroughput]
+collect     = false
+enabled     = false
+description = Aurora DDL throughput
+engines     = aurora
+dimension   = instance
+operator    = <
+unit        = /s
+window      = 3
+warning     = 1
+critical    = 0.1
+
+[metric.aws.cloudwatch.Aurora.ActiveTransactions]
+collect     = false
+enabled     = false
+description = Aurora active transactions
+engines     = aurora
+dimension   = instance
+operator    = >
+unit        = /s
+window      = 3
+warning     = 50
+critical    = 100
+
+[metric.aws.cloudwatch.Aurora.NumActiveTransactions]
+collect     = false
+enabled     = false
+description = Aurora num active transactions
+engines     = aurora
+dimension   = instance
+operator    = 50
+unit        = >
+window      = 3
+warning     = 100
+critical    = NumActiveTransactions
+
+[metric.aws.cloudwatch.Aurora.BlockedTransactions]
+collect     = false
+enabled     = false
+description = Aurora blocked transactions
+engines     = aurora
+dimension   = instance
+operator    = >
+unit        = /s
+window      = 3
+warning     = 1
+critical    = 5
+
+[metric.aws.cloudwatch.Aurora.ACUUtilization]
+collect     = false
+enabled     = false
+description = Aurora Serverless ACU utilisation
+engines     = aurora
+dimension   = instance
+operator    = >
+unit        = %
+window      = 3
+warning     = 80
+critical    = 95
+
+[metric.aws.cloudwatch.Aurora.AuroraBinlogReplicaLag]
+collect     = false
+enabled     = false
+description = Aurora binlog replica lag
+engines     = aurora
+dimension   = instance
+operator    = >
+unit        = s
+window      = 3
+warning     = 30
+critical    = 120
+
+[metric.aws.cloudwatch.Aurora.AuroraMemoryHealthState]
+collect     = false
+enabled     = false
+description = Aurora memory health state
+engines     = aurora
+dimension   = instance
+operator    = 5
+unit        = >=
+window      = 3
+warning     = 10
+critical    = AuroraMemoryHealthState
+
+[metric.aws.cloudwatch.Aurora.AuroraMemoryNumDeclinedSqlTotal]
+collect     = false
+enabled     = false
+description = Aurora OOM declined SQL count
+engines     = aurora
+dimension   = instance
+operator    = 1
+unit        = >
+window      = 3
+warning     = 10
+critical    = AuroraMemoryNumDeclinedSqlTotal
+
+[metric.aws.cloudwatch.Aurora.AuroraMemoryNumKillConnTotal]
+collect     = false
+enabled     = false
+description = Aurora OOM killed connections
+engines     = aurora
+dimension   = instance
+operator    = 1
+unit        = >
+window      = 3
+warning     = 10
+critical    = AuroraMemoryNumKillConnTotal
+
+[metric.aws.cloudwatch.Aurora.AuroraMemoryNumKillQueryTotal]
+collect     = false
+enabled     = false
+description = Aurora OOM killed queries
+engines     = aurora
+dimension   = instance
+operator    = 1
+unit        = >
+window      = 3
+warning     = 10
+critical    = AuroraMemoryNumKillQueryTotal
+
+[metric.aws.cloudwatch.Aurora.AuroraMillisecondsSpentInOomRecovery]
+collect     = false
+enabled     = false
+description = Aurora OOM recovery time
+engines     = aurora
+dimension   = instance
+operator    = >
+unit        = ms
+window      = 3
+warning     = 1000
+critical    = 5000
+
+[metric.aws.cloudwatch.Aurora.AuroraNumOomRecoverySuccessful]
+collect     = false
+enabled     = false
+description = Aurora OOM recovery successes
+engines     = aurora
+dimension   = instance
+operator    = 0
+unit        = >
+window      = 3
+warning     = 5
+critical    = AuroraNumOomRecoverySuccessful
+
+[metric.aws.cloudwatch.Aurora.AuroraNumOomRecoveryTriggered]
+collect     = false
+enabled     = false
+description = Aurora OOM recovery triggers
+engines     = aurora
+dimension   = instance
+operator    = 1
+unit        = >
+window      = 3
+warning     = 5
+critical    = AuroraNumOomRecoveryTriggered
+
+[metric.aws.cloudwatch.Aurora.AuroraDMLRejectedWriterFull]
+collect     = false
+enabled     = false
+description = Aurora DML rejected writer full
+engines     = aurora
+dimension   = instance
+operator    = 1
+unit        = >
+window      = 3
+warning     = 10
+critical    = AuroraDMLRejectedWriterFull
+
+[metric.aws.cloudwatch.Aurora.AuroraSlowConnectionHandleCount]
+collect     = false
+enabled     = false
+description = Aurora slow connection handles
+engines     = aurora
+dimension   = instance
+operator    = 10
+unit        = >
+window      = 3
+warning     = 50
+critical    = AuroraSlowConnectionHandleCount
+
+[metric.aws.cloudwatch.Aurora.AuroraSlowHandshakeCount]
+collect     = false
+enabled     = false
+description = Aurora slow handshakes
+engines     = aurora
+dimension   = instance
+operator    = 10
+unit        = >
+window      = 3
+warning     = 50
+critical    = AuroraSlowHandshakeCount
+
+[metric.aws.cloudwatch.Aurora.AbortedClients]
+collect     = false
+enabled     = false
+description = Aurora aborted clients
+engines     = aurora
+dimension   = instance
+operator    = 10
+unit        = >
+window      = 3
+warning     = 50
+critical    = AbortedClients
+
+[metric.aws.cloudwatch.Aurora.EngineUptime]
+collect     = false
+enabled     = false
+description = Aurora engine uptime
+engines     = aurora
+dimension   = instance
+operator    = <
+unit        = s
+window      = 3
+warning     = 60
+critical    = 1
+
+[metric.aws.cloudwatch.Aurora.Queries]
+collect     = false
+enabled     = false
+description = Aurora queries per second
+engines     = aurora
+dimension   = instance
+operator    = <
+unit        = /s
+window      = 3
+warning     = 1
+critical    = 0.1
+
+[metric.aws.cloudwatch.Aurora.RowLockTime]
+collect     = false
+enabled     = false
+description = Aurora row lock time
+engines     = aurora
+dimension   = instance
+operator    = >
+unit        = ms
+window      = 3
+warning     = 100
+critical    = 500
+
+[metric.aws.cloudwatch.Aurora.RollbackSegmentHistoryListLength]
+collect     = false
+enabled     = false
+description = Aurora rollback segment history
+engines     = aurora
+dimension   = instance
+operator    = 1000
+unit        = >
+window      = 3
+warning     = 5000
+critical    = RollbackSegmentHistoryListLength
+
+[metric.aws.cloudwatch.Aurora.NumUndoRowOperations]
+collect     = false
+enabled     = false
+description = Aurora undo row operations
+engines     = aurora
+dimension   = instance
+operator    = 1000
+unit        = >
+window      = 3
+warning     = 5000
+critical    = NumUndoRowOperations
+
+[metric.aws.cloudwatch.Aurora.TransactionAgeMaximum]
+collect     = false
+enabled     = false
+description = Aurora max transaction age
+engines     = aurora
+dimension   = instance
+operator    = >
+unit        = s
+window      = 3
+warning     = 300
+critical    = 600
+
+[metric.aws.cloudwatch.Aurora.NetworkThroughput]
+collect     = false
+enabled     = false
+description = Aurora network throughput
+engines     = aurora
+dimension   = instance
+operator    = >
+unit        = bytes/s
+window      = 3
+warning     = 52428800
+critical    = 104857600
+
+[metric.aws.cloudwatch.Aurora.StorageNetworkThroughput]
+collect     = false
+enabled     = false
+description = Aurora storage network throughput
+engines     = aurora
+dimension   = instance
+operator    = >
+unit        = bytes/s
+window      = 3
+warning     = 52428800
+critical    = 104857600
+
+[metric.aws.cloudwatch.Aurora.StorageNetworkReceiveThroughput]
+collect     = false
+enabled     = false
+description = Aurora storage network receive
+engines     = aurora
+dimension   = instance
+operator    = >
+unit        = bytes/s
+window      = 3
+warning     = 52428800
+critical    = 104857600
+
+[metric.aws.cloudwatch.Aurora.StorageNetworkTransmitThroughput]
+collect     = false
+enabled     = false
+description = Aurora storage network transmit
+engines     = aurora
+dimension   = instance
+operator    = >
+unit        = bytes/s
+window      = 3
+warning     = 52428800
+critical    = 104857600
+
+[metric.aws.cloudwatch.Aurora.TempStorageIOPS]
+collect     = false
+enabled     = false
+description = Aurora temp storage IOPS
+engines     = aurora
+dimension   = instance
+operator    = >
+unit        = iops
+window      = 3
+warning     = 1000
+critical    = 3000
+
+[metric.aws.cloudwatch.Aurora.TempStorageThroughput]
+collect     = false
+enabled     = false
+description = Aurora temp storage throughput
+engines     = aurora
+dimension   = instance
+operator    = >
+unit        = bytes/s
+window      = 3
+warning     = 52428800
+critical    = 104857600
+
+[metric.aws.cloudwatch.Aurora.DBLoad]
+collect     = false
+enabled     = false
+description = Aurora DB load
+engines     = aurora
+dimension   = instance
+operator    = >
+unit        = sessions
+window      = 3
+warning     = 2
+critical    = 4
+
+[metric.aws.cloudwatch.Aurora.DBLoadCPU]
+collect     = false
+enabled     = false
+description = Aurora DB load CPU
+engines     = aurora
+dimension   = instance
+operator    = >
+unit        = sessions
+window      = 3
+warning     = 2
+critical    = 4
+
+[metric.aws.cloudwatch.Aurora.DBLoadNonCPU]
+collect     = false
+enabled     = false
+description = Aurora DB load non-CPU
+engines     = aurora
+dimension   = instance
+operator    = >
+unit        = sessions
+window      = 3
+warning     = 2
+critical    = 4
+
+[metric.aws.cloudwatch.Aurora.DBLoadRelativeToNumVCPUs]
+collect     = false
+enabled     = false
+description = Aurora DB load per vCPU
+engines     = aurora
+dimension   = instance
+operator    = 1
+unit        = >
+window      = 3
+warning     = 2
+critical    = DBLoadRelativeToNumVCPUs
+
+[metric.aws.cloudwatch.Aurora.ForwardingReplicaDMLLatency]
+collect     = false
+enabled     = false
+description = Aurora forwarding replica DML latency
+engines     = aurora
+dimension   = instance
+operator    = >
+unit        = ms
+window      = 3
+warning     = 20
+critical    = 100
+
+[metric.aws.cloudwatch.Aurora.ForwardingReplicaDMLThroughput]
+collect     = false
+enabled     = false
+description = Aurora forwarding replica DML throughput
+engines     = aurora
+dimension   = instance
+operator    = <
+unit        = /s
+window      = 3
+warning     = 10
+critical    = 1
+
+[metric.aws.cloudwatch.Aurora.ForwardingReplicaOpenSessions]
+collect     = false
+enabled     = false
+description = Aurora forwarding replica open sessions
+engines     = aurora
+dimension   = instance
+operator    = 50
+unit        = >
+window      = 3
+warning     = 100
+critical    = ForwardingReplicaOpenSessions
+
+[metric.aws.cloudwatch.Aurora.ForwardingReplicaReadWaitLatency]
+collect     = false
+enabled     = false
+description = Aurora forwarding replica read wait latency
+engines     = aurora
+dimension   = instance
+operator    = >
+unit        = ms
+window      = 3
+warning     = 20
+critical    = 100
+
+[metric.aws.cloudwatch.Aurora.ForwardingReplicaReadWaitThroughput]
+collect     = false
+enabled     = false
+description = Aurora forwarding replica read wait throughput
+engines     = aurora
+dimension   = instance
+operator    = <
+unit        = /s
+window      = 3
+warning     = 10
+critical    = 1
+
+[metric.aws.cloudwatch.Aurora.ForwardingReplicaSelectLatency]
+collect     = false
+enabled     = false
+description = Aurora forwarding replica select latency
+engines     = aurora
+dimension   = instance
+operator    = >
+unit        = ms
+window      = 3
+warning     = 20
+critical    = 100
+
+[metric.aws.cloudwatch.Aurora.ForwardingReplicaSelectThroughput]
+collect     = false
+enabled     = false
+description = Aurora forwarding replica select throughput
+engines     = aurora
+dimension   = instance
+operator    = <
+unit        = /s
+window      = 3
+warning     = 10
+critical    = 1
+
+[metric.aws.cloudwatch.Aurora.ForwardingWriterDMLLatency]
+collect     = false
+enabled     = false
+description = Aurora forwarding writer DML latency
+engines     = aurora
+dimension   = instance
+operator    = >
+unit        = ms
+window      = 3
+warning     = 20
+critical    = 100
+
+[metric.aws.cloudwatch.Aurora.ForwardingWriterDMLThroughput]
+collect     = false
+enabled     = false
+description = Aurora forwarding writer DML throughput
+engines     = aurora
+dimension   = instance
+operator    = <
+unit        = /s
+window      = 3
+warning     = 10
+critical    = 1
+
+[metric.aws.cloudwatch.Aurora.ForwardingWriterOpenSessions]
+collect     = false
+enabled     = false
+description = Aurora forwarding writer open sessions
+engines     = aurora
+dimension   = instance
+operator    = 50
+unit        = >
+window      = 3
+warning     = 100
+critical    = ForwardingWriterOpenSessions
+
+[metric.aws.cloudwatch.Aurora.VolumeBytesUsed]
+collect     = false
+enabled     = false
+description = Aurora cluster storage used
+engines     = aurora
+dimension   = cluster
+operator    = >
+unit        = bytes
+window      = 3
+warning     = 1099511627776
+critical    = 1207959552000
+
+[metric.aws.cloudwatch.Aurora.VolumeReadIOPs]
+collect     = false
+enabled     = false
+description = Aurora cluster billed read IOPS
+engines     = aurora
+dimension   = cluster
+operator    = >
+unit        = iops
+window      = 3
+warning     = 10000
+critical    = 30000
+
+[metric.aws.cloudwatch.Aurora.VolumeWriteIOPs]
+collect     = false
+enabled     = false
+description = Aurora cluster write IOPS
+engines     = aurora
+dimension   = cluster
+operator    = >
+unit        = iops
+window      = 3
+warning     = 10000
+critical    = 30000
+
+[metric.aws.cloudwatch.Aurora.AuroraVolumeBytesLeftTotal]
+collect     = false
+enabled     = false
+description = Aurora cluster storage remaining
+engines     = aurora
+dimension   = cluster
+operator    = <
+unit        = bytes
+window      = 3
+warning     = 107374182400
+critical    = 53687091200
+
+[metric.aws.cloudwatch.Aurora.ServerlessDatabaseCapacity]
+collect     = false
+enabled     = false
+description = Aurora Serverless capacity ACU
+engines     = aurora
+dimension   = cluster
+operator    = >
+unit        = ACU
+window      = 3
+warning     = 16
+critical    = 32
+
+[metric.aws.cloudwatch.Aurora.BackupRetentionPeriodStorageUsed]
+collect     = false
+enabled     = false
+description = Aurora backup retention storage
+engines     = aurora
+dimension   = cluster
+operator    = >
+unit        = bytes
+window      = 3
+warning     = 107374182400
+critical    = 536870912000
+
+[metric.aws.cloudwatch.Aurora.SnapshotStorageUsed]
+collect     = false
+enabled     = false
+description = Aurora snapshot storage used
+engines     = aurora
+dimension   = cluster
+operator    = >
+unit        = bytes
+window      = 3
+warning     = 107374182400
+critical    = 536870912000
+
+[metric.aws.cloudwatch.Aurora.TotalBackupStorageBilled]
+collect     = false
+enabled     = false
+description = Aurora total backup storage billed
+engines     = aurora
+dimension   = cluster
+operator    = >
+unit        = bytes
+window      = 3
+warning     = 107374182400
+critical    = 536870912000
+
+[metric.aws.cloudwatch.Aurora.AuroraGlobalDBDataTransferBytes]
+collect     = false
+enabled     = false
+description = Aurora Global DB data transfer
+engines     = aurora
+dimension   = cluster
+operator    = >
+unit        = bytes
+window      = 3
+warning     = 1073741824
+critical    = 5368709120
+
+[metric.aws.cloudwatch.Aurora.AuroraGlobalDBProgressLag]
+collect     = false
+enabled     = false
+description = Aurora Global DB progress lag
+engines     = aurora
+dimension   = cluster
+operator    = >
+unit        = ms
+window      = 3
+warning     = 1000
+critical    = 5000
+
+[metric.aws.cloudwatch.Aurora.AuroraGlobalDBReplicatedWriteIO]
+collect     = false
+enabled     = false
+description = Aurora Global DB replicated write IO
+engines     = aurora
+dimension   = cluster
+operator    = 10000
+unit        = >
+window      = 3
+warning     = 30000
+critical    = AuroraGlobalDBReplicatedWriteIO
+
+[metric.aws.cloudwatch.Aurora.AuroraGlobalDBReplicationLag]
+collect     = false
+enabled     = false
+description = Aurora Global DB replication lag
+engines     = aurora
+dimension   = cluster
+operator    = >
+unit        = ms
+window      = 3
+warning     = 1000
+critical    = 5000
+
+[metric.aws.cloudwatch.Aurora.AuroraGlobalDBRPOLag]
+collect     = false
+enabled     = false
+description = Aurora Global DB RPO lag
+engines     = aurora
+dimension   = cluster
+operator    = >
+unit        = ms
+window      = 3
+warning     = 1000
+critical    = 5000
+
+[metric.aws.cloudwatch.Aurora.BacktrackChangeRecordsCreationRate]
+collect     = false
+enabled     = false
+description = Aurora backtrack creation rate
+engines     = aurora
+dimension   = cluster
+operator    = >
+unit        = /5min
+window      = 3
+warning     = 1000
+critical    = 5000
+
+[metric.aws.cloudwatch.Aurora.BacktrackChangeRecordsStored]
+collect     = false
+enabled     = false
+description = Aurora backtrack records stored
+engines     = aurora
+dimension   = cluster
+operator    = 100000
+unit        = >
+window      = 3
+warning     = 500000
+critical    = BacktrackChangeRecordsStored
+
+[metric.aws.cloudwatch.Aurora.BacktrackWindowActual]
+collect     = false
+enabled     = false
+description = Aurora backtrack window actual
+engines     = aurora
+dimension   = cluster
+operator    = <
+unit        = min
+window      = 3
+warning     = 5
+critical    = 1
+
+[metric.aws.cloudwatch.Aurora.BacktrackWindowAlert]
+collect     = false
+enabled     = false
+description = Aurora backtrack window alert
+engines     = aurora
+dimension   = cluster
+operator    = 1
+unit        = >
+window      = 3
+warning     = 5
+critical    = BacktrackWindowAlert
+
+# =============================================================================
+# CATEGORY 2 - PERFORMANCE INSIGHTS (aws pi get-resource-metrics)
+# Requires Performance Insights enabled on the RDS instance.
+# Regenerate: bash setup/assemble_thresholds_ini.sh
+# =============================================================================
+
+[metric.aws.pi.RDS.db_load]
+collect     = false
+enabled     = false
+description = DB load (avg active sessions)
+metric_name = db.load.avg
+engines     = mysql,mariadb,postgresql,oracle,sqlserver,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = sessions
+window      = 3
+warning     = 2
+critical    = 4
+
+[metric.aws.pi.RDS.db_load_cpu]
+collect     = false
+enabled     = false
+description = DB load on CPU
+metric_name = db.load.avg.cpu
+engines     = mysql,mariadb,postgresql,oracle,sqlserver,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = sessions
+window      = 3
+warning     = 2
+critical    = 4
+
+[metric.aws.pi.RDS.db_load_non_cpu]
+collect     = false
+enabled     = false
+description = DB load non-CPU wait
+metric_name = db.load.avg.non_cpu
+engines     = mysql,mariadb,postgresql,oracle,sqlserver,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = sessions
+window      = 3
+warning     = 2
+critical    = 4
+
+[metric.aws.pi.RDS.db_sampledload]
+collect     = false
+enabled     = false
+description = DB sampled load (raw sessions)
+metric_name = db.sampledload.avg
+engines     = mysql,mariadb,postgresql,oracle,sqlserver,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = sessions
+window      = 3
+warning     = 2
+critical    = 4
+
+[metric.aws.pi.RDS.os_memory_active_avg]
+collect     = false
+enabled     = false
+description = PI OS memory active
+metric_name = os.memory.active.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = KB
+window      = 3
+
+[metric.aws.pi.RDS.os_memory_buffers_avg]
+collect     = false
+enabled     = false
+description = PI OS memory buffers
+metric_name = os.memory.buffers.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = KB
+window      = 3
+
+[metric.aws.pi.RDS.os_memory_cached_avg]
+collect     = false
+enabled     = false
+description = PI OS memory cached
+metric_name = os.memory.cached.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = KB
+window      = 3
+
+[metric.aws.pi.RDS.os_memory_db_cache_avg]
+collect     = false
+enabled     = false
+description = PI OS DB cache memory
+metric_name = os.memory.db.cache.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = bytes
+window      = 3
+
+[metric.aws.pi.RDS.os_memory_db_residentSetSize_avg]
+collect     = false
+enabled     = false
+description = PI OS DB resident set size
+metric_name = os.memory.db.residentSetSize.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = bytes
+window      = 3
+
+[metric.aws.pi.RDS.os_memory_db_swap_avg]
+collect     = false
+enabled     = false
+description = PI OS DB swap memory
+metric_name = os.memory.db.swap.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = bytes
+window      = 3
+
+[metric.aws.pi.RDS.os_memory_dirty_avg]
+collect     = false
+enabled     = false
+description = PI OS memory dirty
+metric_name = os.memory.dirty.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = KB
+window      = 3
+
+[metric.aws.pi.RDS.os_memory_free_avg]
+collect     = false
+enabled     = false
+description = PI OS memory free
+metric_name = os.memory.free.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = KB
+window      = 3
+
+[metric.aws.pi.RDS.os_memory_hugePagesFree_avg]
+collect     = false
+enabled     = false
+description = PI OS huge pages free
+metric_name = os.memory.hugePagesFree.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = pages
+window      = 3
+
+[metric.aws.pi.RDS.os_memory_hugePagesRsvd_avg]
+collect     = false
+enabled     = false
+description = PI OS huge pages reserved
+metric_name = os.memory.hugePagesRsvd.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = pages
+window      = 3
+
+[metric.aws.pi.RDS.os_memory_hugePagesSize_avg]
+collect     = false
+enabled     = false
+description = PI OS huge page size
+metric_name = os.memory.hugePagesSize.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = KB
+window      = 3
+
+[metric.aws.pi.RDS.os_memory_hugePagesSurp_avg]
+collect     = false
+enabled     = false
+description = PI OS huge pages surplus
+metric_name = os.memory.hugePagesSurp.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = pages
+window      = 3
+
+[metric.aws.pi.RDS.os_memory_hugePagesTotal_avg]
+collect     = false
+enabled     = false
+description = PI OS huge pages total
+metric_name = os.memory.hugePagesTotal.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = pages
+window      = 3
+
+[metric.aws.pi.RDS.os_memory_inactive_avg]
+collect     = false
+enabled     = false
+description = PI OS memory inactive
+metric_name = os.memory.inactive.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = KB
+window      = 3
+
+[metric.aws.pi.RDS.os_memory_mapped_avg]
+collect     = false
+enabled     = false
+description = PI OS memory mapped
+metric_name = os.memory.mapped.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = KB
+window      = 3
+
+[metric.aws.pi.RDS.os_memory_outOfMemoryKillCount_avg]
+collect     = false
+enabled     = false
+description = PI OS OOM kill count
+metric_name = os.memory.outOfMemoryKillCount.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = kills
+window      = 3
+warning     = 1
+critical    = 5
+
+[metric.aws.pi.RDS.os_memory_pageTables_avg]
+collect     = false
+enabled     = false
+description = PI OS page tables
+metric_name = os.memory.pageTables.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = KB
+window      = 3
+
+[metric.aws.pi.RDS.os_memory_slab_avg]
+collect     = false
+enabled     = false
+description = PI OS slab memory
+metric_name = os.memory.slab.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = KB
+window      = 3
+
+[metric.aws.pi.RDS.os_memory_total_avg]
+collect     = false
+enabled     = false
+description = PI OS memory total
+metric_name = os.memory.total.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = KB
+window      = 3
+
+[metric.aws.pi.RDS.os_memory_writeback_avg]
+collect     = false
+enabled     = false
+description = PI OS memory writeback
+metric_name = os.memory.writeback.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = KB
+window      = 3
+
+[metric.aws.pi.RDS.os_cpuUtilization_guest_avg]
+collect     = false
+enabled     = false
+description = PI OS CPU guest
+metric_name = os.cpuUtilization.guest.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = %
+window      = 3
+warning     = 5
+critical    = 15
+
+[metric.aws.pi.RDS.os_cpuUtilization_idle_avg]
+collect     = false
+enabled     = false
+description = PI OS CPU idle
+metric_name = os.cpuUtilization.idle.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = <
+unit        = %
+window      = 3
+warning     = 10
+critical    = 5
+
+[metric.aws.pi.RDS.os_cpuUtilization_irq_avg]
+collect     = false
+enabled     = false
+description = PI OS CPU IRQ
+metric_name = os.cpuUtilization.irq.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = %
+window      = 3
+warning     = 5
+critical    = 15
+
+[metric.aws.pi.RDS.os_cpuUtilization_nice_avg]
+collect     = false
+enabled     = false
+description = PI OS CPU nice
+metric_name = os.cpuUtilization.nice.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = %
+window      = 3
+warning     = 75
+critical    = 90
+
+[metric.aws.pi.RDS.os_cpuUtilization_steal_avg]
+collect     = false
+enabled     = false
+description = PI OS CPU steal
+metric_name = os.cpuUtilization.steal.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = %
+window      = 3
+warning     = 5
+critical    = 15
+
+[metric.aws.pi.RDS.os_cpuUtilization_system_avg]
+collect     = false
+enabled     = false
+description = PI OS CPU system
+metric_name = os.cpuUtilization.system.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = %
+window      = 3
+warning     = 30
+critical    = 50
+
+[metric.aws.pi.RDS.os_cpuUtilization_total_avg]
+collect     = false
+enabled     = false
+description = PI OS CPU total
+metric_name = os.cpuUtilization.total.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = %
+window      = 3
+warning     = 90
+critical    = 95
+
+[metric.aws.pi.RDS.os_cpuUtilization_user_avg]
+collect     = false
+enabled     = false
+description = PI OS CPU user
+metric_name = os.cpuUtilization.user.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = %
+window      = 3
+warning     = 75
+critical    = 90
+
+[metric.aws.pi.RDS.os_cpuUtilization_wait_avg]
+collect     = false
+enabled     = false
+description = PI OS CPU I/O wait
+metric_name = os.cpuUtilization.wait.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = %
+window      = 3
+warning     = 20
+critical    = 40
+
+[metric.aws.pi.RDS.os_diskIO_vol_readIOsPS_avg]
+collect     = false
+enabled     = false
+description = PI OS disk IO readIOsPS
+metric_name = os.diskIO..readIOsPS.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.os_diskIO_vol_writeIOsPS_avg]
+collect     = false
+enabled     = false
+description = PI OS disk IO writeIOsPS
+metric_name = os.diskIO..writeIOsPS.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.os_diskIO_vol_avgQueueLen_avg]
+collect     = false
+enabled     = false
+description = PI OS disk IO avgQueueLen
+metric_name = os.diskIO..avgQueueLen.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.os_diskIO_vol_avgReqSz_avg]
+collect     = false
+enabled     = false
+description = PI OS disk IO avgReqSz
+metric_name = os.diskIO..avgReqSz.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.os_diskIO_vol_await_avg]
+collect     = false
+enabled     = false
+description = PI OS disk IO await
+metric_name = os.diskIO..await.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.os_diskIO_vol_readKb_avg]
+collect     = false
+enabled     = false
+description = PI OS disk IO readKb
+metric_name = os.diskIO..readKb.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.os_diskIO_vol_readKbPS_avg]
+collect     = false
+enabled     = false
+description = PI OS disk IO readKbPS
+metric_name = os.diskIO..readKbPS.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.os_diskIO_vol_rrqmPS_avg]
+collect     = false
+enabled     = false
+description = PI OS disk IO rrqmPS
+metric_name = os.diskIO..rrqmPS.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.os_diskIO_vol_tps_avg]
+collect     = false
+enabled     = false
+description = PI OS disk IO tps
+metric_name = os.diskIO..tps.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.os_diskIO_vol_util_avg]
+collect     = false
+enabled     = false
+description = PI OS disk IO util
+metric_name = os.diskIO..util.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.os_diskIO_vol_writeKb_avg]
+collect     = false
+enabled     = false
+description = PI OS disk IO writeKb
+metric_name = os.diskIO..writeKb.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.os_diskIO_vol_writeKbPS_avg]
+collect     = false
+enabled     = false
+description = PI OS disk IO writeKbPS
+metric_name = os.diskIO..writeKbPS.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.os_diskIO_vol_wrqmPS_avg]
+collect     = false
+enabled     = false
+description = PI OS disk IO wrqmPS
+metric_name = os.diskIO..wrqmPS.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.os_tasks_blocked_avg]
+collect     = false
+enabled     = false
+description = PI OS tasks blocked
+metric_name = os.tasks.blocked.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = tasks
+window      = 3
+
+[metric.aws.pi.RDS.os_tasks_running_avg]
+collect     = false
+enabled     = false
+description = PI OS tasks running
+metric_name = os.tasks.running.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = tasks
+window      = 3
+
+[metric.aws.pi.RDS.os_tasks_sleeping_avg]
+collect     = false
+enabled     = false
+description = PI OS tasks sleeping
+metric_name = os.tasks.sleeping.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = tasks
+window      = 3
+
+[metric.aws.pi.RDS.os_tasks_stopped_avg]
+collect     = false
+enabled     = false
+description = PI OS tasks stopped
+metric_name = os.tasks.stopped.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = tasks
+window      = 3
+
+[metric.aws.pi.RDS.os_tasks_total_avg]
+collect     = false
+enabled     = false
+description = PI OS tasks total
+metric_name = os.tasks.total.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = tasks
+window      = 3
+
+[metric.aws.pi.RDS.os_tasks_zombie_avg]
+collect     = false
+enabled     = false
+description = PI OS tasks zombie
+metric_name = os.tasks.zombie.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = tasks
+window      = 3
+
+[metric.aws.pi.RDS.os_loadAverageMinute_one_avg]
+collect     = false
+enabled     = false
+description = PI OS load average 1m
+metric_name = os.loadAverageMinute.one.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = processes
+window      = 3
+warning     = 4
+critical    = 8
+
+[metric.aws.pi.RDS.os_loadAverageMinute_five_avg]
+collect     = false
+enabled     = false
+description = PI OS load average 5m
+metric_name = os.loadAverageMinute.five.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = processes
+window      = 3
+warning     = 3
+critical    = 6
+
+[metric.aws.pi.RDS.os_loadAverageMinute_fifteen_avg]
+collect     = false
+enabled     = false
+description = PI OS load average 15m
+metric_name = os.loadAverageMinute.fifteen.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = processes
+window      = 3
+warning     = 2
+critical    = 4
+
+[metric.aws.pi.RDS.os_swap_cached_avg]
+collect     = false
+enabled     = false
+description = PI OS swap cached
+metric_name = os.swap.cached.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = KB
+window      = 3
+
+[metric.aws.pi.RDS.os_swap_free_avg]
+collect     = false
+enabled     = false
+description = PI OS swap free
+metric_name = os.swap.free.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = KB
+window      = 3
+
+[metric.aws.pi.RDS.os_swap_in_avg]
+collect     = false
+enabled     = false
+description = PI OS swap in
+metric_name = os.swap.in.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = KB
+window      = 3
+
+[metric.aws.pi.RDS.os_swap_out_avg]
+collect     = false
+enabled     = false
+description = PI OS swap out
+metric_name = os.swap.out.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = KB
+window      = 3
+
+[metric.aws.pi.RDS.os_swap_total_avg]
+collect     = false
+enabled     = false
+description = PI OS swap total
+metric_name = os.swap.total.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = KB
+window      = 3
+
+[metric.aws.pi.RDS.os_fileSys_maxFiles_avg]
+collect     = false
+enabled     = false
+description = PI OS filesystem maxFiles
+metric_name = os.fileSys.maxFiles.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.os_fileSys_usedFiles_avg]
+collect     = false
+enabled     = false
+description = PI OS filesystem usedFiles
+metric_name = os.fileSys.usedFiles.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.os_fileSys_usedFilePercent_avg]
+collect     = false
+enabled     = false
+description = PI OS filesystem usedFilePercent
+metric_name = os.fileSys.usedFilePercent.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.os_fileSys_usedPercent_avg]
+collect     = false
+enabled     = false
+description = PI OS filesystem usedPercent
+metric_name = os.fileSys.usedPercent.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.os_fileSys_used_avg]
+collect     = false
+enabled     = false
+description = PI OS filesystem used
+metric_name = os.fileSys.used.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.os_fileSys_total_avg]
+collect     = false
+enabled     = false
+description = PI OS filesystem total
+metric_name = os.fileSys.total.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.os_fileSys_vol_maxFiles_avg]
+collect     = false
+enabled     = false
+description = PI OS volume filesystem maxFiles
+metric_name = os.fileSys..maxFiles.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.os_fileSys_vol_usedFiles_avg]
+collect     = false
+enabled     = false
+description = PI OS volume filesystem usedFiles
+metric_name = os.fileSys..usedFiles.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.os_fileSys_vol_usedFilePercent_avg]
+collect     = false
+enabled     = false
+description = PI OS volume filesystem usedFilePercent
+metric_name = os.fileSys..usedFilePercent.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.os_fileSys_vol_usedPercent_avg]
+collect     = false
+enabled     = false
+description = PI OS volume filesystem usedPercent
+metric_name = os.fileSys..usedPercent.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.os_fileSys_vol_used_avg]
+collect     = false
+enabled     = false
+description = PI OS volume filesystem used
+metric_name = os.fileSys..used.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.os_fileSys_vol_total_avg]
+collect     = false
+enabled     = false
+description = PI OS volume filesystem total
+metric_name = os.fileSys..total.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.os_network_rx_avg]
+collect     = false
+enabled     = false
+description = PI OS network receive
+metric_name = os.network.rx.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = bytes/s
+window      = 3
+
+[metric.aws.pi.RDS.os_network_tx_avg]
+collect     = false
+enabled     = false
+description = PI OS network transmit
+metric_name = os.network.tx.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = bytes/s
+window      = 3
+
+[metric.aws.pi.RDS.os_general_acuUtilization_avg]
+collect     = false
+enabled     = false
+description = PI OS ACU utilization
+metric_name = os.general.acuUtilization.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = %
+window      = 3
+warning     = 80
+critical    = 95
+
+[metric.aws.pi.RDS.os_general_maxConfiguredAcu_avg]
+collect     = false
+enabled     = false
+description = PI OS max configured ACU
+metric_name = os.general.maxConfiguredAcu.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = ACU
+window      = 3
+
+[metric.aws.pi.RDS.os_general_minConfiguredAcu_avg]
+collect     = false
+enabled     = false
+description = PI OS min configured ACU
+metric_name = os.general.minConfiguredAcu.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = ACU
+window      = 3
+
+[metric.aws.pi.RDS.os_general_numVCPUs_avg]
+collect     = false
+enabled     = false
+description = PI OS vCPU count
+metric_name = os.general.numVCPUs.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = vCPUs
+window      = 3
+
+[metric.aws.pi.RDS.os_general_serverlessDatabaseCapacity_avg]
+collect     = false
+enabled     = false
+description = PI OS serverless DB capacity
+metric_name = os.general.serverlessDatabaseCapacity.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = ACU
+window      = 3
+
+[metric.aws.pi.RDS.db_SQL_Com_analyze_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.SQL.Com_analyze
+metric_name = db.SQL.Com_analyze.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_SQL_Com_optimize_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.SQL.Com_optimize
+metric_name = db.SQL.Com_optimize.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_SQL_Com_select_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.SQL.Com_select
+metric_name = db.SQL.Com_select.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Users_Connections_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.Users.Connections
+metric_name = db.Users.Connections.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_SQL_Innodb_rows_deleted_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.SQL.Innodb_rows_deleted
+metric_name = db.SQL.Innodb_rows_deleted.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_SQL_Innodb_rows_inserted_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.SQL.Innodb_rows_inserted
+metric_name = db.SQL.Innodb_rows_inserted.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_SQL_Innodb_rows_read_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.SQL.Innodb_rows_read
+metric_name = db.SQL.Innodb_rows_read.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_SQL_Innodb_rows_updated_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.SQL.Innodb_rows_updated
+metric_name = db.SQL.Innodb_rows_updated.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_SQL_Select_full_join_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.SQL.Select_full_join
+metric_name = db.SQL.Select_full_join.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_SQL_Select_full_range_join_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.SQL.Select_full_range_join
+metric_name = db.SQL.Select_full_range_join.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_SQL_Select_range_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.SQL.Select_range
+metric_name = db.SQL.Select_range.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_SQL_Select_range_check_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.SQL.Select_range_check
+metric_name = db.SQL.Select_range_check.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_SQL_Select_scan_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.SQL.Select_scan
+metric_name = db.SQL.Select_scan.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_SQL_Slow_queries_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.SQL.Slow_queries
+metric_name = db.SQL.Slow_queries.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_SQL_Sort_merge_passes_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.SQL.Sort_merge_passes
+metric_name = db.SQL.Sort_merge_passes.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_SQL_Sort_range_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.SQL.Sort_range
+metric_name = db.SQL.Sort_range.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_SQL_Sort_rows_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.SQL.Sort_rows
+metric_name = db.SQL.Sort_rows.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_SQL_Sort_scan_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.SQL.Sort_scan
+metric_name = db.SQL.Sort_scan.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_SQL_Questions_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.SQL.Questions
+metric_name = db.SQL.Questions.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Locks_Innodb_row_lock_time_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.Locks.Innodb_row_lock_time
+metric_name = db.Locks.Innodb_row_lock_time.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Locks_Table_locks_immediate_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.Locks.Table_locks_immediate
+metric_name = db.Locks.Table_locks_immediate.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Locks_Table_locks_waited_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.Locks.Table_locks_waited
+metric_name = db.Locks.Table_locks_waited.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Users_Aborted_clients_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.Users.Aborted_clients
+metric_name = db.Users.Aborted_clients.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Users_Aborted_connects_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.Users.Aborted_connects
+metric_name = db.Users.Aborted_connects.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_User_max_connections_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.User.max_connections
+metric_name = db.User.max_connections.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Users_Threads_created_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.Users.Threads_created
+metric_name = db.Users.Threads_created.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Users_Threads_running_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.Users.Threads_running
+metric_name = db.Users.Threads_running.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_IO_Innodb_data_writes_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.IO.Innodb_data_writes
+metric_name = db.IO.Innodb_data_writes.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_IO_Innodb_dblwr_writes_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.IO.Innodb_dblwr_writes
+metric_name = db.IO.Innodb_dblwr_writes.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_IO_Innodb_log_write_requests_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.IO.Innodb_log_write_requests
+metric_name = db.IO.Innodb_log_write_requests.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_IO_Innodb_log_writes_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.IO.Innodb_log_writes
+metric_name = db.IO.Innodb_log_writes.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_IO_Innodb_pages_written_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.IO.Innodb_pages_written
+metric_name = db.IO.Innodb_pages_written.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Temp_Created_tmp_disk_tables_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.Temp.Created_tmp_disk_tables
+metric_name = db.Temp.Created_tmp_disk_tables.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Temp_Created_tmp_tables_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.Temp.Created_tmp_tables
+metric_name = db.Temp.Created_tmp_tables.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Cache_Innodb_buffer_pool_pages_data_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.Cache.Innodb_buffer_pool_pages_data
+metric_name = db.Cache.Innodb_buffer_pool_pages_data.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Cache_Innodb_buffer_pool_pages_total_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.Cache.Innodb_buffer_pool_pages_total
+metric_name = db.Cache.Innodb_buffer_pool_pages_total.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Cache_Innodb_buffer_pool_read_requests_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.Cache.Innodb_buffer_pool_read_requests
+metric_name = db.Cache.Innodb_buffer_pool_read_requests.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Cache_Innodb_buffer_pool_reads_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.Cache.Innodb_buffer_pool_reads
+metric_name = db.Cache.Innodb_buffer_pool_reads.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Cache_Opened_tables_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.Cache.Opened_tables
+metric_name = db.Cache.Opened_tables.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Cache_Opened_table_definitions_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.Cache.Opened_table_definitions
+metric_name = db.Cache.Opened_table_definitions.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Cache_Qcache_hits_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.Cache.Qcache_hits
+metric_name = db.Cache.Qcache_hits.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Cache_innoDB_buffer_pool_hits_avg]
+collect     = false
+enabled     = false
+description = PI MySQL derived db.Cache.innoDB_buffer_pool_hits
+metric_name = db.Cache.innoDB_buffer_pool_hits.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Cache_innoDB_buffer_pool_hit_rate_avg]
+collect     = false
+enabled     = false
+description = PI MySQL derived db.Cache.innoDB_buffer_pool_hit_rate
+metric_name = db.Cache.innoDB_buffer_pool_hit_rate.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Cache_innoDB_buffer_pool_usage_avg]
+collect     = false
+enabled     = false
+description = PI MySQL derived db.Cache.innoDB_buffer_pool_usage
+metric_name = db.Cache.innoDB_buffer_pool_usage.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Cache_query_cache_hit_rate_avg]
+collect     = false
+enabled     = false
+description = PI MySQL derived db.Cache.query_cache_hit_rate
+metric_name = db.Cache.query_cache_hit_rate.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_IO_innoDB_datafile_writes_to_disk_avg]
+collect     = false
+enabled     = false
+description = PI MySQL derived db.IO.innoDB_datafile_writes_to_disk
+metric_name = db.IO.innoDB_datafile_writes_to_disk.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_SQL_innodb_rows_changed_avg]
+collect     = false
+enabled     = false
+description = PI MySQL derived db.SQL.innodb_rows_changed
+metric_name = db.SQL.innodb_rows_changed.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Transactions_active_transactions_avg]
+collect     = false
+enabled     = false
+description = PI MySQL derived db.Transactions.active_transactions
+metric_name = db.Transactions.active_transactions.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Transactions_trx_rseg_history_len_avg]
+collect     = false
+enabled     = false
+description = PI MySQL derived db.Transactions.trx_rseg_history_len
+metric_name = db.Transactions.trx_rseg_history_len.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Locks_innodb_deadlocks_avg]
+collect     = false
+enabled     = false
+description = PI MySQL derived db.Locks.innodb_deadlocks
+metric_name = db.Locks.innodb_deadlocks.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Locks_innodb_lock_timeouts_avg]
+collect     = false
+enabled     = false
+description = PI MySQL derived db.Locks.innodb_lock_timeouts
+metric_name = db.Locks.innodb_lock_timeouts.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Locks_innodb_row_lock_waits_avg]
+collect     = false
+enabled     = false
+description = PI MySQL derived db.Locks.innodb_row_lock_waits
+metric_name = db.Locks.innodb_row_lock_waits.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Cache_blks_hit_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.Cache.blks_hit
+metric_name = db.Cache.blks_hit.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Cache_buffers_alloc_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.Cache.buffers_alloc
+metric_name = db.Cache.buffers_alloc.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Checkpoint_buffers_checkpoint_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.Checkpoint.buffers_checkpoint
+metric_name = db.Checkpoint.buffers_checkpoint.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Checkpoint_checkpoint_sync_time_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.Checkpoint.checkpoint_sync_time
+metric_name = db.Checkpoint.checkpoint_sync_time.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Checkpoint_checkpoint_write_time_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.Checkpoint.checkpoint_write_time
+metric_name = db.Checkpoint.checkpoint_write_time.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Checkpoint_checkpoints_req_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.Checkpoint.checkpoints_req
+metric_name = db.Checkpoint.checkpoints_req.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Checkpoint_checkpoints_timed_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.Checkpoint.checkpoints_timed
+metric_name = db.Checkpoint.checkpoints_timed.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Checkpoint_maxwritten_clean_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.Checkpoint.maxwritten_clean
+metric_name = db.Checkpoint.maxwritten_clean.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Concurrency_deadlocks_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.Concurrency.deadlocks
+metric_name = db.Concurrency.deadlocks.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_IO_blk_read_time_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.IO.blk_read_time
+metric_name = db.IO.blk_read_time.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_IO_blks_read_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.IO.blks_read
+metric_name = db.IO.blks_read.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_IO_buffers_backend_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.IO.buffers_backend
+metric_name = db.IO.buffers_backend.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_IO_buffers_backend_fsync_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.IO.buffers_backend_fsync
+metric_name = db.IO.buffers_backend_fsync.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_IO_buffers_clean_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.IO.buffers_clean
+metric_name = db.IO.buffers_clean.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_SQL_tup_deleted_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.SQL.tup_deleted
+metric_name = db.SQL.tup_deleted.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_SQL_tup_fetched_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.SQL.tup_fetched
+metric_name = db.SQL.tup_fetched.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_SQL_tup_inserted_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.SQL.tup_inserted
+metric_name = db.SQL.tup_inserted.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_SQL_tup_returned_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.SQL.tup_returned
+metric_name = db.SQL.tup_returned.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_SQL_tup_updated_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.SQL.tup_updated
+metric_name = db.SQL.tup_updated.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Temp_temp_bytes_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.Temp.temp_bytes
+metric_name = db.Temp.temp_bytes.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Temp_temp_files_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.Temp.temp_files
+metric_name = db.Temp.temp_files.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Transactions_xact_commit_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.Transactions.xact_commit
+metric_name = db.Transactions.xact_commit.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Transactions_xact_rollback_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.Transactions.xact_rollback
+metric_name = db.Transactions.xact_rollback.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_User_numbackends_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.User.numbackends
+metric_name = db.User.numbackends.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_User_total_auth_attempts_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.User.total_auth_attempts
+metric_name = db.User.total_auth_attempts.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_WAL_archived_count_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.WAL.archived_count
+metric_name = db.WAL.archived_count.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Checkpoint_checkpoint_sync_latency_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL derived db.Checkpoint.checkpoint_sync_latency
+metric_name = db.Checkpoint.checkpoint_sync_latency.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Checkpoint_checkpoint_write_latency_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL derived db.Checkpoint.checkpoint_write_latency
+metric_name = db.Checkpoint.checkpoint_write_latency.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_IO_read_latency_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL derived db.IO.read_latency
+metric_name = db.IO.read_latency.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_state_idle_in_transaction_aborted_count_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL derived db.state.idle_in_transaction_aborted_count
+metric_name = db.state.idle_in_transaction_aborted_count.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_state_idle_in_transaction_count_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL derived db.state.idle_in_transaction_count
+metric_name = db.state.idle_in_transaction_count.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_state_idle_in_transaction_max_time_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL derived db.state.idle_in_transaction_max_time
+metric_name = db.state.idle_in_transaction_max_time.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Transactions_blocked_transactions_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL derived db.Transactions.blocked_transactions
+metric_name = db.Transactions.blocked_transactions.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Transactions_oldest_active_logical_replication_slot_xid_age_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL derived db.Transactions.oldest_active_logical_replication_slot_xid_age
+metric_name = db.Transactions.oldest_active_logical_replication_slot_xid_age.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Transactions_oldest_inactive_logical_replication_slot_xid_age_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL derived db.Transactions.oldest_inactive_logical_replication_slot_xid_age
+metric_name = db.Transactions.oldest_inactive_logical_replication_slot_xid_age.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Transactions_oldest_prepared_transaction_xid_age_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL derived db.Transactions.oldest_prepared_transaction_xid_age
+metric_name = db.Transactions.oldest_prepared_transaction_xid_age.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Transactions_oldest_running_transaction_xid_age_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL derived db.Transactions.oldest_running_transaction_xid_age
+metric_name = db.Transactions.oldest_running_transaction_xid_age.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Transactions_oldest_hot_standby_feedback_xid_age_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL derived db.Transactions.oldest_hot_standby_feedback_xid_age
+metric_name = db.Transactions.oldest_hot_standby_feedback_xid_age.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Transactions_max_used_xact_ids_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL derived db.Transactions.max_used_xact_ids
+metric_name = db.Transactions.max_used_xact_ids.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_WAL_archive_failed_count_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL derived db.WAL.archive_failed_count
+metric_name = db.WAL.archive_failed_count.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_User_CPU_used_by_this_session_avg]
+collect     = false
+enabled     = false
+description = PI Oracle db.User.CPU used by this session
+metric_name = db.User.CPU used by this session.avg
+engines     = oracle
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_User_SQL_Net_roundtrips_to_from_client_avg]
+collect     = false
+enabled     = false
+description = PI Oracle db.User.SQL*Net roundtrips to/from client
+metric_name = db.User.SQL*Net roundtrips to/from client.avg
+engines     = oracle
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_User_bytes_received_via_SQL_Net_from_client_avg]
+collect     = false
+enabled     = false
+description = PI Oracle db.User.bytes received via SQL*Net from client
+metric_name = db.User.bytes received via SQL*Net from client.avg
+engines     = oracle
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_User_user_commits_avg]
+collect     = false
+enabled     = false
+description = PI Oracle db.User.user commits
+metric_name = db.User.user commits.avg
+engines     = oracle
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_User_logons_cumulative_avg]
+collect     = false
+enabled     = false
+description = PI Oracle db.User.logons cumulative
+metric_name = db.User.logons cumulative.avg
+engines     = oracle
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_User_user_calls_avg]
+collect     = false
+enabled     = false
+description = PI Oracle db.User.user calls
+metric_name = db.User.user calls.avg
+engines     = oracle
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_User_bytes_sent_via_SQL_Net_to_client_avg]
+collect     = false
+enabled     = false
+description = PI Oracle db.User.bytes sent via SQL*Net to client
+metric_name = db.User.bytes sent via SQL*Net to client.avg
+engines     = oracle
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_User_user_rollbacks_avg]
+collect     = false
+enabled     = false
+description = PI Oracle db.User.user rollbacks
+metric_name = db.User.user rollbacks.avg
+engines     = oracle
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Redo_redo_size_avg]
+collect     = false
+enabled     = false
+description = PI Oracle db.Redo.redo size
+metric_name = db.Redo.redo size.avg
+engines     = oracle
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_SQL_parse_count_total_avg]
+collect     = false
+enabled     = false
+description = PI Oracle db.SQL.parse count (total)
+metric_name = db.SQL.parse count (total).avg
+engines     = oracle
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_SQL_parse_count_hard_avg]
+collect     = false
+enabled     = false
+description = PI Oracle db.SQL.parse count (hard)
+metric_name = db.SQL.parse count (hard).avg
+engines     = oracle
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_SQL_table_scan_rows_gotten_avg]
+collect     = false
+enabled     = false
+description = PI Oracle db.SQL.table scan rows gotten
+metric_name = db.SQL.table scan rows gotten.avg
+engines     = oracle
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_SQL_sorts_memory_avg]
+collect     = false
+enabled     = false
+description = PI Oracle db.SQL.sorts (memory)
+metric_name = db.SQL.sorts (memory).avg
+engines     = oracle
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_SQL_sorts_disk_avg]
+collect     = false
+enabled     = false
+description = PI Oracle db.SQL.sorts (disk)
+metric_name = db.SQL.sorts (disk).avg
+engines     = oracle
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_SQL_sorts_rows_avg]
+collect     = false
+enabled     = false
+description = PI Oracle db.SQL.sorts (rows)
+metric_name = db.SQL.sorts (rows).avg
+engines     = oracle
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Cache_physical_read_bytes_avg]
+collect     = false
+enabled     = false
+description = PI Oracle db.Cache.physical read bytes
+metric_name = db.Cache.physical read bytes.avg
+engines     = oracle
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Cache_db_block_gets_avg]
+collect     = false
+enabled     = false
+description = PI Oracle db.Cache.db block gets
+metric_name = db.Cache.db block gets.avg
+engines     = oracle
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Cache_DBWR_checkpoints_avg]
+collect     = false
+enabled     = false
+description = PI Oracle db.Cache.DBWR checkpoints
+metric_name = db.Cache.DBWR checkpoints.avg
+engines     = oracle
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Cache_physical_reads_avg]
+collect     = false
+enabled     = false
+description = PI Oracle db.Cache.physical reads
+metric_name = db.Cache.physical reads.avg
+engines     = oracle
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Cache_consistent_gets_from_cache_avg]
+collect     = false
+enabled     = false
+description = PI Oracle db.Cache.consistent gets from cache
+metric_name = db.Cache.consistent gets from cache.avg
+engines     = oracle
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Cache_db_block_gets_from_cache_avg]
+collect     = false
+enabled     = false
+description = PI Oracle db.Cache.db block gets from cache
+metric_name = db.Cache.db block gets from cache.avg
+engines     = oracle
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Cache_consistent_gets_avg]
+collect     = false
+enabled     = false
+description = PI Oracle db.Cache.consistent gets
+metric_name = db.Cache.consistent gets.avg
+engines     = oracle
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Access_Methods_Forwarded_Records_avg]
+collect     = false
+enabled     = false
+description = PI SQL Server db.Access Methods.Forwarded Records
+metric_name = db.Access Methods.Forwarded Records.avg
+engines     = sqlserver
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Access_Methods_Page_Splits_avg]
+collect     = false
+enabled     = false
+description = PI SQL Server db.Access Methods.Page Splits
+metric_name = db.Access Methods.Page Splits.avg
+engines     = sqlserver
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Buffer_Manager_Buffer_cache_hit_ratio_avg]
+collect     = false
+enabled     = false
+description = PI SQL Server db.Buffer Manager.Buffer cache hit ratio
+metric_name = db.Buffer Manager.Buffer cache hit ratio.avg
+engines     = sqlserver
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Buffer_Manager_Page_life_expectancy_avg]
+collect     = false
+enabled     = false
+description = PI SQL Server db.Buffer Manager.Page life expectancy
+metric_name = db.Buffer Manager.Page life expectancy.avg
+engines     = sqlserver
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Buffer_Manager_Page_lookups_avg]
+collect     = false
+enabled     = false
+description = PI SQL Server db.Buffer Manager.Page lookups
+metric_name = db.Buffer Manager.Page lookups.avg
+engines     = sqlserver
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Buffer_Manager_Page_reads_avg]
+collect     = false
+enabled     = false
+description = PI SQL Server db.Buffer Manager.Page reads
+metric_name = db.Buffer Manager.Page reads.avg
+engines     = sqlserver
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Buffer_Manager_Page_writes_avg]
+collect     = false
+enabled     = false
+description = PI SQL Server db.Buffer Manager.Page writes
+metric_name = db.Buffer Manager.Page writes.avg
+engines     = sqlserver
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Databases_Active_Transactions_Total_avg]
+collect     = false
+enabled     = false
+description = PI SQL Server db.Databases.Active Transactions (_Total)
+metric_name = db.Databases.Active Transactions (_Total).avg
+engines     = sqlserver
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Databases_Log_Bytes_Flushed_Total_avg]
+collect     = false
+enabled     = false
+description = PI SQL Server db.Databases.Log Bytes Flushed (_Total)
+metric_name = db.Databases.Log Bytes Flushed (_Total).avg
+engines     = sqlserver
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Databases_Log_Flush_Waits_Total_avg]
+collect     = false
+enabled     = false
+description = PI SQL Server db.Databases.Log Flush Waits (_Total)
+metric_name = db.Databases.Log Flush Waits (_Total).avg
+engines     = sqlserver
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Databases_Log_Flushes_Total_avg]
+collect     = false
+enabled     = false
+description = PI SQL Server db.Databases.Log Flushes (_Total)
+metric_name = db.Databases.Log Flushes (_Total).avg
+engines     = sqlserver
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Databases_Write_Transactions_Total_avg]
+collect     = false
+enabled     = false
+description = PI SQL Server db.Databases.Write Transactions (_Total)
+metric_name = db.Databases.Write Transactions (_Total).avg
+engines     = sqlserver
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_General_Statistics_Processes_blocked_avg]
+collect     = false
+enabled     = false
+description = PI SQL Server db.General Statistics.Processes blocked
+metric_name = db.General Statistics.Processes blocked.avg
+engines     = sqlserver
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_General_Statistics_User_Connections_avg]
+collect     = false
+enabled     = false
+description = PI SQL Server db.General Statistics.User Connections
+metric_name = db.General Statistics.User Connections.avg
+engines     = sqlserver
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Latches_Latch_Waits_avg]
+collect     = false
+enabled     = false
+description = PI SQL Server db.Latches.Latch Waits
+metric_name = db.Latches.Latch Waits.avg
+engines     = sqlserver
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Locks_Number_of_Deadlocks_Total_avg]
+collect     = false
+enabled     = false
+description = PI SQL Server db.Locks.Number of Deadlocks (_Total)
+metric_name = db.Locks.Number of Deadlocks (_Total).avg
+engines     = sqlserver
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_Memory_Manager_Memory_Grants_Pending_avg]
+collect     = false
+enabled     = false
+description = PI SQL Server db.Memory Manager.Memory Grants Pending
+metric_name = db.Memory Manager.Memory Grants Pending.avg
+engines     = sqlserver
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_SQL_Statistics_Batch_Requests_avg]
+collect     = false
+enabled     = false
+description = PI SQL Server db.SQL Statistics.Batch Requests
+metric_name = db.SQL Statistics.Batch Requests.avg
+engines     = sqlserver
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_SQL_Statistics_SQL_Compilations_avg]
+collect     = false
+enabled     = false
+description = PI SQL Server db.SQL Statistics.SQL Compilations
+metric_name = db.SQL Statistics.SQL Compilations.avg
+engines     = sqlserver
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.pi.RDS.db_SQL_Statistics_SQL_Re_Compilations_avg]
+collect     = false
+enabled     = false
+description = PI SQL Server db.SQL Statistics.SQL Re-Compilations
+metric_name = db.SQL Statistics.SQL Re-Compilations.avg
+engines     = sqlserver
+operator    = >
+unit        = 
+window      = 3
+
+# =============================================================================
+# CATEGORY 3 - DATABASE INSIGHTS (CloudWatch DB_PERF_INSIGHTS)
+# Regenerate: bash setup/assemble_thresholds_ini.sh
+# =============================================================================
+
+[metric.aws.dbinsights.RDS.db_load]
+collect     = false
+enabled     = false
+description = DB load (avg active sessions)
+metric_name = db.load.avg
+engines     = mysql,mariadb,postgresql,oracle,sqlserver,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = sessions
+window      = 3
+warning     = 2
+critical    = 4
+
+[metric.aws.dbinsights.RDS.db_load_cpu]
+collect     = false
+enabled     = false
+description = DB load on CPU
+metric_name = db.load.avg.cpu
+engines     = mysql,mariadb,postgresql,oracle,sqlserver,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = sessions
+window      = 3
+warning     = 2
+critical    = 4
+
+[metric.aws.dbinsights.RDS.db_load_non_cpu]
+collect     = false
+enabled     = false
+description = DB load non-CPU wait
+metric_name = db.load.avg.non_cpu
+engines     = mysql,mariadb,postgresql,oracle,sqlserver,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = sessions
+window      = 3
+warning     = 2
+critical    = 4
+
+[metric.aws.dbinsights.RDS.db_sampledload]
+collect     = false
+enabled     = false
+description = DB sampled load (raw sessions)
+metric_name = db.sampledload.avg
+engines     = mysql,mariadb,postgresql,oracle,sqlserver,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = sessions
+window      = 3
+warning     = 2
+critical    = 4
+
+[metric.aws.dbinsights.RDS.os_memory_active_avg]
+collect     = false
+enabled     = false
+description = PI OS memory active
+metric_name = os.memory.active.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = KB
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_memory_buffers_avg]
+collect     = false
+enabled     = false
+description = PI OS memory buffers
+metric_name = os.memory.buffers.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = KB
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_memory_cached_avg]
+collect     = false
+enabled     = false
+description = PI OS memory cached
+metric_name = os.memory.cached.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = KB
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_memory_db_cache_avg]
+collect     = false
+enabled     = false
+description = PI OS DB cache memory
+metric_name = os.memory.db.cache.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = bytes
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_memory_db_residentSetSize_avg]
+collect     = false
+enabled     = false
+description = PI OS DB resident set size
+metric_name = os.memory.db.residentSetSize.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = bytes
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_memory_db_swap_avg]
+collect     = false
+enabled     = false
+description = PI OS DB swap memory
+metric_name = os.memory.db.swap.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = bytes
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_memory_dirty_avg]
+collect     = false
+enabled     = false
+description = PI OS memory dirty
+metric_name = os.memory.dirty.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = KB
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_memory_free_avg]
+collect     = false
+enabled     = false
+description = PI OS memory free
+metric_name = os.memory.free.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = KB
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_memory_hugePagesFree_avg]
+collect     = false
+enabled     = false
+description = PI OS huge pages free
+metric_name = os.memory.hugePagesFree.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = pages
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_memory_hugePagesRsvd_avg]
+collect     = false
+enabled     = false
+description = PI OS huge pages reserved
+metric_name = os.memory.hugePagesRsvd.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = pages
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_memory_hugePagesSize_avg]
+collect     = false
+enabled     = false
+description = PI OS huge page size
+metric_name = os.memory.hugePagesSize.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = KB
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_memory_hugePagesSurp_avg]
+collect     = false
+enabled     = false
+description = PI OS huge pages surplus
+metric_name = os.memory.hugePagesSurp.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = pages
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_memory_hugePagesTotal_avg]
+collect     = false
+enabled     = false
+description = PI OS huge pages total
+metric_name = os.memory.hugePagesTotal.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = pages
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_memory_inactive_avg]
+collect     = false
+enabled     = false
+description = PI OS memory inactive
+metric_name = os.memory.inactive.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = KB
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_memory_mapped_avg]
+collect     = false
+enabled     = false
+description = PI OS memory mapped
+metric_name = os.memory.mapped.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = KB
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_memory_outOfMemoryKillCount_avg]
+collect     = false
+enabled     = false
+description = PI OS OOM kill count
+metric_name = os.memory.outOfMemoryKillCount.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = kills
+window      = 3
+warning     = 1
+critical    = 5
+
+[metric.aws.dbinsights.RDS.os_memory_pageTables_avg]
+collect     = false
+enabled     = false
+description = PI OS page tables
+metric_name = os.memory.pageTables.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = KB
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_memory_slab_avg]
+collect     = false
+enabled     = false
+description = PI OS slab memory
+metric_name = os.memory.slab.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = KB
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_memory_total_avg]
+collect     = false
+enabled     = false
+description = PI OS memory total
+metric_name = os.memory.total.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = KB
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_memory_writeback_avg]
+collect     = false
+enabled     = false
+description = PI OS memory writeback
+metric_name = os.memory.writeback.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = KB
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_cpuUtilization_guest_avg]
+collect     = false
+enabled     = false
+description = PI OS CPU guest
+metric_name = os.cpuUtilization.guest.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = %
+window      = 3
+warning     = 5
+critical    = 15
+
+[metric.aws.dbinsights.RDS.os_cpuUtilization_idle_avg]
+collect     = false
+enabled     = false
+description = PI OS CPU idle
+metric_name = os.cpuUtilization.idle.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = <
+unit        = %
+window      = 3
+warning     = 10
+critical    = 5
+
+[metric.aws.dbinsights.RDS.os_cpuUtilization_irq_avg]
+collect     = false
+enabled     = false
+description = PI OS CPU IRQ
+metric_name = os.cpuUtilization.irq.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = %
+window      = 3
+warning     = 5
+critical    = 15
+
+[metric.aws.dbinsights.RDS.os_cpuUtilization_nice_avg]
+collect     = false
+enabled     = false
+description = PI OS CPU nice
+metric_name = os.cpuUtilization.nice.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = %
+window      = 3
+warning     = 75
+critical    = 90
+
+[metric.aws.dbinsights.RDS.os_cpuUtilization_steal_avg]
+collect     = false
+enabled     = false
+description = PI OS CPU steal
+metric_name = os.cpuUtilization.steal.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = %
+window      = 3
+warning     = 5
+critical    = 15
+
+[metric.aws.dbinsights.RDS.os_cpuUtilization_system_avg]
+collect     = false
+enabled     = false
+description = PI OS CPU system
+metric_name = os.cpuUtilization.system.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = %
+window      = 3
+warning     = 30
+critical    = 50
+
+[metric.aws.dbinsights.RDS.os_cpuUtilization_total_avg]
+collect     = false
+enabled     = false
+description = PI OS CPU total
+metric_name = os.cpuUtilization.total.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = %
+window      = 3
+warning     = 90
+critical    = 95
+
+[metric.aws.dbinsights.RDS.os_cpuUtilization_user_avg]
+collect     = false
+enabled     = false
+description = PI OS CPU user
+metric_name = os.cpuUtilization.user.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = %
+window      = 3
+warning     = 75
+critical    = 90
+
+[metric.aws.dbinsights.RDS.os_cpuUtilization_wait_avg]
+collect     = false
+enabled     = false
+description = PI OS CPU I/O wait
+metric_name = os.cpuUtilization.wait.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = %
+window      = 3
+warning     = 20
+critical    = 40
+
+[metric.aws.dbinsights.RDS.os_diskIO_vol_readIOsPS_avg]
+collect     = false
+enabled     = false
+description = PI OS disk IO readIOsPS
+metric_name = os.diskIO..readIOsPS.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_diskIO_vol_writeIOsPS_avg]
+collect     = false
+enabled     = false
+description = PI OS disk IO writeIOsPS
+metric_name = os.diskIO..writeIOsPS.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_diskIO_vol_avgQueueLen_avg]
+collect     = false
+enabled     = false
+description = PI OS disk IO avgQueueLen
+metric_name = os.diskIO..avgQueueLen.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_diskIO_vol_avgReqSz_avg]
+collect     = false
+enabled     = false
+description = PI OS disk IO avgReqSz
+metric_name = os.diskIO..avgReqSz.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_diskIO_vol_await_avg]
+collect     = false
+enabled     = false
+description = PI OS disk IO await
+metric_name = os.diskIO..await.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_diskIO_vol_readKb_avg]
+collect     = false
+enabled     = false
+description = PI OS disk IO readKb
+metric_name = os.diskIO..readKb.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_diskIO_vol_readKbPS_avg]
+collect     = false
+enabled     = false
+description = PI OS disk IO readKbPS
+metric_name = os.diskIO..readKbPS.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_diskIO_vol_rrqmPS_avg]
+collect     = false
+enabled     = false
+description = PI OS disk IO rrqmPS
+metric_name = os.diskIO..rrqmPS.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_diskIO_vol_tps_avg]
+collect     = false
+enabled     = false
+description = PI OS disk IO tps
+metric_name = os.diskIO..tps.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_diskIO_vol_util_avg]
+collect     = false
+enabled     = false
+description = PI OS disk IO util
+metric_name = os.diskIO..util.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_diskIO_vol_writeKb_avg]
+collect     = false
+enabled     = false
+description = PI OS disk IO writeKb
+metric_name = os.diskIO..writeKb.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_diskIO_vol_writeKbPS_avg]
+collect     = false
+enabled     = false
+description = PI OS disk IO writeKbPS
+metric_name = os.diskIO..writeKbPS.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_diskIO_vol_wrqmPS_avg]
+collect     = false
+enabled     = false
+description = PI OS disk IO wrqmPS
+metric_name = os.diskIO..wrqmPS.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_tasks_blocked_avg]
+collect     = false
+enabled     = false
+description = PI OS tasks blocked
+metric_name = os.tasks.blocked.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = tasks
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_tasks_running_avg]
+collect     = false
+enabled     = false
+description = PI OS tasks running
+metric_name = os.tasks.running.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = tasks
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_tasks_sleeping_avg]
+collect     = false
+enabled     = false
+description = PI OS tasks sleeping
+metric_name = os.tasks.sleeping.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = tasks
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_tasks_stopped_avg]
+collect     = false
+enabled     = false
+description = PI OS tasks stopped
+metric_name = os.tasks.stopped.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = tasks
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_tasks_total_avg]
+collect     = false
+enabled     = false
+description = PI OS tasks total
+metric_name = os.tasks.total.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = tasks
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_tasks_zombie_avg]
+collect     = false
+enabled     = false
+description = PI OS tasks zombie
+metric_name = os.tasks.zombie.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = tasks
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_loadAverageMinute_one_avg]
+collect     = false
+enabled     = false
+description = PI OS load average 1m
+metric_name = os.loadAverageMinute.one.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = processes
+window      = 3
+warning     = 4
+critical    = 8
+
+[metric.aws.dbinsights.RDS.os_loadAverageMinute_five_avg]
+collect     = false
+enabled     = false
+description = PI OS load average 5m
+metric_name = os.loadAverageMinute.five.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = processes
+window      = 3
+warning     = 3
+critical    = 6
+
+[metric.aws.dbinsights.RDS.os_loadAverageMinute_fifteen_avg]
+collect     = false
+enabled     = false
+description = PI OS load average 15m
+metric_name = os.loadAverageMinute.fifteen.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = processes
+window      = 3
+warning     = 2
+critical    = 4
+
+[metric.aws.dbinsights.RDS.os_swap_cached_avg]
+collect     = false
+enabled     = false
+description = PI OS swap cached
+metric_name = os.swap.cached.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = KB
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_swap_free_avg]
+collect     = false
+enabled     = false
+description = PI OS swap free
+metric_name = os.swap.free.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = KB
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_swap_in_avg]
+collect     = false
+enabled     = false
+description = PI OS swap in
+metric_name = os.swap.in.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = KB
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_swap_out_avg]
+collect     = false
+enabled     = false
+description = PI OS swap out
+metric_name = os.swap.out.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = KB
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_swap_total_avg]
+collect     = false
+enabled     = false
+description = PI OS swap total
+metric_name = os.swap.total.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = KB
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_fileSys_maxFiles_avg]
+collect     = false
+enabled     = false
+description = PI OS filesystem maxFiles
+metric_name = os.fileSys.maxFiles.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_fileSys_usedFiles_avg]
+collect     = false
+enabled     = false
+description = PI OS filesystem usedFiles
+metric_name = os.fileSys.usedFiles.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_fileSys_usedFilePercent_avg]
+collect     = false
+enabled     = false
+description = PI OS filesystem usedFilePercent
+metric_name = os.fileSys.usedFilePercent.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_fileSys_usedPercent_avg]
+collect     = false
+enabled     = false
+description = PI OS filesystem usedPercent
+metric_name = os.fileSys.usedPercent.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_fileSys_used_avg]
+collect     = false
+enabled     = false
+description = PI OS filesystem used
+metric_name = os.fileSys.used.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_fileSys_total_avg]
+collect     = false
+enabled     = false
+description = PI OS filesystem total
+metric_name = os.fileSys.total.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_fileSys_vol_maxFiles_avg]
+collect     = false
+enabled     = false
+description = PI OS volume filesystem maxFiles
+metric_name = os.fileSys..maxFiles.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_fileSys_vol_usedFiles_avg]
+collect     = false
+enabled     = false
+description = PI OS volume filesystem usedFiles
+metric_name = os.fileSys..usedFiles.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_fileSys_vol_usedFilePercent_avg]
+collect     = false
+enabled     = false
+description = PI OS volume filesystem usedFilePercent
+metric_name = os.fileSys..usedFilePercent.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_fileSys_vol_usedPercent_avg]
+collect     = false
+enabled     = false
+description = PI OS volume filesystem usedPercent
+metric_name = os.fileSys..usedPercent.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_fileSys_vol_used_avg]
+collect     = false
+enabled     = false
+description = PI OS volume filesystem used
+metric_name = os.fileSys..used.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_fileSys_vol_total_avg]
+collect     = false
+enabled     = false
+description = PI OS volume filesystem total
+metric_name = os.fileSys..total.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_network_rx_avg]
+collect     = false
+enabled     = false
+description = PI OS network receive
+metric_name = os.network.rx.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = bytes/s
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_network_tx_avg]
+collect     = false
+enabled     = false
+description = PI OS network transmit
+metric_name = os.network.tx.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = bytes/s
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_general_acuUtilization_avg]
+collect     = false
+enabled     = false
+description = PI OS ACU utilization
+metric_name = os.general.acuUtilization.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = %
+window      = 3
+warning     = 80
+critical    = 95
+
+[metric.aws.dbinsights.RDS.os_general_maxConfiguredAcu_avg]
+collect     = false
+enabled     = false
+description = PI OS max configured ACU
+metric_name = os.general.maxConfiguredAcu.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = ACU
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_general_minConfiguredAcu_avg]
+collect     = false
+enabled     = false
+description = PI OS min configured ACU
+metric_name = os.general.minConfiguredAcu.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = ACU
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_general_numVCPUs_avg]
+collect     = false
+enabled     = false
+description = PI OS vCPU count
+metric_name = os.general.numVCPUs.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = vCPUs
+window      = 3
+
+[metric.aws.dbinsights.RDS.os_general_serverlessDatabaseCapacity_avg]
+collect     = false
+enabled     = false
+description = PI OS serverless DB capacity
+metric_name = os.general.serverlessDatabaseCapacity.avg
+engines     = mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora
+operator    = >
+unit        = ACU
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_SQL_Com_analyze_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.SQL.Com_analyze
+metric_name = db.SQL.Com_analyze.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_SQL_Com_optimize_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.SQL.Com_optimize
+metric_name = db.SQL.Com_optimize.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_SQL_Com_select_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.SQL.Com_select
+metric_name = db.SQL.Com_select.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Users_Connections_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.Users.Connections
+metric_name = db.Users.Connections.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_SQL_Innodb_rows_deleted_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.SQL.Innodb_rows_deleted
+metric_name = db.SQL.Innodb_rows_deleted.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_SQL_Innodb_rows_inserted_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.SQL.Innodb_rows_inserted
+metric_name = db.SQL.Innodb_rows_inserted.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_SQL_Innodb_rows_read_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.SQL.Innodb_rows_read
+metric_name = db.SQL.Innodb_rows_read.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_SQL_Innodb_rows_updated_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.SQL.Innodb_rows_updated
+metric_name = db.SQL.Innodb_rows_updated.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_SQL_Select_full_join_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.SQL.Select_full_join
+metric_name = db.SQL.Select_full_join.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_SQL_Select_full_range_join_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.SQL.Select_full_range_join
+metric_name = db.SQL.Select_full_range_join.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_SQL_Select_range_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.SQL.Select_range
+metric_name = db.SQL.Select_range.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_SQL_Select_range_check_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.SQL.Select_range_check
+metric_name = db.SQL.Select_range_check.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_SQL_Select_scan_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.SQL.Select_scan
+metric_name = db.SQL.Select_scan.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_SQL_Slow_queries_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.SQL.Slow_queries
+metric_name = db.SQL.Slow_queries.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_SQL_Sort_merge_passes_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.SQL.Sort_merge_passes
+metric_name = db.SQL.Sort_merge_passes.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_SQL_Sort_range_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.SQL.Sort_range
+metric_name = db.SQL.Sort_range.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_SQL_Sort_rows_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.SQL.Sort_rows
+metric_name = db.SQL.Sort_rows.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_SQL_Sort_scan_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.SQL.Sort_scan
+metric_name = db.SQL.Sort_scan.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_SQL_Questions_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.SQL.Questions
+metric_name = db.SQL.Questions.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Locks_Innodb_row_lock_time_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.Locks.Innodb_row_lock_time
+metric_name = db.Locks.Innodb_row_lock_time.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Locks_Table_locks_immediate_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.Locks.Table_locks_immediate
+metric_name = db.Locks.Table_locks_immediate.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Locks_Table_locks_waited_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.Locks.Table_locks_waited
+metric_name = db.Locks.Table_locks_waited.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Users_Aborted_clients_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.Users.Aborted_clients
+metric_name = db.Users.Aborted_clients.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Users_Aborted_connects_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.Users.Aborted_connects
+metric_name = db.Users.Aborted_connects.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_User_max_connections_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.User.max_connections
+metric_name = db.User.max_connections.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Users_Threads_created_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.Users.Threads_created
+metric_name = db.Users.Threads_created.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Users_Threads_running_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.Users.Threads_running
+metric_name = db.Users.Threads_running.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_IO_Innodb_data_writes_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.IO.Innodb_data_writes
+metric_name = db.IO.Innodb_data_writes.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_IO_Innodb_dblwr_writes_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.IO.Innodb_dblwr_writes
+metric_name = db.IO.Innodb_dblwr_writes.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_IO_Innodb_log_write_requests_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.IO.Innodb_log_write_requests
+metric_name = db.IO.Innodb_log_write_requests.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_IO_Innodb_log_writes_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.IO.Innodb_log_writes
+metric_name = db.IO.Innodb_log_writes.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_IO_Innodb_pages_written_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.IO.Innodb_pages_written
+metric_name = db.IO.Innodb_pages_written.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Temp_Created_tmp_disk_tables_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.Temp.Created_tmp_disk_tables
+metric_name = db.Temp.Created_tmp_disk_tables.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Temp_Created_tmp_tables_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.Temp.Created_tmp_tables
+metric_name = db.Temp.Created_tmp_tables.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Cache_Innodb_buffer_pool_pages_data_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.Cache.Innodb_buffer_pool_pages_data
+metric_name = db.Cache.Innodb_buffer_pool_pages_data.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Cache_Innodb_buffer_pool_pages_total_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.Cache.Innodb_buffer_pool_pages_total
+metric_name = db.Cache.Innodb_buffer_pool_pages_total.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Cache_Innodb_buffer_pool_read_requests_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.Cache.Innodb_buffer_pool_read_requests
+metric_name = db.Cache.Innodb_buffer_pool_read_requests.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Cache_Innodb_buffer_pool_reads_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.Cache.Innodb_buffer_pool_reads
+metric_name = db.Cache.Innodb_buffer_pool_reads.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Cache_Opened_tables_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.Cache.Opened_tables
+metric_name = db.Cache.Opened_tables.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Cache_Opened_table_definitions_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.Cache.Opened_table_definitions
+metric_name = db.Cache.Opened_table_definitions.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Cache_Qcache_hits_avg]
+collect     = false
+enabled     = false
+description = PI MySQL db.Cache.Qcache_hits
+metric_name = db.Cache.Qcache_hits.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Cache_innoDB_buffer_pool_hits_avg]
+collect     = false
+enabled     = false
+description = PI MySQL derived db.Cache.innoDB_buffer_pool_hits
+metric_name = db.Cache.innoDB_buffer_pool_hits.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Cache_innoDB_buffer_pool_hit_rate_avg]
+collect     = false
+enabled     = false
+description = PI MySQL derived db.Cache.innoDB_buffer_pool_hit_rate
+metric_name = db.Cache.innoDB_buffer_pool_hit_rate.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Cache_innoDB_buffer_pool_usage_avg]
+collect     = false
+enabled     = false
+description = PI MySQL derived db.Cache.innoDB_buffer_pool_usage
+metric_name = db.Cache.innoDB_buffer_pool_usage.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Cache_query_cache_hit_rate_avg]
+collect     = false
+enabled     = false
+description = PI MySQL derived db.Cache.query_cache_hit_rate
+metric_name = db.Cache.query_cache_hit_rate.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_IO_innoDB_datafile_writes_to_disk_avg]
+collect     = false
+enabled     = false
+description = PI MySQL derived db.IO.innoDB_datafile_writes_to_disk
+metric_name = db.IO.innoDB_datafile_writes_to_disk.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_SQL_innodb_rows_changed_avg]
+collect     = false
+enabled     = false
+description = PI MySQL derived db.SQL.innodb_rows_changed
+metric_name = db.SQL.innodb_rows_changed.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Transactions_active_transactions_avg]
+collect     = false
+enabled     = false
+description = PI MySQL derived db.Transactions.active_transactions
+metric_name = db.Transactions.active_transactions.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Transactions_trx_rseg_history_len_avg]
+collect     = false
+enabled     = false
+description = PI MySQL derived db.Transactions.trx_rseg_history_len
+metric_name = db.Transactions.trx_rseg_history_len.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Locks_innodb_deadlocks_avg]
+collect     = false
+enabled     = false
+description = PI MySQL derived db.Locks.innodb_deadlocks
+metric_name = db.Locks.innodb_deadlocks.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Locks_innodb_lock_timeouts_avg]
+collect     = false
+enabled     = false
+description = PI MySQL derived db.Locks.innodb_lock_timeouts
+metric_name = db.Locks.innodb_lock_timeouts.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Locks_innodb_row_lock_waits_avg]
+collect     = false
+enabled     = false
+description = PI MySQL derived db.Locks.innodb_row_lock_waits
+metric_name = db.Locks.innodb_row_lock_waits.avg
+engines     = mysql,mariadb,aurora-mysql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Cache_blks_hit_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.Cache.blks_hit
+metric_name = db.Cache.blks_hit.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Cache_buffers_alloc_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.Cache.buffers_alloc
+metric_name = db.Cache.buffers_alloc.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Checkpoint_buffers_checkpoint_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.Checkpoint.buffers_checkpoint
+metric_name = db.Checkpoint.buffers_checkpoint.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Checkpoint_checkpoint_sync_time_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.Checkpoint.checkpoint_sync_time
+metric_name = db.Checkpoint.checkpoint_sync_time.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Checkpoint_checkpoint_write_time_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.Checkpoint.checkpoint_write_time
+metric_name = db.Checkpoint.checkpoint_write_time.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Checkpoint_checkpoints_req_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.Checkpoint.checkpoints_req
+metric_name = db.Checkpoint.checkpoints_req.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Checkpoint_checkpoints_timed_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.Checkpoint.checkpoints_timed
+metric_name = db.Checkpoint.checkpoints_timed.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Checkpoint_maxwritten_clean_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.Checkpoint.maxwritten_clean
+metric_name = db.Checkpoint.maxwritten_clean.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Concurrency_deadlocks_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.Concurrency.deadlocks
+metric_name = db.Concurrency.deadlocks.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_IO_blk_read_time_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.IO.blk_read_time
+metric_name = db.IO.blk_read_time.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_IO_blks_read_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.IO.blks_read
+metric_name = db.IO.blks_read.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_IO_buffers_backend_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.IO.buffers_backend
+metric_name = db.IO.buffers_backend.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_IO_buffers_backend_fsync_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.IO.buffers_backend_fsync
+metric_name = db.IO.buffers_backend_fsync.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_IO_buffers_clean_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.IO.buffers_clean
+metric_name = db.IO.buffers_clean.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_SQL_tup_deleted_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.SQL.tup_deleted
+metric_name = db.SQL.tup_deleted.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_SQL_tup_fetched_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.SQL.tup_fetched
+metric_name = db.SQL.tup_fetched.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_SQL_tup_inserted_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.SQL.tup_inserted
+metric_name = db.SQL.tup_inserted.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_SQL_tup_returned_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.SQL.tup_returned
+metric_name = db.SQL.tup_returned.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_SQL_tup_updated_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.SQL.tup_updated
+metric_name = db.SQL.tup_updated.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Temp_temp_bytes_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.Temp.temp_bytes
+metric_name = db.Temp.temp_bytes.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Temp_temp_files_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.Temp.temp_files
+metric_name = db.Temp.temp_files.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Transactions_xact_commit_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.Transactions.xact_commit
+metric_name = db.Transactions.xact_commit.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Transactions_xact_rollback_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.Transactions.xact_rollback
+metric_name = db.Transactions.xact_rollback.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_User_numbackends_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.User.numbackends
+metric_name = db.User.numbackends.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_User_total_auth_attempts_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.User.total_auth_attempts
+metric_name = db.User.total_auth_attempts.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_WAL_archived_count_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL db.WAL.archived_count
+metric_name = db.WAL.archived_count.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Checkpoint_checkpoint_sync_latency_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL derived db.Checkpoint.checkpoint_sync_latency
+metric_name = db.Checkpoint.checkpoint_sync_latency.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Checkpoint_checkpoint_write_latency_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL derived db.Checkpoint.checkpoint_write_latency
+metric_name = db.Checkpoint.checkpoint_write_latency.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_IO_read_latency_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL derived db.IO.read_latency
+metric_name = db.IO.read_latency.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_state_idle_in_transaction_aborted_count_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL derived db.state.idle_in_transaction_aborted_count
+metric_name = db.state.idle_in_transaction_aborted_count.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_state_idle_in_transaction_count_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL derived db.state.idle_in_transaction_count
+metric_name = db.state.idle_in_transaction_count.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_state_idle_in_transaction_max_time_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL derived db.state.idle_in_transaction_max_time
+metric_name = db.state.idle_in_transaction_max_time.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Transactions_blocked_transactions_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL derived db.Transactions.blocked_transactions
+metric_name = db.Transactions.blocked_transactions.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Transactions_oldest_active_logical_replication_slot_xid_age_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL derived db.Transactions.oldest_active_logical_replication_slot_xid_age
+metric_name = db.Transactions.oldest_active_logical_replication_slot_xid_age.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Transactions_oldest_inactive_logical_replication_slot_xid_age_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL derived db.Transactions.oldest_inactive_logical_replication_slot_xid_age
+metric_name = db.Transactions.oldest_inactive_logical_replication_slot_xid_age.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Transactions_oldest_prepared_transaction_xid_age_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL derived db.Transactions.oldest_prepared_transaction_xid_age
+metric_name = db.Transactions.oldest_prepared_transaction_xid_age.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Transactions_oldest_running_transaction_xid_age_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL derived db.Transactions.oldest_running_transaction_xid_age
+metric_name = db.Transactions.oldest_running_transaction_xid_age.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Transactions_oldest_hot_standby_feedback_xid_age_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL derived db.Transactions.oldest_hot_standby_feedback_xid_age
+metric_name = db.Transactions.oldest_hot_standby_feedback_xid_age.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Transactions_max_used_xact_ids_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL derived db.Transactions.max_used_xact_ids
+metric_name = db.Transactions.max_used_xact_ids.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_WAL_archive_failed_count_avg]
+collect     = false
+enabled     = false
+description = PI PostgreSQL derived db.WAL.archive_failed_count
+metric_name = db.WAL.archive_failed_count.avg
+engines     = postgresql,aurora-postgresql
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_User_CPU_used_by_this_session_avg]
+collect     = false
+enabled     = false
+description = PI Oracle db.User.CPU used by this session
+metric_name = db.User.CPU used by this session.avg
+engines     = oracle
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_User_SQL_Net_roundtrips_to_from_client_avg]
+collect     = false
+enabled     = false
+description = PI Oracle db.User.SQL*Net roundtrips to/from client
+metric_name = db.User.SQL*Net roundtrips to/from client.avg
+engines     = oracle
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_User_bytes_received_via_SQL_Net_from_client_avg]
+collect     = false
+enabled     = false
+description = PI Oracle db.User.bytes received via SQL*Net from client
+metric_name = db.User.bytes received via SQL*Net from client.avg
+engines     = oracle
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_User_user_commits_avg]
+collect     = false
+enabled     = false
+description = PI Oracle db.User.user commits
+metric_name = db.User.user commits.avg
+engines     = oracle
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_User_logons_cumulative_avg]
+collect     = false
+enabled     = false
+description = PI Oracle db.User.logons cumulative
+metric_name = db.User.logons cumulative.avg
+engines     = oracle
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_User_user_calls_avg]
+collect     = false
+enabled     = false
+description = PI Oracle db.User.user calls
+metric_name = db.User.user calls.avg
+engines     = oracle
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_User_bytes_sent_via_SQL_Net_to_client_avg]
+collect     = false
+enabled     = false
+description = PI Oracle db.User.bytes sent via SQL*Net to client
+metric_name = db.User.bytes sent via SQL*Net to client.avg
+engines     = oracle
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_User_user_rollbacks_avg]
+collect     = false
+enabled     = false
+description = PI Oracle db.User.user rollbacks
+metric_name = db.User.user rollbacks.avg
+engines     = oracle
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Redo_redo_size_avg]
+collect     = false
+enabled     = false
+description = PI Oracle db.Redo.redo size
+metric_name = db.Redo.redo size.avg
+engines     = oracle
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_SQL_parse_count_total_avg]
+collect     = false
+enabled     = false
+description = PI Oracle db.SQL.parse count (total)
+metric_name = db.SQL.parse count (total).avg
+engines     = oracle
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_SQL_parse_count_hard_avg]
+collect     = false
+enabled     = false
+description = PI Oracle db.SQL.parse count (hard)
+metric_name = db.SQL.parse count (hard).avg
+engines     = oracle
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_SQL_table_scan_rows_gotten_avg]
+collect     = false
+enabled     = false
+description = PI Oracle db.SQL.table scan rows gotten
+metric_name = db.SQL.table scan rows gotten.avg
+engines     = oracle
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_SQL_sorts_memory_avg]
+collect     = false
+enabled     = false
+description = PI Oracle db.SQL.sorts (memory)
+metric_name = db.SQL.sorts (memory).avg
+engines     = oracle
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_SQL_sorts_disk_avg]
+collect     = false
+enabled     = false
+description = PI Oracle db.SQL.sorts (disk)
+metric_name = db.SQL.sorts (disk).avg
+engines     = oracle
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_SQL_sorts_rows_avg]
+collect     = false
+enabled     = false
+description = PI Oracle db.SQL.sorts (rows)
+metric_name = db.SQL.sorts (rows).avg
+engines     = oracle
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Cache_physical_read_bytes_avg]
+collect     = false
+enabled     = false
+description = PI Oracle db.Cache.physical read bytes
+metric_name = db.Cache.physical read bytes.avg
+engines     = oracle
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Cache_db_block_gets_avg]
+collect     = false
+enabled     = false
+description = PI Oracle db.Cache.db block gets
+metric_name = db.Cache.db block gets.avg
+engines     = oracle
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Cache_DBWR_checkpoints_avg]
+collect     = false
+enabled     = false
+description = PI Oracle db.Cache.DBWR checkpoints
+metric_name = db.Cache.DBWR checkpoints.avg
+engines     = oracle
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Cache_physical_reads_avg]
+collect     = false
+enabled     = false
+description = PI Oracle db.Cache.physical reads
+metric_name = db.Cache.physical reads.avg
+engines     = oracle
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Cache_consistent_gets_from_cache_avg]
+collect     = false
+enabled     = false
+description = PI Oracle db.Cache.consistent gets from cache
+metric_name = db.Cache.consistent gets from cache.avg
+engines     = oracle
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Cache_db_block_gets_from_cache_avg]
+collect     = false
+enabled     = false
+description = PI Oracle db.Cache.db block gets from cache
+metric_name = db.Cache.db block gets from cache.avg
+engines     = oracle
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Cache_consistent_gets_avg]
+collect     = false
+enabled     = false
+description = PI Oracle db.Cache.consistent gets
+metric_name = db.Cache.consistent gets.avg
+engines     = oracle
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Access_Methods_Forwarded_Records_avg]
+collect     = false
+enabled     = false
+description = PI SQL Server db.Access Methods.Forwarded Records
+metric_name = db.Access Methods.Forwarded Records.avg
+engines     = sqlserver
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Access_Methods_Page_Splits_avg]
+collect     = false
+enabled     = false
+description = PI SQL Server db.Access Methods.Page Splits
+metric_name = db.Access Methods.Page Splits.avg
+engines     = sqlserver
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Buffer_Manager_Buffer_cache_hit_ratio_avg]
+collect     = false
+enabled     = false
+description = PI SQL Server db.Buffer Manager.Buffer cache hit ratio
+metric_name = db.Buffer Manager.Buffer cache hit ratio.avg
+engines     = sqlserver
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Buffer_Manager_Page_life_expectancy_avg]
+collect     = false
+enabled     = false
+description = PI SQL Server db.Buffer Manager.Page life expectancy
+metric_name = db.Buffer Manager.Page life expectancy.avg
+engines     = sqlserver
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Buffer_Manager_Page_lookups_avg]
+collect     = false
+enabled     = false
+description = PI SQL Server db.Buffer Manager.Page lookups
+metric_name = db.Buffer Manager.Page lookups.avg
+engines     = sqlserver
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Buffer_Manager_Page_reads_avg]
+collect     = false
+enabled     = false
+description = PI SQL Server db.Buffer Manager.Page reads
+metric_name = db.Buffer Manager.Page reads.avg
+engines     = sqlserver
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Buffer_Manager_Page_writes_avg]
+collect     = false
+enabled     = false
+description = PI SQL Server db.Buffer Manager.Page writes
+metric_name = db.Buffer Manager.Page writes.avg
+engines     = sqlserver
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Databases_Active_Transactions_Total_avg]
+collect     = false
+enabled     = false
+description = PI SQL Server db.Databases.Active Transactions (_Total)
+metric_name = db.Databases.Active Transactions (_Total).avg
+engines     = sqlserver
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Databases_Log_Bytes_Flushed_Total_avg]
+collect     = false
+enabled     = false
+description = PI SQL Server db.Databases.Log Bytes Flushed (_Total)
+metric_name = db.Databases.Log Bytes Flushed (_Total).avg
+engines     = sqlserver
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Databases_Log_Flush_Waits_Total_avg]
+collect     = false
+enabled     = false
+description = PI SQL Server db.Databases.Log Flush Waits (_Total)
+metric_name = db.Databases.Log Flush Waits (_Total).avg
+engines     = sqlserver
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Databases_Log_Flushes_Total_avg]
+collect     = false
+enabled     = false
+description = PI SQL Server db.Databases.Log Flushes (_Total)
+metric_name = db.Databases.Log Flushes (_Total).avg
+engines     = sqlserver
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Databases_Write_Transactions_Total_avg]
+collect     = false
+enabled     = false
+description = PI SQL Server db.Databases.Write Transactions (_Total)
+metric_name = db.Databases.Write Transactions (_Total).avg
+engines     = sqlserver
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_General_Statistics_Processes_blocked_avg]
+collect     = false
+enabled     = false
+description = PI SQL Server db.General Statistics.Processes blocked
+metric_name = db.General Statistics.Processes blocked.avg
+engines     = sqlserver
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_General_Statistics_User_Connections_avg]
+collect     = false
+enabled     = false
+description = PI SQL Server db.General Statistics.User Connections
+metric_name = db.General Statistics.User Connections.avg
+engines     = sqlserver
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Latches_Latch_Waits_avg]
+collect     = false
+enabled     = false
+description = PI SQL Server db.Latches.Latch Waits
+metric_name = db.Latches.Latch Waits.avg
+engines     = sqlserver
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Locks_Number_of_Deadlocks_Total_avg]
+collect     = false
+enabled     = false
+description = PI SQL Server db.Locks.Number of Deadlocks (_Total)
+metric_name = db.Locks.Number of Deadlocks (_Total).avg
+engines     = sqlserver
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_Memory_Manager_Memory_Grants_Pending_avg]
+collect     = false
+enabled     = false
+description = PI SQL Server db.Memory Manager.Memory Grants Pending
+metric_name = db.Memory Manager.Memory Grants Pending.avg
+engines     = sqlserver
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_SQL_Statistics_Batch_Requests_avg]
+collect     = false
+enabled     = false
+description = PI SQL Server db.SQL Statistics.Batch Requests
+metric_name = db.SQL Statistics.Batch Requests.avg
+engines     = sqlserver
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_SQL_Statistics_SQL_Compilations_avg]
+collect     = false
+enabled     = false
+description = PI SQL Server db.SQL Statistics.SQL Compilations
+metric_name = db.SQL Statistics.SQL Compilations.avg
+engines     = sqlserver
+operator    = >
+unit        = 
+window      = 3
+
+[metric.aws.dbinsights.RDS.db_SQL_Statistics_SQL_Re_Compilations_avg]
+collect     = false
+enabled     = false
+description = PI SQL Server db.SQL Statistics.SQL Re-Compilations
+metric_name = db.SQL Statistics.SQL Re-Compilations.avg
+engines     = sqlserver
+operator    = >
+unit        = 
+window      = 3
+

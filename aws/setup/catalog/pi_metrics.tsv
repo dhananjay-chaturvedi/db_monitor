@@ -1,0 +1,213 @@
+db_load	DB load (avg active sessions)	db.load.avg	mysql,mariadb,postgresql,oracle,sqlserver,aurora-mysql,aurora-postgresql,aurora	>	sessions	2	4
+db_load_cpu	DB load on CPU	db.load.avg.cpu	mysql,mariadb,postgresql,oracle,sqlserver,aurora-mysql,aurora-postgresql,aurora	>	sessions	2	4
+db_load_non_cpu	DB load non-CPU wait	db.load.avg.non_cpu	mysql,mariadb,postgresql,oracle,sqlserver,aurora-mysql,aurora-postgresql,aurora	>	sessions	2	4
+db_sampledload	DB sampled load (raw sessions)	db.sampledload.avg	mysql,mariadb,postgresql,oracle,sqlserver,aurora-mysql,aurora-postgresql,aurora	>	sessions	2	4
+os_memory_active_avg	PI OS memory active	os.memory.active.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>	KB		
+os_memory_buffers_avg	PI OS memory buffers	os.memory.buffers.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>	KB		
+os_memory_cached_avg	PI OS memory cached	os.memory.cached.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>	KB		
+os_memory_db_cache_avg	PI OS DB cache memory	os.memory.db.cache.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>	bytes		
+os_memory_db_residentSetSize_avg	PI OS DB resident set size	os.memory.db.residentSetSize.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>	bytes		
+os_memory_db_swap_avg	PI OS DB swap memory	os.memory.db.swap.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>	bytes		
+os_memory_dirty_avg	PI OS memory dirty	os.memory.dirty.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>	KB		
+os_memory_free_avg	PI OS memory free	os.memory.free.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>	KB		
+os_memory_hugePagesFree_avg	PI OS huge pages free	os.memory.hugePagesFree.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>	pages		
+os_memory_hugePagesRsvd_avg	PI OS huge pages reserved	os.memory.hugePagesRsvd.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>	pages		
+os_memory_hugePagesSize_avg	PI OS huge page size	os.memory.hugePagesSize.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>	KB		
+os_memory_hugePagesSurp_avg	PI OS huge pages surplus	os.memory.hugePagesSurp.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>	pages		
+os_memory_hugePagesTotal_avg	PI OS huge pages total	os.memory.hugePagesTotal.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>	pages		
+os_memory_inactive_avg	PI OS memory inactive	os.memory.inactive.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>	KB		
+os_memory_mapped_avg	PI OS memory mapped	os.memory.mapped.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>	KB		
+os_memory_outOfMemoryKillCount_avg	PI OS OOM kill count	os.memory.outOfMemoryKillCount.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>	kills	1	5
+os_memory_pageTables_avg	PI OS page tables	os.memory.pageTables.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>	KB		
+os_memory_slab_avg	PI OS slab memory	os.memory.slab.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>	KB		
+os_memory_total_avg	PI OS memory total	os.memory.total.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>	KB		
+os_memory_writeback_avg	PI OS memory writeback	os.memory.writeback.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>	KB		
+os_cpuUtilization_guest_avg	PI OS CPU guest	os.cpuUtilization.guest.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>	%	5	15
+os_cpuUtilization_idle_avg	PI OS CPU idle	os.cpuUtilization.idle.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	<	%	10	5
+os_cpuUtilization_irq_avg	PI OS CPU IRQ	os.cpuUtilization.irq.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>	%	5	15
+os_cpuUtilization_nice_avg	PI OS CPU nice	os.cpuUtilization.nice.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>	%	75	90
+os_cpuUtilization_steal_avg	PI OS CPU steal	os.cpuUtilization.steal.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>	%	5	15
+os_cpuUtilization_system_avg	PI OS CPU system	os.cpuUtilization.system.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>	%	30	50
+os_cpuUtilization_total_avg	PI OS CPU total	os.cpuUtilization.total.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>	%	90	95
+os_cpuUtilization_user_avg	PI OS CPU user	os.cpuUtilization.user.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>	%	75	90
+os_cpuUtilization_wait_avg	PI OS CPU I/O wait	os.cpuUtilization.wait.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>	%	20	40
+os_diskIO_vol_readIOsPS_avg	PI OS disk IO readIOsPS	os.diskIO..readIOsPS.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>			
+os_diskIO_vol_writeIOsPS_avg	PI OS disk IO writeIOsPS	os.diskIO..writeIOsPS.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>			
+os_diskIO_vol_avgQueueLen_avg	PI OS disk IO avgQueueLen	os.diskIO..avgQueueLen.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>			
+os_diskIO_vol_avgReqSz_avg	PI OS disk IO avgReqSz	os.diskIO..avgReqSz.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>			
+os_diskIO_vol_await_avg	PI OS disk IO await	os.diskIO..await.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>			
+os_diskIO_vol_readKb_avg	PI OS disk IO readKb	os.diskIO..readKb.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>			
+os_diskIO_vol_readKbPS_avg	PI OS disk IO readKbPS	os.diskIO..readKbPS.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>			
+os_diskIO_vol_rrqmPS_avg	PI OS disk IO rrqmPS	os.diskIO..rrqmPS.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>			
+os_diskIO_vol_tps_avg	PI OS disk IO tps	os.diskIO..tps.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>			
+os_diskIO_vol_util_avg	PI OS disk IO util	os.diskIO..util.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>			
+os_diskIO_vol_writeKb_avg	PI OS disk IO writeKb	os.diskIO..writeKb.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>			
+os_diskIO_vol_writeKbPS_avg	PI OS disk IO writeKbPS	os.diskIO..writeKbPS.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>			
+os_diskIO_vol_wrqmPS_avg	PI OS disk IO wrqmPS	os.diskIO..wrqmPS.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>			
+os_tasks_blocked_avg	PI OS tasks blocked	os.tasks.blocked.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>	tasks		
+os_tasks_running_avg	PI OS tasks running	os.tasks.running.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>	tasks		
+os_tasks_sleeping_avg	PI OS tasks sleeping	os.tasks.sleeping.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>	tasks		
+os_tasks_stopped_avg	PI OS tasks stopped	os.tasks.stopped.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>	tasks		
+os_tasks_total_avg	PI OS tasks total	os.tasks.total.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>	tasks		
+os_tasks_zombie_avg	PI OS tasks zombie	os.tasks.zombie.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>	tasks		
+os_loadAverageMinute_one_avg	PI OS load average 1m	os.loadAverageMinute.one.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>	processes	4	8
+os_loadAverageMinute_five_avg	PI OS load average 5m	os.loadAverageMinute.five.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>	processes	3	6
+os_loadAverageMinute_fifteen_avg	PI OS load average 15m	os.loadAverageMinute.fifteen.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>	processes	2	4
+os_swap_cached_avg	PI OS swap cached	os.swap.cached.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>	KB		
+os_swap_free_avg	PI OS swap free	os.swap.free.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>	KB		
+os_swap_in_avg	PI OS swap in	os.swap.in.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>	KB		
+os_swap_out_avg	PI OS swap out	os.swap.out.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>	KB		
+os_swap_total_avg	PI OS swap total	os.swap.total.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>	KB		
+os_fileSys_maxFiles_avg	PI OS filesystem maxFiles	os.fileSys.maxFiles.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>			
+os_fileSys_usedFiles_avg	PI OS filesystem usedFiles	os.fileSys.usedFiles.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>			
+os_fileSys_usedFilePercent_avg	PI OS filesystem usedFilePercent	os.fileSys.usedFilePercent.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>			
+os_fileSys_usedPercent_avg	PI OS filesystem usedPercent	os.fileSys.usedPercent.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>			
+os_fileSys_used_avg	PI OS filesystem used	os.fileSys.used.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>			
+os_fileSys_total_avg	PI OS filesystem total	os.fileSys.total.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>			
+os_fileSys_vol_maxFiles_avg	PI OS volume filesystem maxFiles	os.fileSys..maxFiles.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>			
+os_fileSys_vol_usedFiles_avg	PI OS volume filesystem usedFiles	os.fileSys..usedFiles.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>			
+os_fileSys_vol_usedFilePercent_avg	PI OS volume filesystem usedFilePercent	os.fileSys..usedFilePercent.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>			
+os_fileSys_vol_usedPercent_avg	PI OS volume filesystem usedPercent	os.fileSys..usedPercent.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>			
+os_fileSys_vol_used_avg	PI OS volume filesystem used	os.fileSys..used.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>			
+os_fileSys_vol_total_avg	PI OS volume filesystem total	os.fileSys..total.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>			
+os_network_rx_avg	PI OS network receive	os.network.rx.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>	bytes/s		
+os_network_tx_avg	PI OS network transmit	os.network.tx.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>	bytes/s		
+os_general_acuUtilization_avg	PI OS ACU utilization	os.general.acuUtilization.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>	%	80	95
+os_general_maxConfiguredAcu_avg	PI OS max configured ACU	os.general.maxConfiguredAcu.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>	ACU		
+os_general_minConfiguredAcu_avg	PI OS min configured ACU	os.general.minConfiguredAcu.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>	ACU		
+os_general_numVCPUs_avg	PI OS vCPU count	os.general.numVCPUs.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>	vCPUs		
+os_general_serverlessDatabaseCapacity_avg	PI OS serverless DB capacity	os.general.serverlessDatabaseCapacity.avg	mysql,mariadb,postgresql,oracle,aurora-mysql,aurora-postgresql,aurora	>	ACU		
+db_SQL_Com_analyze_avg	PI MySQL db.SQL.Com_analyze	db.SQL.Com_analyze.avg	mysql,mariadb,aurora-mysql	>			
+db_SQL_Com_optimize_avg	PI MySQL db.SQL.Com_optimize	db.SQL.Com_optimize.avg	mysql,mariadb,aurora-mysql	>			
+db_SQL_Com_select_avg	PI MySQL db.SQL.Com_select	db.SQL.Com_select.avg	mysql,mariadb,aurora-mysql	>			
+db_Users_Connections_avg	PI MySQL db.Users.Connections	db.Users.Connections.avg	mysql,mariadb,aurora-mysql	>			
+db_SQL_Innodb_rows_deleted_avg	PI MySQL db.SQL.Innodb_rows_deleted	db.SQL.Innodb_rows_deleted.avg	mysql,mariadb,aurora-mysql	>			
+db_SQL_Innodb_rows_inserted_avg	PI MySQL db.SQL.Innodb_rows_inserted	db.SQL.Innodb_rows_inserted.avg	mysql,mariadb,aurora-mysql	>			
+db_SQL_Innodb_rows_read_avg	PI MySQL db.SQL.Innodb_rows_read	db.SQL.Innodb_rows_read.avg	mysql,mariadb,aurora-mysql	>			
+db_SQL_Innodb_rows_updated_avg	PI MySQL db.SQL.Innodb_rows_updated	db.SQL.Innodb_rows_updated.avg	mysql,mariadb,aurora-mysql	>			
+db_SQL_Select_full_join_avg	PI MySQL db.SQL.Select_full_join	db.SQL.Select_full_join.avg	mysql,mariadb,aurora-mysql	>			
+db_SQL_Select_full_range_join_avg	PI MySQL db.SQL.Select_full_range_join	db.SQL.Select_full_range_join.avg	mysql,mariadb,aurora-mysql	>			
+db_SQL_Select_range_avg	PI MySQL db.SQL.Select_range	db.SQL.Select_range.avg	mysql,mariadb,aurora-mysql	>			
+db_SQL_Select_range_check_avg	PI MySQL db.SQL.Select_range_check	db.SQL.Select_range_check.avg	mysql,mariadb,aurora-mysql	>			
+db_SQL_Select_scan_avg	PI MySQL db.SQL.Select_scan	db.SQL.Select_scan.avg	mysql,mariadb,aurora-mysql	>			
+db_SQL_Slow_queries_avg	PI MySQL db.SQL.Slow_queries	db.SQL.Slow_queries.avg	mysql,mariadb,aurora-mysql	>			
+db_SQL_Sort_merge_passes_avg	PI MySQL db.SQL.Sort_merge_passes	db.SQL.Sort_merge_passes.avg	mysql,mariadb,aurora-mysql	>			
+db_SQL_Sort_range_avg	PI MySQL db.SQL.Sort_range	db.SQL.Sort_range.avg	mysql,mariadb,aurora-mysql	>			
+db_SQL_Sort_rows_avg	PI MySQL db.SQL.Sort_rows	db.SQL.Sort_rows.avg	mysql,mariadb,aurora-mysql	>			
+db_SQL_Sort_scan_avg	PI MySQL db.SQL.Sort_scan	db.SQL.Sort_scan.avg	mysql,mariadb,aurora-mysql	>			
+db_SQL_Questions_avg	PI MySQL db.SQL.Questions	db.SQL.Questions.avg	mysql,mariadb,aurora-mysql	>			
+db_Locks_Innodb_row_lock_time_avg	PI MySQL db.Locks.Innodb_row_lock_time	db.Locks.Innodb_row_lock_time.avg	mysql,mariadb,aurora-mysql	>			
+db_Locks_Table_locks_immediate_avg	PI MySQL db.Locks.Table_locks_immediate	db.Locks.Table_locks_immediate.avg	mysql,mariadb,aurora-mysql	>			
+db_Locks_Table_locks_waited_avg	PI MySQL db.Locks.Table_locks_waited	db.Locks.Table_locks_waited.avg	mysql,mariadb,aurora-mysql	>			
+db_Users_Aborted_clients_avg	PI MySQL db.Users.Aborted_clients	db.Users.Aborted_clients.avg	mysql,mariadb,aurora-mysql	>			
+db_Users_Aborted_connects_avg	PI MySQL db.Users.Aborted_connects	db.Users.Aborted_connects.avg	mysql,mariadb,aurora-mysql	>			
+db_User_max_connections_avg	PI MySQL db.User.max_connections	db.User.max_connections.avg	mysql,mariadb,aurora-mysql	>			
+db_Users_Threads_created_avg	PI MySQL db.Users.Threads_created	db.Users.Threads_created.avg	mysql,mariadb,aurora-mysql	>			
+db_Users_Threads_running_avg	PI MySQL db.Users.Threads_running	db.Users.Threads_running.avg	mysql,mariadb,aurora-mysql	>			
+db_IO_Innodb_data_writes_avg	PI MySQL db.IO.Innodb_data_writes	db.IO.Innodb_data_writes.avg	mysql,mariadb,aurora-mysql	>			
+db_IO_Innodb_dblwr_writes_avg	PI MySQL db.IO.Innodb_dblwr_writes	db.IO.Innodb_dblwr_writes.avg	mysql,mariadb,aurora-mysql	>			
+db_IO_Innodb_log_write_requests_avg	PI MySQL db.IO.Innodb_log_write_requests	db.IO.Innodb_log_write_requests.avg	mysql,mariadb,aurora-mysql	>			
+db_IO_Innodb_log_writes_avg	PI MySQL db.IO.Innodb_log_writes	db.IO.Innodb_log_writes.avg	mysql,mariadb,aurora-mysql	>			
+db_IO_Innodb_pages_written_avg	PI MySQL db.IO.Innodb_pages_written	db.IO.Innodb_pages_written.avg	mysql,mariadb,aurora-mysql	>			
+db_Temp_Created_tmp_disk_tables_avg	PI MySQL db.Temp.Created_tmp_disk_tables	db.Temp.Created_tmp_disk_tables.avg	mysql,mariadb,aurora-mysql	>			
+db_Temp_Created_tmp_tables_avg	PI MySQL db.Temp.Created_tmp_tables	db.Temp.Created_tmp_tables.avg	mysql,mariadb,aurora-mysql	>			
+db_Cache_Innodb_buffer_pool_pages_data_avg	PI MySQL db.Cache.Innodb_buffer_pool_pages_data	db.Cache.Innodb_buffer_pool_pages_data.avg	mysql,mariadb,aurora-mysql	>			
+db_Cache_Innodb_buffer_pool_pages_total_avg	PI MySQL db.Cache.Innodb_buffer_pool_pages_total	db.Cache.Innodb_buffer_pool_pages_total.avg	mysql,mariadb,aurora-mysql	>			
+db_Cache_Innodb_buffer_pool_read_requests_avg	PI MySQL db.Cache.Innodb_buffer_pool_read_requests	db.Cache.Innodb_buffer_pool_read_requests.avg	mysql,mariadb,aurora-mysql	>			
+db_Cache_Innodb_buffer_pool_reads_avg	PI MySQL db.Cache.Innodb_buffer_pool_reads	db.Cache.Innodb_buffer_pool_reads.avg	mysql,mariadb,aurora-mysql	>			
+db_Cache_Opened_tables_avg	PI MySQL db.Cache.Opened_tables	db.Cache.Opened_tables.avg	mysql,mariadb,aurora-mysql	>			
+db_Cache_Opened_table_definitions_avg	PI MySQL db.Cache.Opened_table_definitions	db.Cache.Opened_table_definitions.avg	mysql,mariadb,aurora-mysql	>			
+db_Cache_Qcache_hits_avg	PI MySQL db.Cache.Qcache_hits	db.Cache.Qcache_hits.avg	mysql,mariadb,aurora-mysql	>			
+db_Cache_innoDB_buffer_pool_hits_avg	PI MySQL derived db.Cache.innoDB_buffer_pool_hits	db.Cache.innoDB_buffer_pool_hits.avg	mysql,mariadb,aurora-mysql	>			
+db_Cache_innoDB_buffer_pool_hit_rate_avg	PI MySQL derived db.Cache.innoDB_buffer_pool_hit_rate	db.Cache.innoDB_buffer_pool_hit_rate.avg	mysql,mariadb,aurora-mysql	>			
+db_Cache_innoDB_buffer_pool_usage_avg	PI MySQL derived db.Cache.innoDB_buffer_pool_usage	db.Cache.innoDB_buffer_pool_usage.avg	mysql,mariadb,aurora-mysql	>			
+db_Cache_query_cache_hit_rate_avg	PI MySQL derived db.Cache.query_cache_hit_rate	db.Cache.query_cache_hit_rate.avg	mysql,mariadb,aurora-mysql	>			
+db_IO_innoDB_datafile_writes_to_disk_avg	PI MySQL derived db.IO.innoDB_datafile_writes_to_disk	db.IO.innoDB_datafile_writes_to_disk.avg	mysql,mariadb,aurora-mysql	>			
+db_SQL_innodb_rows_changed_avg	PI MySQL derived db.SQL.innodb_rows_changed	db.SQL.innodb_rows_changed.avg	mysql,mariadb,aurora-mysql	>			
+db_Transactions_active_transactions_avg	PI MySQL derived db.Transactions.active_transactions	db.Transactions.active_transactions.avg	mysql,mariadb,aurora-mysql	>			
+db_Transactions_trx_rseg_history_len_avg	PI MySQL derived db.Transactions.trx_rseg_history_len	db.Transactions.trx_rseg_history_len.avg	mysql,mariadb,aurora-mysql	>			
+db_Locks_innodb_deadlocks_avg	PI MySQL derived db.Locks.innodb_deadlocks	db.Locks.innodb_deadlocks.avg	mysql,mariadb,aurora-mysql	>			
+db_Locks_innodb_lock_timeouts_avg	PI MySQL derived db.Locks.innodb_lock_timeouts	db.Locks.innodb_lock_timeouts.avg	mysql,mariadb,aurora-mysql	>			
+db_Locks_innodb_row_lock_waits_avg	PI MySQL derived db.Locks.innodb_row_lock_waits	db.Locks.innodb_row_lock_waits.avg	mysql,mariadb,aurora-mysql	>			
+db_Cache_blks_hit_avg	PI PostgreSQL db.Cache.blks_hit	db.Cache.blks_hit.avg	postgresql,aurora-postgresql	>			
+db_Cache_buffers_alloc_avg	PI PostgreSQL db.Cache.buffers_alloc	db.Cache.buffers_alloc.avg	postgresql,aurora-postgresql	>			
+db_Checkpoint_buffers_checkpoint_avg	PI PostgreSQL db.Checkpoint.buffers_checkpoint	db.Checkpoint.buffers_checkpoint.avg	postgresql,aurora-postgresql	>			
+db_Checkpoint_checkpoint_sync_time_avg	PI PostgreSQL db.Checkpoint.checkpoint_sync_time	db.Checkpoint.checkpoint_sync_time.avg	postgresql,aurora-postgresql	>			
+db_Checkpoint_checkpoint_write_time_avg	PI PostgreSQL db.Checkpoint.checkpoint_write_time	db.Checkpoint.checkpoint_write_time.avg	postgresql,aurora-postgresql	>			
+db_Checkpoint_checkpoints_req_avg	PI PostgreSQL db.Checkpoint.checkpoints_req	db.Checkpoint.checkpoints_req.avg	postgresql,aurora-postgresql	>			
+db_Checkpoint_checkpoints_timed_avg	PI PostgreSQL db.Checkpoint.checkpoints_timed	db.Checkpoint.checkpoints_timed.avg	postgresql,aurora-postgresql	>			
+db_Checkpoint_maxwritten_clean_avg	PI PostgreSQL db.Checkpoint.maxwritten_clean	db.Checkpoint.maxwritten_clean.avg	postgresql,aurora-postgresql	>			
+db_Concurrency_deadlocks_avg	PI PostgreSQL db.Concurrency.deadlocks	db.Concurrency.deadlocks.avg	postgresql,aurora-postgresql	>			
+db_IO_blk_read_time_avg	PI PostgreSQL db.IO.blk_read_time	db.IO.blk_read_time.avg	postgresql,aurora-postgresql	>			
+db_IO_blks_read_avg	PI PostgreSQL db.IO.blks_read	db.IO.blks_read.avg	postgresql,aurora-postgresql	>			
+db_IO_buffers_backend_avg	PI PostgreSQL db.IO.buffers_backend	db.IO.buffers_backend.avg	postgresql,aurora-postgresql	>			
+db_IO_buffers_backend_fsync_avg	PI PostgreSQL db.IO.buffers_backend_fsync	db.IO.buffers_backend_fsync.avg	postgresql,aurora-postgresql	>			
+db_IO_buffers_clean_avg	PI PostgreSQL db.IO.buffers_clean	db.IO.buffers_clean.avg	postgresql,aurora-postgresql	>			
+db_SQL_tup_deleted_avg	PI PostgreSQL db.SQL.tup_deleted	db.SQL.tup_deleted.avg	postgresql,aurora-postgresql	>			
+db_SQL_tup_fetched_avg	PI PostgreSQL db.SQL.tup_fetched	db.SQL.tup_fetched.avg	postgresql,aurora-postgresql	>			
+db_SQL_tup_inserted_avg	PI PostgreSQL db.SQL.tup_inserted	db.SQL.tup_inserted.avg	postgresql,aurora-postgresql	>			
+db_SQL_tup_returned_avg	PI PostgreSQL db.SQL.tup_returned	db.SQL.tup_returned.avg	postgresql,aurora-postgresql	>			
+db_SQL_tup_updated_avg	PI PostgreSQL db.SQL.tup_updated	db.SQL.tup_updated.avg	postgresql,aurora-postgresql	>			
+db_Temp_temp_bytes_avg	PI PostgreSQL db.Temp.temp_bytes	db.Temp.temp_bytes.avg	postgresql,aurora-postgresql	>			
+db_Temp_temp_files_avg	PI PostgreSQL db.Temp.temp_files	db.Temp.temp_files.avg	postgresql,aurora-postgresql	>			
+db_Transactions_xact_commit_avg	PI PostgreSQL db.Transactions.xact_commit	db.Transactions.xact_commit.avg	postgresql,aurora-postgresql	>			
+db_Transactions_xact_rollback_avg	PI PostgreSQL db.Transactions.xact_rollback	db.Transactions.xact_rollback.avg	postgresql,aurora-postgresql	>			
+db_User_numbackends_avg	PI PostgreSQL db.User.numbackends	db.User.numbackends.avg	postgresql,aurora-postgresql	>			
+db_User_total_auth_attempts_avg	PI PostgreSQL db.User.total_auth_attempts	db.User.total_auth_attempts.avg	postgresql,aurora-postgresql	>			
+db_WAL_archived_count_avg	PI PostgreSQL db.WAL.archived_count	db.WAL.archived_count.avg	postgresql,aurora-postgresql	>			
+db_Checkpoint_checkpoint_sync_latency_avg	PI PostgreSQL derived db.Checkpoint.checkpoint_sync_latency	db.Checkpoint.checkpoint_sync_latency.avg	postgresql,aurora-postgresql	>			
+db_Checkpoint_checkpoint_write_latency_avg	PI PostgreSQL derived db.Checkpoint.checkpoint_write_latency	db.Checkpoint.checkpoint_write_latency.avg	postgresql,aurora-postgresql	>			
+db_IO_read_latency_avg	PI PostgreSQL derived db.IO.read_latency	db.IO.read_latency.avg	postgresql,aurora-postgresql	>			
+db_state_idle_in_transaction_aborted_count_avg	PI PostgreSQL derived db.state.idle_in_transaction_aborted_count	db.state.idle_in_transaction_aborted_count.avg	postgresql,aurora-postgresql	>			
+db_state_idle_in_transaction_count_avg	PI PostgreSQL derived db.state.idle_in_transaction_count	db.state.idle_in_transaction_count.avg	postgresql,aurora-postgresql	>			
+db_state_idle_in_transaction_max_time_avg	PI PostgreSQL derived db.state.idle_in_transaction_max_time	db.state.idle_in_transaction_max_time.avg	postgresql,aurora-postgresql	>			
+db_Transactions_blocked_transactions_avg	PI PostgreSQL derived db.Transactions.blocked_transactions	db.Transactions.blocked_transactions.avg	postgresql,aurora-postgresql	>			
+db_Transactions_oldest_active_logical_replication_slot_xid_age_avg	PI PostgreSQL derived db.Transactions.oldest_active_logical_replication_slot_xid_age	db.Transactions.oldest_active_logical_replication_slot_xid_age.avg	postgresql,aurora-postgresql	>			
+db_Transactions_oldest_inactive_logical_replication_slot_xid_age_avg	PI PostgreSQL derived db.Transactions.oldest_inactive_logical_replication_slot_xid_age	db.Transactions.oldest_inactive_logical_replication_slot_xid_age.avg	postgresql,aurora-postgresql	>			
+db_Transactions_oldest_prepared_transaction_xid_age_avg	PI PostgreSQL derived db.Transactions.oldest_prepared_transaction_xid_age	db.Transactions.oldest_prepared_transaction_xid_age.avg	postgresql,aurora-postgresql	>			
+db_Transactions_oldest_running_transaction_xid_age_avg	PI PostgreSQL derived db.Transactions.oldest_running_transaction_xid_age	db.Transactions.oldest_running_transaction_xid_age.avg	postgresql,aurora-postgresql	>			
+db_Transactions_oldest_hot_standby_feedback_xid_age_avg	PI PostgreSQL derived db.Transactions.oldest_hot_standby_feedback_xid_age	db.Transactions.oldest_hot_standby_feedback_xid_age.avg	postgresql,aurora-postgresql	>			
+db_Transactions_max_used_xact_ids_avg	PI PostgreSQL derived db.Transactions.max_used_xact_ids	db.Transactions.max_used_xact_ids.avg	postgresql,aurora-postgresql	>			
+db_WAL_archive_failed_count_avg	PI PostgreSQL derived db.WAL.archive_failed_count	db.WAL.archive_failed_count.avg	postgresql,aurora-postgresql	>			
+db_User_CPU_used_by_this_session_avg	PI Oracle db.User.CPU used by this session	db.User.CPU used by this session.avg	oracle	>			
+db_User_SQL_Net_roundtrips_to_from_client_avg	PI Oracle db.User.SQL*Net roundtrips to/from client	db.User.SQL*Net roundtrips to/from client.avg	oracle	>			
+db_User_bytes_received_via_SQL_Net_from_client_avg	PI Oracle db.User.bytes received via SQL*Net from client	db.User.bytes received via SQL*Net from client.avg	oracle	>			
+db_User_user_commits_avg	PI Oracle db.User.user commits	db.User.user commits.avg	oracle	>			
+db_User_logons_cumulative_avg	PI Oracle db.User.logons cumulative	db.User.logons cumulative.avg	oracle	>			
+db_User_user_calls_avg	PI Oracle db.User.user calls	db.User.user calls.avg	oracle	>			
+db_User_bytes_sent_via_SQL_Net_to_client_avg	PI Oracle db.User.bytes sent via SQL*Net to client	db.User.bytes sent via SQL*Net to client.avg	oracle	>			
+db_User_user_rollbacks_avg	PI Oracle db.User.user rollbacks	db.User.user rollbacks.avg	oracle	>			
+db_Redo_redo_size_avg	PI Oracle db.Redo.redo size	db.Redo.redo size.avg	oracle	>			
+db_SQL_parse_count_total_avg	PI Oracle db.SQL.parse count (total)	db.SQL.parse count (total).avg	oracle	>			
+db_SQL_parse_count_hard_avg	PI Oracle db.SQL.parse count (hard)	db.SQL.parse count (hard).avg	oracle	>			
+db_SQL_table_scan_rows_gotten_avg	PI Oracle db.SQL.table scan rows gotten	db.SQL.table scan rows gotten.avg	oracle	>			
+db_SQL_sorts_memory_avg	PI Oracle db.SQL.sorts (memory)	db.SQL.sorts (memory).avg	oracle	>			
+db_SQL_sorts_disk_avg	PI Oracle db.SQL.sorts (disk)	db.SQL.sorts (disk).avg	oracle	>			
+db_SQL_sorts_rows_avg	PI Oracle db.SQL.sorts (rows)	db.SQL.sorts (rows).avg	oracle	>			
+db_Cache_physical_read_bytes_avg	PI Oracle db.Cache.physical read bytes	db.Cache.physical read bytes.avg	oracle	>			
+db_Cache_db_block_gets_avg	PI Oracle db.Cache.db block gets	db.Cache.db block gets.avg	oracle	>			
+db_Cache_DBWR_checkpoints_avg	PI Oracle db.Cache.DBWR checkpoints	db.Cache.DBWR checkpoints.avg	oracle	>			
+db_Cache_physical_reads_avg	PI Oracle db.Cache.physical reads	db.Cache.physical reads.avg	oracle	>			
+db_Cache_consistent_gets_from_cache_avg	PI Oracle db.Cache.consistent gets from cache	db.Cache.consistent gets from cache.avg	oracle	>			
+db_Cache_db_block_gets_from_cache_avg	PI Oracle db.Cache.db block gets from cache	db.Cache.db block gets from cache.avg	oracle	>			
+db_Cache_consistent_gets_avg	PI Oracle db.Cache.consistent gets	db.Cache.consistent gets.avg	oracle	>			
+db_Access_Methods_Forwarded_Records_avg	PI SQL Server db.Access Methods.Forwarded Records	db.Access Methods.Forwarded Records.avg	sqlserver	>			
+db_Access_Methods_Page_Splits_avg	PI SQL Server db.Access Methods.Page Splits	db.Access Methods.Page Splits.avg	sqlserver	>			
+db_Buffer_Manager_Buffer_cache_hit_ratio_avg	PI SQL Server db.Buffer Manager.Buffer cache hit ratio	db.Buffer Manager.Buffer cache hit ratio.avg	sqlserver	>			
+db_Buffer_Manager_Page_life_expectancy_avg	PI SQL Server db.Buffer Manager.Page life expectancy	db.Buffer Manager.Page life expectancy.avg	sqlserver	>			
+db_Buffer_Manager_Page_lookups_avg	PI SQL Server db.Buffer Manager.Page lookups	db.Buffer Manager.Page lookups.avg	sqlserver	>			
+db_Buffer_Manager_Page_reads_avg	PI SQL Server db.Buffer Manager.Page reads	db.Buffer Manager.Page reads.avg	sqlserver	>			
+db_Buffer_Manager_Page_writes_avg	PI SQL Server db.Buffer Manager.Page writes	db.Buffer Manager.Page writes.avg	sqlserver	>			
+db_Databases_Active_Transactions_Total_avg	PI SQL Server db.Databases.Active Transactions (_Total)	db.Databases.Active Transactions (_Total).avg	sqlserver	>			
+db_Databases_Log_Bytes_Flushed_Total_avg	PI SQL Server db.Databases.Log Bytes Flushed (_Total)	db.Databases.Log Bytes Flushed (_Total).avg	sqlserver	>			
+db_Databases_Log_Flush_Waits_Total_avg	PI SQL Server db.Databases.Log Flush Waits (_Total)	db.Databases.Log Flush Waits (_Total).avg	sqlserver	>			
+db_Databases_Log_Flushes_Total_avg	PI SQL Server db.Databases.Log Flushes (_Total)	db.Databases.Log Flushes (_Total).avg	sqlserver	>			
+db_Databases_Write_Transactions_Total_avg	PI SQL Server db.Databases.Write Transactions (_Total)	db.Databases.Write Transactions (_Total).avg	sqlserver	>			
+db_General_Statistics_Processes_blocked_avg	PI SQL Server db.General Statistics.Processes blocked	db.General Statistics.Processes blocked.avg	sqlserver	>			
+db_General_Statistics_User_Connections_avg	PI SQL Server db.General Statistics.User Connections	db.General Statistics.User Connections.avg	sqlserver	>			
+db_Latches_Latch_Waits_avg	PI SQL Server db.Latches.Latch Waits	db.Latches.Latch Waits.avg	sqlserver	>			
+db_Locks_Number_of_Deadlocks_Total_avg	PI SQL Server db.Locks.Number of Deadlocks (_Total)	db.Locks.Number of Deadlocks (_Total).avg	sqlserver	>			
+db_Memory_Manager_Memory_Grants_Pending_avg	PI SQL Server db.Memory Manager.Memory Grants Pending	db.Memory Manager.Memory Grants Pending.avg	sqlserver	>			
+db_SQL_Statistics_Batch_Requests_avg	PI SQL Server db.SQL Statistics.Batch Requests	db.SQL Statistics.Batch Requests.avg	sqlserver	>			
+db_SQL_Statistics_SQL_Compilations_avg	PI SQL Server db.SQL Statistics.SQL Compilations	db.SQL Statistics.SQL Compilations.avg	sqlserver	>			
+db_SQL_Statistics_SQL_Re_Compilations_avg	PI SQL Server db.SQL Statistics.SQL Re-Compilations	db.SQL Statistics.SQL Re-Compilations.avg	sqlserver	>			

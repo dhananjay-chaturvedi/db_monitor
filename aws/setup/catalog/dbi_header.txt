@@ -1,0 +1,5 @@
+# =============================================================================
+# CATEGORY 3 - DATABASE INSIGHTS (CloudWatch DB_PERF_INSIGHTS)
+# Regenerate: bash setup/assemble_thresholds_ini.sh
+# =============================================================================
+

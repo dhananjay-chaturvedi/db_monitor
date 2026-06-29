@@ -1,0 +1,1039 @@
+================================================================================
+  MONITORING DAEMON — HOW TO USE (GCP)
+  Pure bash monitoring for GCP Cloud SQL (Cloud Monitoring), GCE OS metrics,
+  and databases.
+  Tested on Debian/Ubuntu and GCE VMs. Run installer/install.sh to install
+  OS dependencies and gcloud CLI automatically.
+================================================================================
+
+
+--------------------------------------------------------------------------------
+PREREQUISITES
+--------------------------------------------------------------------------------
+
+1. gcloud CLI
+   Installed automatically by installer/install.sh when missing.
+   On GCE instances it is often already present.
+
+   Authentication uses Application Default Credentials (ADC). On a GCE VM,
+   credentials are picked up from the instance metadata server automatically —
+   no gcloud auth login or service account key files required when using a
+   GCE-attached service account.
+
+   On non-GCE hosts (on-prem, other cloud), authenticate once:
+     gcloud auth application-default login
+   Or set: export GOOGLE_APPLICATION_CREDENTIALS=/path/to/sa-key.json
+
+   Required IAM for the service account (or GCE instance's service account):
+     roles/monitoring.viewer      read Cloud Monitoring timeseries
+     roles/cloudsql.viewer        read Cloud SQL instance metadata
+
+   Minimal custom-role permissions:
+     monitoring.timeSeries.list
+     cloudsql.instances.get
+     cloudsql.instances.list
+
+2. Core tools (installed by install.sh via apt/yum/dnf when run with sudo)
+   bash, awk, grep, sed, ssh, wget, openssl, xxd, perl (Digest::SHA),
+   flock, column, timeout, mktemp, df, install
+
+   Recommended (also installed by install.sh when possible):
+     curl       Teams webhook delivery
+     sshpass    SSH hosts with password auth (monitor.sh hosts add --password)
+
+   Optional — install only for features you use:
+     mysql, psql           DB connectivity checks (INSTALL_DB_CLIENTS=1 on install)
+     sqlcmd, sqlplus       SQL Server / Oracle (install vendor clients separately)
+     mongosh               MongoDB connectivity
+     sendmail or msmtp     Local mailer for email alerts
+
+   Secret encryption (Teams webhook URL, DB passwords):
+     Uses perl Digest::SHA, or a compiled lib/secrets_pbkdf2 built by install.sh.
+
+   See docs/README_INSTALL.md for the full dependency table.
+
+
+--------------------------------------------------------------------------------
+INSTALLATION
+--------------------------------------------------------------------------------
+
+Copy the project folder to your server, then run (with sudo available):
+
+  bash installer/install.sh
+
+Optional flags via environment variables:
+  INSTALL_DB_CLIENTS=1 bash installer/install.sh   # mysql + psql clients
+  INSTALL_PACKAGES=0 bash installer/install.sh     # skip apt/yum/dnf (verify only)
+
+This will:
+  - Install missing OS packages (curl, openssh, util-linux, sshpass, etc.)
+  - Build lib/secrets_pbkdf2 if perl Digest::SHA is unavailable
+  - Install gcloud CLI if missing (Google Cloud SDK)
+  - Create .dbmonitor/runtime/ and .dbmonitor/secrets/ (secrets dir mode 700)
+  - Copy configs/*.ini from *.ini.default when live files are missing
+  - Make all scripts executable
+
+After install, your working directory looks like:
+
+  monitor.sh               Main entry point (all commands go through here)
+  daemon.sh                Daemon lifecycle (called by monitor.sh daemon ...)
+  run_monitor.sh           Continuous polling for explicit instance list (no daemon)
+  stop_monitor.sh          Stop run_monitor.sh sessions and individual loops
+  installer/
+    install.sh             Dependency + runtime setup
+    uninstall.sh           Stop agents and remove .dbmonitor/
+  common/lib/
+    util.sh                Logging, paths, PID helpers, flock locks
+    config.sh              INI config reader (mcfgi / pcfgi)
+    alerts.sh              Alert JSONL log writer
+    notify.sh              Teams webhook / SMTP delivery
+    os_metrics.sh          Local OS metrics via /proc
+    ssh_os_metrics.sh      Remote OS metrics over SSH (non-interactive)
+    thresholds.sh          Threshold evaluation engine
+    db_check.sh            Optional DB connectivity tests
+    db_connections.sh      connections.tsv management
+    hosts.sh               ssh_hosts.tsv management
+    secrets.sh             Credential file management
+    secrets_crypto.sh      AES encryption for stored secrets
+  gcp/lib/
+    gcp.sh                 Cloud Monitoring timeseries via gcloud
+    instances.sh           Cloud SQL instance registry (cloudsql_instances.tsv)
+    poll.sh                Daemon poll cycle (OS, GCP Cloud SQL, DB)
+  configs/
+    properties.ini             Low-level paths and DB/SSH connection defaults
+    config.ini                 Monitoring behaviour settings (edit this)
+    metrics_and_thresholds.ini Alert threshold rules (edit this)
+    instances/                 Per-instance threshold overlays (*.ini)
+  .dbmonitor/
+    runtime/
+      daemon.log           Daemon log output
+      daemon.pid           PID of the running daemon
+      run_monitor.<PID>.pid  PID file per run_monitor.sh session (session-scoped)
+      alerts.log           Persistent alert history (plain text)
+      breach_state.tsv     Sustained-breach counter state
+      connections.tsv      DB connectivity targets (tab-separated)
+      ssh_hosts.tsv        SSH OS metric hosts (tab-separated)
+    secrets/
+      teams_webhook_url    Teams webhook URL (stored encrypted at 0600)
+      smtp_password        SMTP password (stored encrypted at 0600)
+      db_pass_<name>       DB passwords (stored encrypted at 0600)
+
+
+--------------------------------------------------------------------------------
+UNINSTALLATION
+--------------------------------------------------------------------------------
+
+Stop all agents and remove runtime data:
+
+  bash installer/uninstall.sh
+  bash monitor.sh uninstall              # same script
+
+Options:
+  --yes              Skip confirmation prompt
+  --keep-config      Stop agents only; keep .dbmonitor/ and secrets
+
+Removed by default:
+  .dbmonitor/        runtime logs, pid files, breach state, encrypted secrets
+  alerts.log         project-root alert log (if present)
+
+NOT removed:
+  Script bundle (monitor.sh, lib/, etc.)
+  configs/config.ini and metrics_and_thresholds.ini (your edits)
+  OS packages installed by install.sh (sshpass, curl, DB clients, etc.)
+  gcloud CLI
+
+Recreate runtime directories after uninstall:
+  bash installer/install.sh
+
+
+--------------------------------------------------------------------------------
+QUICK START
+--------------------------------------------------------------------------------
+
+  # 1. Check local OS metrics immediately
+  bash monitor.sh os
+
+  # 2. Add a Cloud SQL instance to monitor
+  bash monitor.sh instances add --name my-cloudsql-instance --type mysql
+  bash monitor.sh instances test --name my-cloudsql-instance
+
+  # 3. Check GCP Cloud Monitoring metrics (ad-hoc, no daemon needed)
+  bash monitor.sh cloud --instance my-cloudsql-instance
+
+  # 4. Start the background daemon (polls every 30 seconds by default)
+  bash monitor.sh daemon start
+
+  # 5. Check daemon status
+  bash monitor.sh daemon status
+
+  # 6. View any alerts that have fired
+  bash monitor.sh alerts list
+
+
+--------------------------------------------------------------------------------
+COMMAND REFERENCE
+--------------------------------------------------------------------------------
+
+
+== bash monitor.sh daemon ==
+   Manage the background polling daemon.
+
+   Subcommands:
+
+   start [--foreground]
+     Start the daemon in the background (default) or foreground.
+     The daemon polls saved Cloud SQL instances every N seconds (default: 30),
+     evaluates thresholds, and fires alerts when sustained breaches occur.
+     Localhost OS metrics, SSH hosts, and cloud collection are configurable
+     in config.ini [monitoring].
+
+     Examples:
+       bash monitor.sh daemon start
+       bash monitor.sh daemon start --foreground
+
+   stop
+     Gracefully stop the running daemon (sends SIGTERM, waits up to 15s).
+
+     Example:
+       bash monitor.sh daemon stop
+
+   restart
+     Stop then start the daemon.
+
+     Example:
+       bash monitor.sh daemon restart
+
+   status
+     Print whether the daemon is running and its PID.
+
+     Example:
+       bash monitor.sh daemon status
+       # Output: running (PID 12345)
+       #      or: stopped
+
+   watchdog
+     Start the daemon only if it is not already running.
+     Safe to call from cron — no-op when the daemon is healthy, starts it
+     when stopped. Respects the daemon.stop sentinel file: if a manual
+     'daemon stop' was run, watchdog will not restart it.
+
+     Examples:
+       bash monitor.sh daemon watchdog
+
+       # Typical cron entry (every 5 minutes):
+       */5 * * * * cd /opt/monitor && bash monitor.sh daemon watchdog >> .dbmonitor/runtime/watchdog.log 2>&1
+
+
+== bash run_monitor.sh ==
+   Continuous monitoring without the daemon. You pass Cloud SQL instance IDs on
+   the command line; only those instances are polled each cycle.
+
+   Threshold lookup is the same as the daemon: for each instance,
+   configs/instances/<id>.ini is checked first, then metrics_and_thresholds.ini
+   (per-key overlay). Collect and alert evaluation both use the merged rules.
+
+   Do NOT run run_monitor.sh alongside the daemon — both compete for the
+   poll.cycle.lock and only one authoritative collector should run.
+
+   Usage:
+     bash run_monitor.sh <instance1> [instance2 ...]
+     bash run_monitor.sh --instances id1,id2,id3
+
+   Options:
+     --interval SECS           Poll interval (default: monitoring.default_poll_interval)
+     --project PROJECT         Set GCP project (overrides CLOUDSDK_CORE_PROJECT)
+     --include-localhost       Force localhost OS metrics on (overrides config)
+     --no-include-localhost    Force localhost OS metrics off (overrides config)
+     --include-ssh             Force SSH host OS metrics on (overrides config)
+     --no-include-ssh          Force SSH host OS metrics off (overrides config)
+     --include-db              Force DB connectivity checks on (overrides config)
+     --no-include-db           Force DB connectivity checks off (overrides config)
+     --include-cloud           Force GCP cloud metrics on (overrides config)
+     --no-include-cloud        Force GCP cloud metrics off (overrides config)
+     --help                    Show help
+
+   Collection defaults (config.ini [monitoring]):
+     collect_os_metrics = true        # Master switch for all OS polling
+     collect_cloud_metrics = true     # GCP Cloud Monitoring metrics (daemon / run_monitor)
+     collect_db_metrics = true        # DB targets from connections.tsv
+     collect_localhost_os = false     # /proc on the monitor host
+     collect_ssh_hosts_os = false     # SSH hosts from monitor.sh hosts add
+
+   Examples:
+     bash run_monitor.sh my-cloudsql-prod
+     bash run_monitor.sh my-cloudsql-1 my-cloudsql-2 --interval 60
+     bash run_monitor.sh --instances prod-1,prod-2 --include-localhost
+     bash run_monitor.sh my-cloudsql --project my-gcp-project
+
+   PID files: PID files are session-scoped so multiple concurrent run_monitor
+     sessions do not overwrite each other. Each session writes:
+       .dbmonitor/runtime/run_monitor.<PID>.pid        (session PID file)
+       .dbmonitor/runtime/loop.<PID>.instance.<name>.pid   (per-instance loop)
+       .dbmonitor/runtime/loop.<PID>.db.<name>.pid         (per-DB loop)
+       .dbmonitor/runtime/loop.<PID>.sshhost.<name>.pid    (per-SSH-host loop)
+       .dbmonitor/runtime/loop.<PID>.localhost_os.pid      (localhost OS loop)
+
+   Stopping run_monitor.sh:
+     Stop all sessions:         bash stop_monitor.sh gcp
+     Stop specific instance:    bash stop_monitor.sh gcp --instance my-cloudsql
+     Stop specific loop:        bash stop_monitor.sh gcp --db mydb
+     List what is running:      bash stop_monitor.sh gcp --list
+     Foreground (Ctrl-C):       Ctrl+C stops the session and all its loops
+
+   Note: bash monitor.sh daemon stop does NOT stop run_monitor.sh.
+
+   Daemon vs run_monitor.sh:
+     daemon start        Polls all saved Cloud SQL instances; OS/DB per config.ini
+     run_monitor.sh      Polls ONLY the instance IDs you pass on the command line
+
+
+== bash stop_monitor.sh ==
+   Stop processes started by run_monitor.sh. Sends SIGTERM and waits for
+   clean exit; falls back to SIGKILL after 10 seconds if needed.
+
+   Usage:
+     bash stop_monitor.sh [options]
+
+   Options:
+     (no args)                  Stop all active run_monitor sessions and their loops
+     --all                      Same as no args
+     --instance NAME [...]      Stop the polling loop for one or more Cloud SQL instance(s)
+     --db NAME [...]            Stop the DB connectivity loop for one or more target(s)
+     --ssh NAME [...]           Stop the SSH host OS metrics loop for one or more host(s)
+     --localhost-os             Stop the localhost OS metrics loop
+     --list                     List all running sessions and their loop PIDs
+     --help                     Show this message
+
+   Examples:
+     bash stop_monitor.sh                              # stop everything
+     bash stop_monitor.sh --list                       # show what is running
+     bash stop_monitor.sh --instance my-cloudsql
+     bash stop_monitor.sh --instance inst-a inst-b
+     bash stop_monitor.sh --db mydb --ssh myhost
+     bash stop_monitor.sh --localhost-os
+
+   Note: stop_monitor.sh only controls run_monitor.sh sessions.
+         To stop the daemon: bash monitor.sh daemon stop
+
+
+== bash monitor.sh monitor ==
+   One-shot metric collection and threshold evaluation.
+   Prints metrics to stdout and fires alerts for any threshold violations found.
+
+   Options:
+     --instance ID     Cloud SQL instance ID to include in the check
+     --source TYPE     Limit to: os, gcp, db, or all (default: all)
+
+   Examples:
+     bash monitor.sh monitor
+     bash monitor.sh monitor --source os
+     bash monitor.sh monitor --source db
+     bash monitor.sh monitor --source gcp --instance my-cloudsql-prod
+     bash monitor.sh monitor --instance my-cloudsql-prod
+
+
+== bash monitor.sh os ==
+   Collect and display local OS metrics from /proc.
+   Metrics: CPU%, memory%, free memory MB, disk%, free disk GB,
+            load avg 1/5/15m, swap used MB, network RX/TX bytes and errors.
+
+   Options:
+     --disk PATH   Disk mount path to measure (default: /)
+     --iface NAME  Network interface to measure (default: eth0)
+
+   Examples:
+     bash monitor.sh os
+     bash monitor.sh os --disk /data
+     bash monitor.sh os --iface ens4
+     bash monitor.sh os --disk /var/lib/mysql --iface ens4
+
+   Sample output:
+     cpu_utilization    24.3
+     memory_utilization 61.8
+     free_memory_mb     1542.0
+     free_disk_gb       48.20
+     disk_utilization   52
+     load_avg_1m        0.45
+     load_avg_5m        0.38
+     load_avg_15m       0.29
+     swap_used_mb       0.0
+     net_rx_bytes       4829304
+     net_tx_bytes       1203948
+     net_rx_errors      0
+     net_tx_errors      0
+
+
+== bash monitor.sh cloud ==
+   Collect GCP Cloud Monitoring metrics for a specific Cloud SQL instance.
+
+   Options:
+     --instance ID   Cloud SQL instance ID (required)
+
+   Metrics collected (from cloudsql.googleapis.com namespace):
+     cpu/utilization, memory/utilization, disk/utilization,
+     disk/bytes_used, network/connections,
+     replication/replica_lag, replication/follower_replica_lag,
+     mysql/*, postgresql/* (engine-specific metrics when available)
+
+   Examples:
+     bash monitor.sh cloud --instance my-cloudsql-prod
+     bash monitor.sh cloud --instance my-cloudsql-replica
+
+   Sample output:
+     Cloud SQL metrics for: my-cloudsql-prod
+     CPUUtilization      45.2
+     DatabaseConnections 87
+     MemoryUtilization   63.1
+     DiskUtilization     52.0
+     ReplicaLag          0.0
+
+
+== bash monitor.sh instances ==
+   Add, list, test, and delete the Cloud SQL instances to be monitored.
+   This is the primary way to tell the daemon WHICH instances to watch.
+   Each instance is saved to .dbmonitor/runtime/cloudsql_instances.tsv.
+
+   Supported types:
+     mysql              Cloud SQL for MySQL
+     postgresql         Cloud SQL for PostgreSQL
+     sqlserver          Cloud SQL for SQL Server
+
+   Subcommands:
+
+   add --name ID --type TYPE [--project PROJECT] [--region REGION]
+     Save an instance for monitoring.
+     --name      Cloud SQL instance ID (the short ID, not the connection name)
+     --type      Engine type from the list above
+     --project   GCP project ID. Omit to use the active gcloud project.
+     --region    GCP region (e.g. us-central1). Omit to auto-detect.
+
+     Note: this does NOT create a per-instance threshold overlay automatically.
+     To create one, run separately:
+       bash setup/scaffold_instance_thresholds.sh my-cloudsql-instance
+
+     Examples:
+       # Cloud SQL MySQL in the active gcloud project
+       bash monitor.sh instances add \
+           --name my-mysql-instance \
+           --type mysql
+
+       # Cloud SQL PostgreSQL with explicit project
+       bash monitor.sh instances add \
+           --name prod-postgres \
+           --type postgresql \
+           --project my-gcp-project-id
+
+       # Cloud SQL SQL Server
+       bash monitor.sh instances add \
+           --name sqlserver-primary \
+           --type sqlserver \
+           --project my-gcp-project-id \
+           --region us-central1
+
+       # Multiple instances — run add once per instance
+       bash monitor.sh instances add --name db-prod-1  --type mysql       --project my-project
+       bash monitor.sh instances add --name db-prod-2  --type mysql       --project my-project
+       bash monitor.sh instances add --name db-reports --type postgresql  --project analytics-project
+
+   list
+     Show all saved instances in a table.
+
+     Example:
+       bash monitor.sh instances list
+
+     Sample output:
+       NAME (Cloud SQL Instance ID)        TYPE            PROJECT             REGION
+       -------------------------------------------------------------------------------------------
+       my-mysql-instance                   MySQL           my-gcp-project      us-central1
+       prod-postgres                       PostgreSQL      my-gcp-project      us-east1
+       db-reports                          PostgreSQL      analytics-project   europe-west1
+
+       Total: 3 instance(s)
+
+   test --name ID
+     Verify that an instance is reachable and Cloud Monitoring data is available.
+     Checks:
+       1. Instance exists in Cloud SQL (gcloud sql instances describe)
+       2. Cloud Monitoring returns a CPUUtilization datapoint
+       3. Instance state is RUNNABLE
+
+     Examples:
+       bash monitor.sh instances test --name my-mysql-instance
+       bash monitor.sh instances test --name prod-postgres
+
+     Sample output:
+       Testing instance: my-mysql-instance  (MySQL)
+       Project: my-gcp-project
+       Region:  us-central1
+
+       Checking Cloud SQL instance exists...    OK
+         Status:  RUNNABLE
+         Version: MYSQL_8_0
+         Tier:    db-n1-standard-2
+
+       Fetching Cloud Monitoring CPUUtilization... OK  (CPU: 18.3%)
+
+       Test complete. Instance 'my-mysql-instance' is reachable and ready to monitor.
+
+   delete --name ID
+     Remove an instance from the monitoring list.
+     Also deletes configs/instances/<ID>.ini when present.
+     The daemon will stop collecting metrics for it on the next poll.
+
+     Examples:
+       bash monitor.sh instances delete --name db-legacy
+       bash monitor.sh instances delete --name prod-mysql
+
+
+== bash monitor.sh alerts ==
+   Manage the persistent alert log at .dbmonitor/runtime/alerts.log.
+   Alerts are written here automatically whenever a threshold is breached.
+
+   Subcommands:
+
+   list [--severity LEVEL] [--source SRC] [--instance ID] [--limit N]
+     Display recorded alerts, newest first.
+     LEVEL:  INFO, WARNING, or CRITICAL
+     SRC:    OS, GCP, DB, test
+     N:      number of records to show (default: 50)
+
+     Examples:
+       bash monitor.sh alerts list
+       bash monitor.sh alerts list --limit 100
+       bash monitor.sh alerts list --severity CRITICAL
+       bash monitor.sh alerts list --severity WARNING --limit 20
+       bash monitor.sh alerts list --source GCP
+       bash monitor.sh alerts list --source OS --severity WARNING
+       bash monitor.sh alerts list --instance my-cloudsql-prod
+
+   clear [--severity LEVEL] [--source SRC] [--instance ID]
+     Remove matching records from the alert log.
+     With no filters, clears the entire log.
+
+     Examples:
+       bash monitor.sh alerts clear
+       bash monitor.sh alerts clear --severity INFO
+       bash monitor.sh alerts clear --source GCP --instance my-cloudsql-prod
+       bash monitor.sh alerts clear --severity WARNING --source OS
+
+   Alert record format (each line in alerts.log):
+     [2025-06-16T10:23:01Z] [CRITICAL] [GCP] my-cloudsql-prod | [GCP] my-cloudsql-prod | Cloud SQL CPU: HIGH 92.1% (threshold > 90%)
+
+
+== bash monitor.sh notify ==
+   Manage notification delivery (Teams webhook and SMTP email).
+
+   Subcommands:
+
+   test [--severity LEVEL] [--message TEXT]
+     Send a test alert through all enabled notification channels.
+     Also writes the test alert to the alerts log.
+
+     Examples:
+       bash monitor.sh notify test
+       bash monitor.sh notify test --severity WARNING
+       bash monitor.sh notify test --severity CRITICAL --message "disk space low on /data"
+
+   config set --key KEY --value VALUE
+     Save a notification credential (stored at .dbmonitor/secrets/KEY, mode 0600).
+
+     Recognised keys:
+       teams_webhook_url   Microsoft Teams incoming webhook URL
+       smtp_password       SMTP account password
+
+     Examples:
+       bash monitor.sh notify config set \
+           --key teams_webhook_url \
+           --value "https://outlook.office.com/webhook/..."
+
+       bash monitor.sh notify config set \
+           --key smtp_password \
+           --value "MySmtpPassword123"
+
+   config get --key KEY
+     Print the stored value for a credential.
+
+     Examples:
+       bash monitor.sh notify config get --key teams_webhook_url
+       bash monitor.sh notify config get --key smtp_password
+
+
+== bash monitor.sh thresholds ==
+   Inspect the threshold rules defined in metrics_and_thresholds.ini.
+
+   Subcommands:
+
+   list
+     Print all threshold rules with their status (ON/OFF), operator,
+     unit, critical and warning levels, and description.
+
+     Example:
+       bash monitor.sh thresholds list
+
+     list --instance INSTANCE
+       Print effective merged rules for one instance (global catalog +
+       configs/instances/<instance>.ini overlay). Values overridden in the
+       instance file are marked with *.
+
+     Example:
+       bash monitor.sh thresholds list --instance my-cloudsql-prod
+
+     Scaffold a new instance overlay stub:
+       bash setup/scaffold_instance_thresholds.sh my-cloudsql-prod
+
+     Sample output:
+       [ON]     metric.os.cpu_utilization                                    > percent CRIT=90.0 WARN=80.0 Host CPU utilization
+       [ON]     metric.os.free_memory_mb                                     < MB      CRIT=256  WARN=512  Host free memory
+       [ON]     metric.gcp.monitoring.CloudSQL.cpu_utilization               > percent CRIT=90   WARN=80   Cloud SQL CPU utilization
+       [OFF]    metric.gcp.monitoring.CloudSQL.disk_bytes_used               > bytes   CRIT=...  WARN=...  Cloud SQL disk bytes used
+
+
+== bash monitor.sh config ==
+   Read values from properties.ini (then config.ini if not found).
+
+   Subcommands:
+
+   get SECTION KEY
+     Print the value of a key.
+
+     Examples:
+       bash monitor.sh config get paths runtime_dir
+       bash monitor.sh config get database.connection connection_timeout_seconds
+       bash monitor.sh config get database.ports postgresql
+       bash monitor.sh config get monitoring default_poll_interval
+       bash monitor.sh config get lifecycle signal_stop_max_wait_seconds
+
+
+== bash monitor.sh version ==
+   Print the tool version.
+
+   Example:
+     bash monitor.sh version
+     # Output: monitor.sh v1.0.0
+
+
+--------------------------------------------------------------------------------
+CONFIGURATION FILES
+--------------------------------------------------------------------------------
+
+
+== config.ini ==
+   Controls daemon behaviour, poll interval, SSH settings, and notifications.
+   Located at: <project_root>/configs/config.ini
+   (Copied from config.ini.default on first install.)
+
+   Key settings to configure:
+
+   [monitoring]
+   default_poll_interval = 30        # How often the daemon polls (seconds)
+   default_disk_path = /             # Disk path for OS disk metrics
+   collect_os_metrics = true         # Master switch for OS polling (daemon / run_monitor)
+   collect_cloud_metrics = true      # GCP cloud metrics (daemon / run_monitor)
+   collect_db_metrics = true         # Poll DB connectivity targets (connections.tsv)
+   collect_localhost_os = false      # Poll local /proc (requires collect_os_metrics)
+   collect_ssh_hosts_os = false      # Poll SSH hosts (ssh_hosts.tsv) during cycles
+
+   Advanced [monitoring] keys:
+   sustained_breach_ttl_seconds = 86400   # Seconds before a stale breach counter is reset
+   poll_cycle_timeout_seconds = 120       # Kill a poll cycle that runs longer than this
+   daemon_lock_wait_seconds = 300         # How long the daemon waits for the poll-cycle lock
+   cli_lock_wait_seconds = 0             # CLI commands do not wait for the lock (0 = skip)
+
+   [cloud]
+   lookback_minutes = 5              # Cloud Monitoring lookback window for metric queries
+   metric_fetch_timeout_seconds = 30 # Per-metric gcloud call timeout
+
+   [notifications]
+   enabled = true                    # Master switch — set to true to send alerts
+   min_severity = WARNING            # Only send WARNING and CRITICAL (not INFO)
+   teams_enabled = true              # Enable Teams webhook delivery
+   email_enabled = false             # Enable SMTP email delivery
+
+   Advanced [notifications] keys:
+   teams_timeout_seconds = 15        # HTTP timeout for Teams webhook call
+   teams_max_attempts = 2            # Retry count on Teams delivery failure
+   teams_max_backoff_seconds = 5     # Maximum retry backoff cap (seconds)
+   teams_backoff_multiplier = 2      # Multiplier applied to retry backoff
+   max_message_chars = 20000         # Truncate alert message body at this length
+   teams_color_critical = FF0000     # Adaptive card accent colour for CRITICAL alerts
+   teams_color_warning  = FFA500     # Adaptive card accent colour for WARNING alerts
+   teams_color_info     = 0078D7     # Adaptive card accent colour for INFO alerts
+
+   [notifications] — SMTP (only needed if email_enabled = true)
+   smtp_host = smtp.example.com
+   smtp_port = 587
+   smtp_use_tls = true
+   smtp_username = alerts@invalid.example
+   email_from = alerts@invalid.example
+   email_to = oncall@invalid.example, dba@invalid.example
+
+   [daemon]
+   auto_restart_enabled = false      # Auto-restart daemon after unexpected SIGTERM
+                                     # Does NOT restart after intentional 'daemon stop'
+   auto_restart_delay_seconds = 10   # Seconds to wait before the auto-restart exec
+
+   [logs.daemon]
+   keep_days = 5                     # Delete daemon.log entries older than this many days
+
+   [logs.metrics]
+   keep_days = 5                     # Delete per-entity metric log files older than keep_days
+   archive_on_start = false          # When true, rotate metric logs to Archive_<date>.log on start
+   archive_keep_days = 0             # Delete archived metric logs older than this (0 = keep forever)
+
+
+== metrics_and_thresholds.ini ==
+   Defines alert thresholds for every metric.
+   Located at: <project_root>/configs/metrics_and_thresholds.ini
+
+   Each section controls one metric rule:
+
+   [metric.gcp.monitoring.CloudSQL.cpu_utilization]
+   critical = 90.0      # Fire CRITICAL alert when CPU > 90% for 3 consecutive polls
+   warning  = 80.0      # Fire WARNING alert when CPU > 80% for 3 consecutive polls
+   operator = >         # > means "alert when value exceeds threshold"
+   unit     = percent
+   window   = 3         # Require 3 consecutive breaches before firing (avoids spikes)
+   collect  = true      # Fetch from Cloud Monitoring API
+   enabled  = true      # Evaluate thresholds and fire alerts
+   description = Cloud SQL CPU utilization
+   engines  = mysql,postgresql,sqlserver
+   metric_name = cloudsql.googleapis.com/database/cpu/utilization
+
+   To disable a rule without deleting it:
+     enabled = false
+
+   To lower the sensitivity (fire sooner):
+     window = 1         # Fire on first breach instead of sustained breach
+
+   Threshold rule naming:
+     [metric.os.<metric_key>]                               Local OS metrics
+     [metric.db.<metric_key>]                               Generic DB metrics
+     [metric.db.<engine>.<metric_key>]                      Per-engine DB metrics
+     [metric.gcp.monitoring.cloudsql.<MetricShortName>]     GCP Cloud Monitoring metrics
+     [metric.gcp.qi.<rule_id>]                              GCP Query Insights metrics
+
+   collect vs enabled (GCP metrics):
+     collect = true   fetch metric from Cloud Monitoring API
+     enabled = true   evaluate thresholds and fire alerts
+     You can collect without alerting (collect=true, enabled=false).
+
+   Per-instance threshold overlays (configs/instances/):
+     Optional per-instance files override any metric attribute without
+     editing the global catalog. Lookup order: instance file first, then
+     metrics_and_thresholds.ini.
+
+     NOT created automatically by 'instances add'. Create with:
+       bash setup/scaffold_instance_thresholds.sh my-cloudsql-instance
+     Deleted when you run 'instances delete'.
+
+     Path: <project_root>/configs/instances/<instance-id>.ini
+
+     Example configs/instances/my-cloudsql-prod.ini:
+
+     [metric.gcp.monitoring.CloudSQL.cpu_utilization]
+     critical = 85
+     warning  = 70
+
+     View effective rules for one instance:
+       bash monitor.sh thresholds list --instance my-cloudsql-prod
+
+   Validate catalog structure:
+     bash tests/validate_thresholds_catalog.sh configs/metrics_and_thresholds.ini
+
+
+== properties.ini ==
+   Low-level runtime paths and connection defaults.
+   Located at: <project_root>/configs/properties.ini
+
+   [paths]
+   runtime_dir =          # Override .dbmonitor/runtime
+   secrets_dir =          # Override .dbmonitor/secrets
+   alerts_log_file =      # Override the alerts log file path
+   instance_thresholds_dir =  # Override configs/instances
+
+   [database.connection]
+   connection_timeout_seconds = 10
+
+   [database.ports]
+   mysql = 3306
+   postgresql = 5432
+   sqlserver = 1433
+
+   [ssh]
+   connect_timeout_seconds = 8
+   server_alive_interval_seconds = 30
+
+   [lifecycle]
+   signal_escalation_delay_seconds = 2    # Wait after SIGTERM before escalating to SIGKILL
+   daemon_start_verify_delay_seconds = 1  # Wait after daemon fork before checking PID is alive
+   daemon_restart_delay_seconds = 2       # Wait between stop and start on 'daemon restart'
+   signal_stop_max_wait_seconds = 15      # Max seconds to wait for a process to exit after SIGTERM
+
+   Read a value:
+     bash monitor.sh config get database.connection connection_timeout_seconds
+     bash monitor.sh config get lifecycle signal_stop_max_wait_seconds
+
+
+--------------------------------------------------------------------------------
+TYPICAL SETUP WORKFLOW
+--------------------------------------------------------------------------------
+
+Step 1: Install
+  bash installer/install.sh
+
+Step 2: Verify GCP authentication
+  gcloud auth application-default print-access-token   # should return a token
+  gcloud config get-value project                       # confirm active project
+
+Step 3: Add the Cloud SQL instances to monitor
+  bash monitor.sh instances add --name my-mysql-instance  --type mysql       --project my-gcp-project
+  bash monitor.sh instances add --name my-pg-instance     --type postgresql  --project my-gcp-project
+  bash monitor.sh instances list     # confirm they are saved
+
+Step 4: Enable and configure Teams notifications
+  bash monitor.sh notify config set \
+      --key teams_webhook_url \
+      --value "https://outlook.office.com/webhook/YOURURL"
+
+  # Edit config.ini to enable:
+  #   [notifications]
+  #   enabled = true
+  #   teams_enabled = true
+
+Step 5: Test notifications
+  bash monitor.sh notify test --severity CRITICAL --message "Monitoring is live"
+
+Step 6: Do a manual one-shot check
+  bash monitor.sh os
+  bash monitor.sh cloud --instance my-mysql-instance
+
+Step 7: Start the daemon
+  bash monitor.sh daemon start
+  bash monitor.sh daemon status
+
+Step 8: Watch alerts
+  bash monitor.sh alerts list
+  bash monitor.sh alerts list --severity CRITICAL
+
+
+--------------------------------------------------------------------------------
+RUNNING AS A SYSTEMD SERVICE (optional)
+--------------------------------------------------------------------------------
+
+  sudo tee /etc/systemd/system/dbmonitor-gcp.service > /dev/null <<EOF
+  [Unit]
+  Description=DB Monitor Daemon (GCP Cloud SQL)
+  After=network.target
+
+  [Service]
+  Type=forking
+  User=gcpmonitor
+  WorkingDirectory=/opt/gcp
+  ExecStart=/bin/bash /opt/gcp/daemon.sh start
+  ExecStop=/bin/bash /opt/gcp/daemon.sh stop
+  PIDFile=/home/gcpmonitor/.dbmonitor/runtime/daemon.pid
+  Restart=on-failure
+  RestartSec=10
+
+  [Install]
+  WantedBy=multi-user.target
+  EOF
+
+  sudo systemctl daemon-reload
+  sudo systemctl enable dbmonitor-gcp
+  sudo systemctl start dbmonitor-gcp
+  sudo systemctl status dbmonitor-gcp
+
+Alternatively, use the built-in auto-restart feature (no systemd required):
+
+  # In config.ini:
+  [daemon]
+  auto_restart_enabled = true
+  auto_restart_delay_seconds = 10
+
+  With this enabled, the daemon re-execs itself after any unexpected SIGTERM.
+  'daemon stop' (which writes a sentinel file) still stops it cleanly.
+
+
+--------------------------------------------------------------------------------
+CLOUD SQL ENGINE SUPPORT
+--------------------------------------------------------------------------------
+
+  Cloud SQL (requires instance ID + IAM service account):
+    Cloud Monitoring metrics (via cloudsql.googleapis.com namespace)
+    Query Insights metrics (via cloudsql.googleapis.com/database/postgresql/* etc.)
+    Engines: mysql, postgresql, sqlserver
+
+  Any host (non-Cloud SQL OK):
+    DB connectivity via connections.tsv (Cloud SQL, on-prem, other cloud)
+    OS metrics via SSH hosts (monitor.sh hosts add)
+
+  Cloud Monitoring metric categories:
+    cloudsql.googleapis.com/database/cpu/*          CPU utilization
+    cloudsql.googleapis.com/database/memory/*       Memory utilization
+    cloudsql.googleapis.com/database/disk/*         Disk usage and I/O
+    cloudsql.googleapis.com/database/network/*      Network throughput
+    cloudsql.googleapis.com/database/mysql/*        MySQL-specific metrics
+    cloudsql.googleapis.com/database/postgresql/*   PostgreSQL-specific metrics
+    cloudsql.googleapis.com/database/replication/*  Replication lag
+
+  Engine matrix:
+    Engine          | Cloud SQL save | GCP metrics | DB connectivity check
+    ----------------+----------------+-------------+----------------------
+    MySQL           | Yes            | Yes         | Yes (mysql client)
+    PostgreSQL      | Yes            | Yes         | Yes (psql)
+    SQL Server      | Yes            | Yes         | Yes (sqlcmd)
+    MongoDB         | No*            | N/A         | Partial (mongosh, manual TSV)
+
+  * MongoDB: add DB targets manually to connections.tsv; no Cloud SQL
+    Cloud Monitoring catalog parity via instances add.
+
+  Note: Cloud Monitoring timeseries.list requires one metric.type per call.
+  GCP metrics are fetched serially (one gcloud call per metric) — this is an API
+  limitation, not a code choice. Use collect=false to disable metrics you don't need.
+
+
+--------------------------------------------------------------------------------
+DB CONNECTIVITY MONITORING (optional)
+--------------------------------------------------------------------------------
+
+Add a connection (any supported engine):
+  bash monitor.sh db add --name prod-postgres --type postgresql \
+      --host db.example.com --port 5432 --user monitor --database appdb \
+      --password '<PASSWORD>'
+
+MySQL shortcut (pass mysql client flags after --):
+  bash monitor.sh db add-mysql --name prod-mysql -- -h db.example.com -P 3306 -u monitor -p -D appdb
+
+List / test / delete:
+  bash monitor.sh db list
+  bash monitor.sh db test --name prod-postgres
+  bash monitor.sh db delete --name prod-postgres
+
+For Cloud SQL, connect via Cloud SQL Auth Proxy (127.0.0.1) or the instance's private IP:
+  bash monitor.sh db add --name my-mysql-instance --type mysql \
+      --host 127.0.0.1 --port 3306 --user monitor --database appdb --password '<PASSWORD>'
+
+Supported types: postgresql, mysql, mariadb, oracle, sqlserver, mongodb, sqlite
+If the CLI tool (psql, mysql, etc.) is not installed, that DB type is silently skipped.
+
+
+--------------------------------------------------------------------------------
+ENVIRONMENT VARIABLES
+--------------------------------------------------------------------------------
+
+  DBMONITOR_HOME                   Override base data directory (default: .dbmonitor)
+  DBMONITOR_RUNTIME                Override runtime directory
+  DBMONITOR_SECRETS                Override secrets directory
+  MONITOR_STDOUT                   false = suppress log output to stdout (default: true)
+  MONITOR_DEBUG                    true = verbose debug logging (default: false)
+  CLOUDSDK_CORE_PROJECT            Override the active GCP project for all gcloud calls
+  GOOGLE_APPLICATION_CREDENTIALS   Path to service account JSON key file
+
+  Examples:
+    DBMONITOR_HOME=/opt/monitor-data bash monitor.sh daemon start
+    MONITOR_DEBUG=true bash monitor.sh monitor --source gcp --instance my-cloudsql
+    CLOUDSDK_CORE_PROJECT=my-project bash monitor.sh cloud --instance my-cloudsql
+    MONITOR_STDOUT=false bash monitor.sh daemon start
+
+
+--------------------------------------------------------------------------------
+LOG FILES
+--------------------------------------------------------------------------------
+
+  .dbmonitor/runtime/daemon.log
+    All daemon output including poll results, alert fires, and errors.
+
+    View live:    tail -f .dbmonitor/runtime/daemon.log
+    View errors:  grep ERROR .dbmonitor/runtime/daemon.log
+
+  .dbmonitor/runtime/alerts.log
+    Persistent alert history in plain text (one record per line).
+
+    View raw:     cat .dbmonitor/runtime/alerts.log
+    Via tool:     bash monitor.sh alerts list
+    Count total:  wc -l .dbmonitor/runtime/alerts.log
+    Last 5 CRIT:  bash monitor.sh alerts list --severity CRITICAL --limit 5
+
+  .dbmonitor/runtime/breach_state.tsv
+    Internal: tracks consecutive breach counts for sustained-breach detection.
+    Do not edit manually. Safe to delete — daemon recreates it on next poll.
+
+
+--------------------------------------------------------------------------------
+TROUBLESHOOTING
+--------------------------------------------------------------------------------
+
+Problem: "gcloud: command not found"
+  Solution: Run  bash installer/install.sh  which installs the Google Cloud SDK.
+            Requires wget and sudo. Or: curl https://sdk.cloud.google.com | bash
+
+Problem: "PERMISSION_DENIED" on Cloud Monitoring calls
+  Solution: The service account is missing roles/monitoring.viewer.
+            On GCE: attach the role to the VM's service account in IAM console.
+            On non-GCE: grant it:
+              gcloud projects add-iam-policy-binding PROJECT_ID \
+                --member="serviceAccount:SA@PROJECT.iam.gserviceaccount.com" \
+                --role="roles/monitoring.viewer"
+            Or run:  gcloud auth application-default login
+
+Problem: "PERMISSION_DENIED" on Cloud SQL calls
+  Solution: The service account is missing roles/cloudsql.viewer. Grant it:
+              gcloud projects add-iam-policy-binding PROJECT_ID \
+                --member="serviceAccount:SA@PROJECT.iam.gserviceaccount.com" \
+                --role="roles/cloudsql.viewer"
+
+Problem: SSH host test fails / "sshpass not installed"
+  Solution: sudo apt install sshpass  or  sudo yum install sshpass
+            Or: bash installer/install.sh
+
+Problem: "secrets: PBKDF2 unavailable"
+  Solution: bash installer/install.sh  (installs perl-Digest-SHA or builds lib/secrets_pbkdf2)
+
+Problem: DB test skipped silently
+  Solution: Install the client (mysql, psql, etc.).
+            Re-run:  INSTALL_DB_CLIENTS=1 bash installer/install.sh
+
+Problem: Cloud Monitoring returns no data / empty value
+  Solution: The lookback window may be too short. Increase it:
+              [cloud]
+              lookback_minutes = 15
+            Verify the instance is RUNNABLE:
+              bash monitor.sh instances test --name my-cloudsql-prod
+
+Problem: Poll cycle slow with many GCP metrics
+  Cause:   Cloud Monitoring timeseries.list requires one call per metric type.
+           Serial calls accumulate.
+  Solution: Disable metrics you don't need (set collect=false in metrics_and_thresholds.ini).
+            Tune per-metric timeout:
+              [cloud]
+              metric_fetch_timeout_seconds = 30
+
+Problem: Alerts firing too frequently on brief spikes
+  Solution: Increase the window value in metrics_and_thresholds.ini.
+              window = 5   means 5 consecutive polls must breach before alerting.
+
+Problem: Teams notifications not arriving
+  Solution: 1. Check webhook URL: bash monitor.sh notify config get --key teams_webhook_url
+            2. Check config.ini: enabled=true, teams_enabled=true
+            3. Test: bash monitor.sh notify test --severity CRITICAL
+            4. Check logs: grep notify .dbmonitor/runtime/daemon.log
+
+Problem: Daemon won't start / exits immediately
+  Solution: bash monitor.sh daemon start --foreground
+            or: cat .dbmonitor/runtime/daemon.log
+
+Problem: Wrong GCP project used for metric queries
+  Solution: Set project when adding the instance:
+              bash monitor.sh instances add --name my-cloudsql --type mysql --project my-project
+            Or: export CLOUDSDK_CORE_PROJECT=my-project
+            Check active project: gcloud config get-value project
+
+Problem: stop_monitor.sh reports "no PID file found" for a loop
+  Solution: The loop may have already exited or never started.
+            Run  bash stop_monitor.sh gcp --list  to see active sessions/loops.
+
+
+--------------------------------------------------------------------------------
+END OF HOWTOUSE.txt
+--------------------------------------------------------------------------------

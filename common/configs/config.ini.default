@@ -1,0 +1,167 @@
+# =============================================================================
+# config.ini.default — Shared reference defaults for all providers
+# Copied to config.ini on install when the live file is missing.
+# Edit config.ini (not this file) to change runtime behaviour.
+# =============================================================================
+
+
+# =============================================================================
+# MONITORING BEHAVIOUR
+# =============================================================================
+[monitoring]
+# How often the daemon polls metrics (seconds)
+default_poll_interval       = 30
+
+# SSH connection multiplexing during continuous polling (OpenSSH ControlMaster).
+# Persist time keeps the master socket alive between poll cycles (auto = 2×interval+60).
+ssh_control_persist_seconds = 0
+
+# Default filesystem path to monitor for disk metrics
+default_disk_path           = /
+
+# How long (seconds) a sustained-breach counter is kept after last update.
+# Counters older than this are cleared on daemon startup.
+sustained_breach_ttl_seconds = 86400
+
+# Lock waits (seconds).
+# - daemon/run_monitor: authoritative collector. Can wait briefly for locks.
+# - one-shot monitor/cloud/os: display-only. Should not wait (skip if busy).
+daemon_lock_wait_seconds     = 300
+cli_lock_wait_seconds        = 0
+
+# How long (seconds) a poll cycle is allowed to run before being killed.
+poll_cycle_timeout_seconds   = 120
+
+# Master switch for OS metric collection during daemon / run_monitor cycles.
+# When false, localhost and SSH host OS are skipped regardless of their flags.
+collect_os_metrics           = true
+
+# Poll DB connectivity targets (connections.tsv) during daemon / run_monitor cycles.
+# Does not affect one-shot: monitor.sh monitor --source db
+collect_db_metrics           = true
+
+# Poll cloud metrics during daemon / run_monitor.
+# Per-metric collect= in metrics_and_thresholds.ini applies only when this is true.
+# Does not affect one-shot: monitor.sh monitor --source cloud
+collect_cloud_metrics        = true
+
+# Poll localhost OS (/proc) during daemon / run_monitor cycles.
+# Requires collect_os_metrics = true. Does not affect one-shot: monitor.sh os
+collect_localhost_os         = false
+
+# Poll OS on SSH hosts from ssh_hosts.tsv during daemon / run_monitor cycles.
+# Requires collect_os_metrics = true.
+collect_ssh_hosts_os         = false
+
+
+# =============================================================================
+# DAEMON BEHAVIOUR
+# =============================================================================
+[daemon]
+# If true, the daemon will restart itself after receiving SIGTERM/SIGINT
+# (unless the stop was initiated via `bash monitor.sh daemon stop`).
+auto_restart_enabled = false
+
+# Delay before auto-restart (seconds)
+auto_restart_delay_seconds = 10
+
+
+# =============================================================================
+# CLOUD PROVIDER SETTINGS
+# All providers share these keys. Unused keys are silently ignored.
+# =============================================================================
+[cloud]
+# How far back to query for the latest metric datapoint (minutes).
+# Increase if your cloud SQL instance has a coarse reporting interval.
+lookback_minutes = 10
+
+# Cluster-scoped metrics (e.g. Aurora VolumeBytesUsed) publish hourly.
+# This setting applies only to AWS Aurora cluster metrics.
+cluster_lookback_minutes = 180
+
+# Metric aggregation period (seconds). Must be a multiple of 60 for AWS.
+metric_period_seconds = 60
+
+# Aggregation period for Aurora cluster-scoped metrics (AWS only).
+cluster_metric_period_seconds = 3600
+
+# Max seconds for cloud metric fetch per instance.
+# Shared budget: fast metrics use less time; slow/hung calls stop when budget expires.
+# Set to 0 to disable (not recommended).
+metric_fetch_timeout_seconds = 30
+
+# Performance Insights / Query Insights aggregation period (seconds).
+# Applies to AWS PI / DB Insights metrics.
+insights_period_seconds = 300
+
+# How far back to look for Insights datapoints (minutes).
+insights_lookback_minutes = 60
+
+# Maximum character length for query IDs stored in metrics (truncated if longer).
+query_id_max_chars = 240
+
+
+# =============================================================================
+# NOTIFICATIONS
+# =============================================================================
+[notifications]
+# Optional master opt-out — set to false to suppress Teams/email (alerts still logged)
+enabled                  = true
+
+# Minimum severity to deliver: INFO | WARNING | CRITICAL
+min_severity             = WARNING
+
+# Teams HTTP: curl, then wget fallback (webhook URL stored as credential)
+teams_enabled            = true
+# teams_webhook_url is stored as a credential, not here.
+# Run:  bash monitor.sh notify config set --key teams_webhook_url --value <URL>
+teams_timeout_seconds    = 15
+teams_max_attempts       = 2
+teams_max_backoff_seconds = 5
+# Multiplier for exponential backoff between Teams retry attempts (backoff = attempt * multiplier)
+teams_backoff_multiplier = 2
+max_message_chars        = 20000
+# Teams MessageCard theme colors by severity (hex, no leading #)
+teams_color_critical     = FF0000
+teams_color_warning      = FFA500
+teams_color_info         = 0078D7
+
+# Email (tried in order): curl SMTP → openssl SMTP → sendmail/msmtp
+email_enabled            = true
+email_from               = monitor@invalid.example
+# Comma-separated list of recipient addresses
+email_to                 =
+
+# Direct SMTP (curl, then openssl/bash fallback)
+smtp_host                =
+smtp_port                = 587
+smtp_use_tls             = true
+smtp_use_ssl             = false
+smtp_timeout_seconds     = 30
+# SMTP username (password stored as credential: smtp_password)
+smtp_username            =
+
+
+# =============================================================================
+# LOGGING
+# =============================================================================
+[logs.daemon]
+# Keep daemon daily logs for N days under:
+#   .dbmonitor/runtime/logs/daemon/daemon_YYYYMMDD.log
+keep_days = 5
+
+[logs.metrics]
+# Keep live per-entity metric logs for N days:
+#   .dbmonitor/runtime/logs/<name>/monitor_<name>.log (rotated daily)
+# Set to 0 to disable live-log cleanup.
+keep_days = 5
+
+# Archive per-entity metric logs on daemon start:
+#   logs/<name>/monitor_<name>.log -> logs/<name>/monitor_<name>_Archive_YYYYMMDD.log
+archive_on_start = false
+
+# Delete only archive files older than N days:
+#   logs/**/monitor_*_Archive_*.log
+# Set to 0 to disable archive cleanup.
+archive_keep_days = 0
+

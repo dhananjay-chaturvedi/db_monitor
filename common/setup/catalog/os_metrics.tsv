@@ -1,0 +1,14 @@
+# metric_key	description	unit	operator	warning	critical
+cpu_utilization	Host CPU utilization	%	>	80	90
+memory_utilization	Host memory utilization	%	>	85	95
+free_memory_mb	Host free memory	MB	<	512	256
+free_disk_gb	Host free disk space	GB	<	10	5
+disk_utilization	Host disk utilization	%	>	85	95
+load_avg_1m	Host load average (1 minute)	load	>	4	8
+load_avg_5m	Host load average (5 minutes)	load	>	4	8
+load_avg_15m	Host load average (15 minutes)	load	>	4	8
+swap_used_mb	Host swap used	MB	>	512	1024
+net_rx_bytes	Host network bytes received (cumulative)	bytes	>	-	-
+net_tx_bytes	Host network bytes sent (cumulative)	bytes	>	-	-
+net_rx_errors	Host network receive errors	count	>	1	10
+net_tx_errors	Host network transmit errors	count	>	1	10
